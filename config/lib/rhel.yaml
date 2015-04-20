@@ -1,0 +1,6 @@
+extends: lib/rpmsystems.yaml
+
+distribution: rhel
+
+docker:
+    registry: registry.access.redhat.com

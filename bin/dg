@@ -1,0 +1,17 @@
+#!/bin/python
+
+from distgen.generator import Generator
+
+
+def main():
+    generator = Generator()
+    generator.load_project("projects/postgresql")
+    generator.render(
+        "postgresql.yaml",
+        "docker.tpl",
+        "rhel-7-x86_64.yaml"
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+extends: "lib/rhel.yaml"
+
+distversion: 7
+arch: x86_64
+
+dirs:
+  libdir: /usr/lib64
+
+docker:
+    from: rhel7

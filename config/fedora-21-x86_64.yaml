@@ -1,0 +1,6 @@
+extends: "fedora-21-i686.yaml"
+
+dirs:
+  libdir: /usr/lib64
+
+arch: x86_64

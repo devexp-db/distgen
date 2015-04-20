@@ -1,0 +1,6 @@
+extends: lib/rpmsystems.yaml
+
+distribution: fedora
+
+docker:
+    from: fedora

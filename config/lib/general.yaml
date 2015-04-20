@@ -1,0 +1,13 @@
+dirs:
+  sysconfdir: /etc
+  bindir: /usr/bin
+  libexecdir: /usr/libexec
+  libdir: /usr/lib
+
+distribution: unknown
+distversion: unknown
+arch: i686
+
+docker:
+    registry: index.docker.io
+    from: unset

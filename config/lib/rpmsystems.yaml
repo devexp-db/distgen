@@ -1,0 +1,5 @@
+extends: lib/general.yaml
+
+package_installer:
+    name: yum
+    version: unknown
