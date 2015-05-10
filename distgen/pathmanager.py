@@ -10,13 +10,9 @@ class PathManager(object):
 
 
     def get_file(self, relative, prefered_path=None):
-        path = self.path
+        path = self.get_path()
         if prefered_path:
             path = prefered_path + path
-
-        if self.envvar:
-            env_path = os.environ[self.envvar].split(':')
-            path = env_path + path
 
         for i in path:
             config_file = i + "/" + relative
@@ -27,4 +23,8 @@ class PathManager(object):
 
 
     def get_path(self):
-        return self.path
+        path = self.path
+        if self.envvar and self.envvar in os.environ:
+            env_path = os.environ[self.envvar].split(':')
+            path = env_path + path
+        return path

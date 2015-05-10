@@ -14,9 +14,17 @@ class Generator(object):
 
 
     def __init__(self):
-        self.pm_cfg = PathManager(["config"], envvar="DG_CONFIGDIR")
+        self.pm_cfg = PathManager(
+            # TODO: Is there better way to reuse configured directories
+            # from setup.py in python?
+            ["/usr/share/distgen/distconf"],
+            envvar="DG_DISTCONFDIR"
+        )
 
-        self.pm_tpl = PathManager(['templates'], envvar="DG_TPLDIR")
+        self.pm_tpl = PathManager(
+            ['/usr/share/distgen/templates'],
+            envvar="DG_TPLDIR"
+        )
 
         self.pm_spc = PathManager([])
 

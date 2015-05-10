@@ -1,0 +1,48 @@
+from distutils.core import setup
+from distgen.version import dg_version
+
+project = "distgen"
+datadir = "share"
+pkgdatadir = datadir + "/" + project
+tpldir = pkgdatadir + "/templates"
+
+distconfdir = pkgdatadir + "/distconf"
+
+setup(
+    name='distgen',
+    version=dg_version,
+    description='Templating system/generator for distributions',
+    author='praiskup@redhat.com',
+    url='https://github.com/devexp-db/distgen',
+    platforms=['any'],
+    packages=['distgen'],
+    data_files=[
+        (tpldir + '/container/docker', [
+            'templates/container/docker/parts.tpl',
+        ]),
+        (tpldir + '/macros', [
+            'templates/macros/system.macros',
+        ]),
+        (tpldir + '/system/commands', [
+            'templates/system/commands/yum.tpl',
+        ]),
+        (tpldir, [
+            'templates/docker.tpl',
+            'templates/README',
+            'templates/general.tpl',
+        ]),
+        (distconfdir, [
+            'distconf/rhel-7-x86_64.yaml',
+            'distconf/fedora-20-x86_64.yaml',
+            'distconf/fedora-21-x86_64.yaml',
+            'distconf/fedora-21-i686.yaml',
+        ]),
+        (distconfdir + "/lib", [
+            'distconf/lib/general.yaml',
+            'distconf/lib/rhel.yaml',
+            'distconf/lib/rpmsystems.yaml',
+            'distconf/lib/fedora.yaml',
+        ]),
+    ],
+    scripts=['bin/dg'],
+)
