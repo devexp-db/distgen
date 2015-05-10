@@ -3,17 +3,8 @@ import six
 
 import sys
 import copy
+from err import fatal
 from pathmanager import PathManager
-
-
-def die(msg):
-    # TODO: use logging
-    print(msg)
-    sys.exit(2)
-
-def error(msg):
-    # TODO: use logging
-    print(msg)
 
 
 def merge_yaml(origin, override):
@@ -34,7 +25,7 @@ def merge_yaml(origin, override):
 
 def __recursive_load(pm, stack, filename):
     if filename in stack:
-        die("already parsed " + filename)
+        fatal("already parsed " + filename)
 
     stack.append(filename)
 

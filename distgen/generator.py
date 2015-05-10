@@ -1,15 +1,13 @@
 from __future__ import print_function
 
-import os, sys
+import os
 import imp
 import jinja2
+from err import fatal
 from distgen.pathmanager import PathManager
 from distgen.config import load_config
 from distgen.project import AbstractProject
 
-def error(msg):
-    # TODO: use logging
-    print(msg)
 
 class Generator(object):
     project = None
@@ -93,16 +91,14 @@ class Generator(object):
                 ))
             )
         except yaml.YAMLError, exc:
-            print("Error in spec file: {0}".format(exc))
-            sys.exit(1)
+            fatal("Error in spec file: {0}".format(exc))
 
         self.project.inst_finish(specfile, template, spec)
 
         try:
             tpl = self.project.tplgen.get_template(template)
         except jinja2.exceptions.TemplateNotFound as err:
-            print("Can not find template {0}".format(err))
-            sys.exit(1)
+            fatal("Can not find template {0}".format(err))
 
         print(tpl.render(
             config=sysconfig,
