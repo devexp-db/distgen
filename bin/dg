@@ -1,15 +1,66 @@
 #!/bin/python
 
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from distgen.generator import Generator
+
+description = \
+"""
+Generate script using predefined metadata about distribution and templates.
+
+As an example of 'dg' usage, to generate _Dockerfile_ for Fedora 21 64-bit
+system, you may use command(s):
+
+ $ cd project/directory
+ $ dg --instantiate docker-data.yaml docker.tpl --distro fedora-21-x86_64.yaml
+"""
+
+def parse_args():
+    parser = ArgumentParser(
+        description=description,
+        formatter_class=RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        '--projectdir',
+        metavar='PROJECT',
+        type=str,
+        help='directory with project (defaults to CWD)',
+        default="."
+    )
+
+    parser.add_argument(
+        '--instantiate',
+        nargs=2,
+        metavar=('SPEC', 'TEMPLATE'),
+        type=str,
+        help='Use values from SPEC yaml file to fill values' \
+            +' in TEMPLATE and generate output.'
+    )
+
+    parser.add_argument(
+        '--distro',
+        metavar='DIST',
+        type=str,
+        help='Use distribution metadata specified by DIST yaml file',
+        default="fedora-21-x86_64.yaml",
+    )
+
+    return parser.parse_args()
 
 
 def main():
+    args = parse_args()
+
+    if not args.instantiate:
+        print "you must specify --instantiate"
+        return
+
+
     generator = Generator()
-    generator.load_project("projects/postgresql")
+    generator.load_project(args.projectdir)
     generator.render(
-        "postgresql.yaml",
-        "docker.tpl",
-        "rhel-7-x86_64.yaml"
+        args.instantiate[0],
+        args.instantiate[1],
+        args.distro,
     )
 
 

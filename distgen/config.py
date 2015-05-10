@@ -11,6 +11,10 @@ def die(msg):
     print(msg)
     sys.exit(2)
 
+def error(msg):
+    # TODO: use logging
+    print(msg)
+
 
 def merge_yaml(origin, override):
     """
@@ -33,10 +37,17 @@ def __recursive_load(pm, stack, filename):
         die("already parsed " + filename)
 
     stack.append(filename)
-    main_file = pm.get_file(filename)
 
     import yaml
-    yaml_data = yaml.load(open(main_file))
+    try:
+        yaml_data = yaml.load(pm.open_file(
+            filename,
+            fail=True,
+            file_desc="configuration file",
+        ))
+    except yaml.YAMLError, exc:
+        print("Error in configuration file: {0}".format(exc))
+        sys.exit(1)
 
     if yaml_data and "extends" in yaml_data:
         subdata = __recursive_load(pm, stack, yaml_data["extends"])

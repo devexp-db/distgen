@@ -1,11 +1,15 @@
 from __future__ import print_function
 
-import os
+import os, sys
 import imp
-from jinja2 import Environment, FileSystemLoader
-from pathmanager import PathManager
-from config import load_config
+import jinja2
+from distgen.pathmanager import PathManager
+from distgen.config import load_config
+from distgen.project import AbstractProject
 
+def error(msg):
+    # TODO: use logging
+    print(msg)
 
 class Generator(object):
     project = None
@@ -46,10 +50,14 @@ class Generator(object):
 
     def load_project(self, project):
         project_file = project + "/project.py"
-        self.project = self._load_class_from_file(project_file, "Project")
+
+        if os.path.isfile(project_file):
+            self.project = self._load_class_from_file(project_file, "Project")
+        else:
+            self.project = AbstractProject()
         self.project.directory = project
-        self.project.tplgen = Environment(
-            loader=FileSystemLoader(self.pm_tpl.get_path()),
+        self.project.tplgen = jinja2.Environment(
+            loader=jinja2.FileSystemLoader(self.pm_tpl.get_path()),
         )
 
         self.project.initialize()
@@ -76,13 +84,26 @@ class Generator(object):
 
         yaml.add_constructor(u'!eval', _eval_node)
 
-        spec = yaml.load(
-            open(self.pm_spc.get_file(specfile, [self.project.directory]))
-        )
+        try:
+            spec = yaml.load(
+                open(self.pm_spc.get_file(
+                    specfile,
+                    [self.project.directory],
+                    fail=True,
+                ))
+            )
+        except yaml.YAMLError, exc:
+            print("Error in spec file: {0}".format(exc))
+            sys.exit(1)
 
         self.project.inst_finish(specfile, template, spec)
 
-        tpl = self.project.tplgen.get_template(template)
+        try:
+            tpl = self.project.tplgen.get_template(template)
+        except jinja2.exceptions.TemplateNotFound as err:
+            print("Can not find template {0}".format(err))
+            sys.exit(1)
+
         print(tpl.render(
             config=sysconfig,
             dirs=sysconfig["dirs"],
