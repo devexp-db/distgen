@@ -1,11 +1,11 @@
-%global gitrev 64bbe
+%global gitrev defcd
 %global posttag git%{gitrev}
 %global snapshot %{version}-%{posttag}
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
 Version:    0.1~dev
-Release:    1.%{posttag}%{?dist}
+Release:    2.%{posttag}%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
@@ -47,5 +47,8 @@ file and preexisting distribution metadata generate output file.
 
 
 %changelog
+* Sun May 10 2015 Pavel Raiskup <praiskup@redhat.com> - 0.1~dev-2.gitdefcd
+- Add 'dg' option parser
+
 * Sun May 10 2015 Pavel Raiskup <praiskup@redhat.com> - 0.1~dev-1.git64bbe
 - Initial packaging
