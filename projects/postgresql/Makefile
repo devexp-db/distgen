@@ -1,8 +1,5 @@
-distro=fedora
-distrover=20
+dist = fedora
+distver = 21
 
-instantiate = cat
-
-root.tar: out
-	tar -cf $@ out
-
+Dockerfile: postgresql.yaml project.py
+	dg --distro $(dist)-$(distver)-x86_64.yaml  --instantiate $< docker.tpl > $@
