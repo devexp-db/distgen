@@ -1,10 +1,14 @@
+from __future__ import print_function
+import six
+
 import sys
 import copy
 from pathmanager import PathManager
 
+
 def die(msg):
     # TODO: use logging
-    print msg
+    print(msg)
     sys.exit(2)
 
 
@@ -14,7 +18,7 @@ def merge_yaml(origin, override):
     otherwise recurse down for each item.
     """
     if isinstance(origin, dict) and isinstance(override, dict):
-        for k, v in override.iteritems():
+        for k, v in six.iteritems(override):
             if k in origin:
                 origin[k] = merge_yaml(origin[k], override[k])
             else:

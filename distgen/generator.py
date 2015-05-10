@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import os
 import imp
 from jinja2 import Environment, FileSystemLoader
@@ -81,10 +83,10 @@ class Generator(object):
         self.project.inst_finish(specfile, template, spec)
 
         tpl = self.project.tplgen.get_template(template)
-        print tpl.render(
+        print(tpl.render(
             config=sysconfig,
             dirs=sysconfig["dirs"],
             container={'name': 'docker'},
             spec=spec,
             project=self.project,
-        )
+        ))
