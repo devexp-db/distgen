@@ -65,6 +65,12 @@ VOLUME
 {%- endmacro -%}
 
 
+{%- macro add_tarball(file, dest="/") -%}
+ADD "{{ file }}" "{{ dest -}}"
+
+{% endmacro -%}
+
+
 {%- macro add_files(files) %}
 {%- if files.files is defined %}
 {%- for i in files.files -%}
@@ -85,9 +91,16 @@ ADD "{{ i }}"{%- else %} \
 {%- for i in files -%}
 {%- if i.type == "files" -%}
 {{ add_files(i) }}
+{%- elif i.type == "tarball" -%}
+{{ add_tarball(i.file) }}
 {%- endif -%}
 {%- endfor -%}
 {%- endif -%}
+{% endmacro %}
+
+
+{%- macro entrypoint(entry) %}
+ENTRYPOINT [{% for i in entry %}"{{ i }}"{% endfor %}]
 {% endmacro %}
 
 
@@ -98,9 +111,6 @@ ADD "{{ i }}"{%- else %} \
 {%- if spec.parts.footer is defined %}
 {%- if spec.parts.footer.user is defined %}
 {%- set user = "USER " + spec.parts.footer.user %}
-{%- if spec.parts.footer.entry is defined %}
-{%- set entry = "ENTRYPOINT " + spec.parts.footer.entry -%}
-{%- endif %}
 {%- if spec.parts.footer.cmd is defined %}
 {%- set cmd = spec.parts.footer.cmd -%}
 {%- endif -%}
@@ -109,7 +119,7 @@ ADD "{{ i }}"{%- else %} \
 {{ expose() -}}
 {% if user %}{{ user }}
 {% endif -%}
-{% if entry %}{{ entry }}
+{% if spec.parts.footer.entry is defined %}{{ entrypoint(spec.parts.footer.entry) }}
 {% endif -%}
 {%- if cmd %}CMD ["{{ cmd }}"]
 {%- endif -%}
