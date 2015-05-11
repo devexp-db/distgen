@@ -15,7 +15,7 @@ class Project(AbstractProject):
                                         sysconf['arch'])
 
         # Returned dict may be reused directly in yaml specification
-        return {'test_var': "build_for {0}".format(str(test_var))}
+        return {'test_var': "build_for {0}".format(test_var)}
 
     def inst_finish(self, spec, tpl, config, data):
 

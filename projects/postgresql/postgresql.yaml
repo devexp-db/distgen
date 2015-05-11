@@ -12,6 +12,7 @@ parts:
         value: /var/lib/pgsql/data
       - name: TEST_VAR
         value: !eval 'init["test_var"]'
+
   pkginstall:
     data:
       - type: "pkg"
