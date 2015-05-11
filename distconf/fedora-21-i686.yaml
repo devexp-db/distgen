@@ -1,1 +1,3 @@
 extends: "lib/fedora.yaml"
+
+distversion: 21

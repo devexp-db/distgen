@@ -93,7 +93,7 @@ class Generator(object):
         except yaml.YAMLError, exc:
             fatal("Error in spec file: {0}".format(exc))
 
-        self.project.inst_finish(specfile, template, spec)
+        self.project.inst_finish(specfile, template, sysconfig, spec)
 
         try:
             tpl = self.project.tplgen.get_template(template)

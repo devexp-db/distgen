@@ -6,10 +6,12 @@ maintainer: Pavel Raiskup <praiskup@redhat.com>
 expose: [5432]
 
 parts:
-    #  envvars:
-    #    data:
-    #      - name: PGDATA
-    #        value: /var/lib/pgsql/data
+  envvars:
+    data:
+      - name: PGDATA
+        value: /var/lib/pgsql/data
+      - name: TEST_VAR
+        value: !eval 'init["test_var"]'
   pkginstall:
     data:
       - type: "pkg"
@@ -29,7 +31,7 @@ parts:
   addfiles:
     data:
       - type: files
-        dest: !eval "\"/usr/bin\""
+        dest: !eval "config['dirs']['bindir']"
         files:
           - "./scripts/rh-cont-pg-initdb"
           - "./scripts/rh-cont-pg-entry"
