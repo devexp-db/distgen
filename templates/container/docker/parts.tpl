@@ -107,7 +107,7 @@ ENTRYPOINT [{% for i in entry %}"{{ i }}"{% endfor %}]
 {%- macro footer() %}
 {%- set user = "" -%}
 {%- set entry = "" -%}
-{%- set cmd = "cont-start" -%}
+{%- set cmd = "container-start" -%}
 {%- if spec.parts.footer is defined %}
 {%- if spec.parts.footer.user is defined %}
 {%- set user = "USER " + spec.parts.footer.user %}
