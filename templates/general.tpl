@@ -1,11 +1,9 @@
-{%- import "system/commands/" + config.package_installer.name + ".tpl" as pkginstaller -%}
-
 {%- macro command(cmdinfo) -%}
 {%- if cmdinfo.type == "pkg" -%}
 {%- if cmdinfo.action in ["install", "reinstall"] -%}
-{{ pkginstaller[cmdinfo.action](cmdinfo.packages) }}
+{{ commands.pkginstaller[cmdinfo.action](cmdinfo.packages) }}
 {%- else -%}
-{{ pkginstaller[cmdinfo.action]() }}
+{{ commands.pkginstaller[cmdinfo.action]() }}
 {%- endif -%}
 {%- elif cmdinfo.type == "shell" -%}
 {{ cmdinfo.action }}

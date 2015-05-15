@@ -7,6 +7,7 @@ from err import fatal
 from distgen.pathmanager import PathManager
 from distgen.config import load_config
 from distgen.project import AbstractProject
+from distgen.commands import Commands, CommandsConfig
 
 
 class Generator(object):
@@ -100,10 +101,15 @@ class Generator(object):
         except jinja2.exceptions.TemplateNotFound as err:
             fatal("Can not find template {0}".format(err))
 
+        cmd_cfg = CommandsConfig()
+        # TODO: used only "docker" for now as nothing else is needed ATM
+        cmd_cfg.container = "docker"
+
         print(tpl.render(
             config=sysconfig,
             dirs=sysconfig["dirs"],
             container={'name': 'docker'},
             spec=spec,
             project=self.project,
+            commands=Commands(cmd_cfg, sysconfig)
         ))
