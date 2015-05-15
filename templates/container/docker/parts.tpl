@@ -46,8 +46,7 @@ RUN {{ command(i) }}{% else %} \
 {% endmacro -%}
 
 {%- macro body_pkginstall() -%}
-{%- set cmds = [{"type": "pkg", "action": "systemupdate"}] -%}
-{%- set cmds = cmds + spec.parts.pkginstall.data -%}
+{%- set cmds = spec.parts.pkginstall.data -%}
 {%- set cmds = cmds + [{"type": "pkg", "action": "cleancache"}] -%}
 {{ execute(cmds) }}
 {%- endmacro -%}
