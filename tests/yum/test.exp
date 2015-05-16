@@ -1,0 +1,15 @@
+Basic yum commands:
+-------------------
+yum -y --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs reinstall PKG
+yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+yum -y install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+yum --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs install PKG
