@@ -55,9 +55,26 @@ class Generator(object):
         else:
             self.project = AbstractProject()
         self.project.directory = project
-        self.project.tplgen = jinja2.Environment(
-            loader=jinja2.FileSystemLoader(self.pm_tpl.get_path()),
-        )
+
+        def absolute_load(name):
+            """
+            In our templating system, we care about filenames specified by
+            absolute path, which is not truth for default FileSystemLoader.
+            """
+            if name.startswith('/'):
+                try:
+                    with file(name) as f:
+                        return f.read().decode('utf-8')
+                except:
+                    pass
+            raise jinja2.TemplateNotFound()
+
+        loader = jinja2.ChoiceLoader([
+            jinja2.FileSystemLoader(self.pm_tpl.get_path()),
+            jinja2.FunctionLoader(absolute_load),
+        ])
+
+        self.project.tplgen = jinja2.Environment(loader=loader)
 
         self.project.initialize()
 
@@ -83,14 +100,16 @@ class Generator(object):
 
         yaml.add_constructor(u'!eval', _eval_node)
 
+        specfd = self.pm_spc.open_file(
+            specfile,
+            [self.project.directory],
+            fail=True,
+        )
+        if not specfd:
+            fatal("Spec file {0} not found".format(specfile))
+
         try:
-            spec = yaml.load(
-                open(self.pm_spc.get_file(
-                    specfile,
-                    [self.project.directory],
-                    fail=True,
-                ))
-            )
+            spec = yaml.load(specfd)
         except yaml.YAMLError, exc:
             fatal("Error in spec file: {0}".format(exc))
 

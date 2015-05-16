@@ -10,19 +10,26 @@ class PathManager(object):
         self.envvar = envvar
 
 
-    def get_file(self, relative, prefered_path=None, fail=False,
+    def get_file(self, filename, prefered_path=None, fail=False,
                  file_desc="file"):
+
+        if filename.startswith('/'):
+            if os.path.isfile(filename):
+                return filename
+            else:
+                return None
+
         path = self.get_path()
         if prefered_path:
             path = prefered_path + path
 
         for i in path:
-            config_file = i + "/" + relative
+            config_file = i + "/" + filename
             if os.path.isfile(config_file):
                 return config_file
 
         if fail:
-            print("can't find {0} '{1}'".format(file_desc, relative))
+            print("can't find {0} '{1}'".format(file_desc, filename))
             sys.exit(1)
 
         return None
