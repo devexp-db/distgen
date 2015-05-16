@@ -1,0 +1,30 @@
+#!/bin/sh
+
+testdir="$(dirname "$(readlink -f "$0")")"
+
+export PATH="$testdir/../${PATH+:$PATH}"
+
+tests="
+    yum
+"
+
+success=:
+fail()
+{
+    success=false
+    echo "$@" >&2
+}
+
+
+for i in $tests; do
+    wd="$testdir/$i"
+    echo "testing: $wd"
+    rm -rf "$wd/test.err" "$wd/test.out" "$wd/test.diff"
+    dg --distro=fedora-21-x86_64.yaml \
+        --instantiate "$wd/test.yaml" "$wd/test.tpl" > "$wd/test.out" \
+        || { fail "test '$i' failed (dg command)'" ; continue ; }
+    diff -ruN "$wd/test.exp" "$wd/test.out" > "$wd/test.diff" 2>> "$wd/test.err" \
+        || { fail "test '$i' failed (diff)'" ; continue ; }
+done
+
+$success && echo "success"
