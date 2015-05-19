@@ -11,5 +11,4 @@
 {%- endmacro -%}
 
 {%- import "container/" + container.name + "/parts.tpl" as ctr with context -%}
-{%- import "macros/system.macros" as macros -%}
 {%- block content %}{% endblock -%}

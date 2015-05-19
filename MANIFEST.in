@@ -1,0 +1,4 @@
+include dg
+include Makefile
+include tests/testsuite
+recursive-include tests *.exp *.py *.tpl *.yaml distros
