@@ -5,6 +5,7 @@ testdir="$(dirname "$(readlink -f "$0")")"
 export PATH="$testdir/../${PATH+:$PATH}"
 
 tests="
+    dockerfile
     pkginstaller
 "
 
@@ -31,7 +32,7 @@ for i in $tests; do
             echo -e "\n" >> "$outfile"
         fi
         echo -e "=== $distro ===\n" >> "$outfile"
-        dg --distro="$distro".yaml \
+        dg --projectdir="$wd" --distro="$distro".yaml \
                 --instantiate "$wd/test.yaml" "$wd/test.tpl" \
                 >> "$outfile"
         if test $? -ne 0; then

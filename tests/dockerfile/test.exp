@@ -1,0 +1,69 @@
+=== fedora-21-x86_64 ===
+
+FROM index.docker.io/fedora
+MAINTAINER Pavel Raiskup <praiskup@redhat.com>
+
+ENV container="docker" \
+    PGDATA="/var/lib/pgsql/data" \
+    TEST_VAR="build_for fedora-21-x86_64"
+
+RUN yum -y --setopt=tsflags=nodocs install postgresql-server \
+    && yum -y --setopt=tsflags=nodocs reinstall glibc-common \
+    && yum -y --setopt=tsflags=nodocs install fedpkg \
+    && yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+ADD "./scripts/rh-cont-pg-initdb" \
+    "./scripts/rh-cont-pg-entry" \
+    "./scripts/rh-cont-pg-exec" \
+    "./scripts/rh-cont-pg-execpre" \
+    "/usr/bin"
+
+ADD "./data/postgresql-container.service" \
+    "/etc/systemd/system/"
+
+RUN mkdir -p "$PGDATA" \
+    && touch "$PGDATA"/.container_internal
+
+VOLUME \
+    "/var/lib/pgsql/data" \
+    "/var/run/postgresql"
+
+EXPOSE 5432
+
+USER postgres
+CMD ["container-start"]
+
+
+=== rhel-7-x86_64 ===
+
+FROM registry.access.redhat.com/rhel7
+MAINTAINER Pavel Raiskup <praiskup@redhat.com>
+
+ENV container="docker" \
+    PGDATA="/var/lib/pgsql/data" \
+    TEST_VAR="build_for rhel-7-x86_64"
+
+RUN yum -y --setopt=tsflags=nodocs install postgresql-server \
+    && yum -y --setopt=tsflags=nodocs reinstall glibc-common \
+    && yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+ADD "./scripts/rh-cont-pg-initdb" \
+    "./scripts/rh-cont-pg-entry" \
+    "./scripts/rh-cont-pg-exec" \
+    "./scripts/rh-cont-pg-execpre" \
+    "/usr/bin"
+
+ADD "./data/postgresql-container.service" \
+    "/etc/systemd/system/"
+
+RUN mkdir -p "$PGDATA" \
+    && touch "$PGDATA"/.container_internal
+
+VOLUME \
+    "/var/lib/pgsql/data" \
+    "/var/run/postgresql"
+
+EXPOSE 5432
+
+USER postgres
+CMD ["container-start"]

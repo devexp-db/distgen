@@ -1,0 +1,53 @@
+# This is example of yaml specification for the 'docker.tpl' template
+# distributed with 'distgen'.
+
+maintainer: Pavel Raiskup <praiskup@redhat.com>
+
+expose: [5432]
+
+parts:
+  envvars:
+    data:
+      - name: PGDATA
+        value: /var/lib/pgsql/data
+      - name: TEST_VAR
+        value: !eval 'init["test_var"]'
+
+  pkginstall:
+    data:
+      - type: "pkg"
+        action: "install"
+        packages: [ postgresql-server ]
+
+      # Reinstall glibc-common to fix locale issues (rhbz#1129697)
+      - type: "pkg"
+        action: "reinstall"
+        packages: ["glibc-common"]
+
+  volumes:
+    data:
+      - path: /var/lib/pgsql/data
+      - path: /var/run/postgresql
+
+  addfiles:
+    data:
+      - type: files
+        dest: !eval "config['dirs']['bindir']"
+        files:
+          - "./scripts/rh-cont-pg-initdb"
+          - "./scripts/rh-cont-pg-entry"
+          - "./scripts/rh-cont-pg-exec"
+          - "./scripts/rh-cont-pg-execpre"
+      - type: files
+        dest: "/etc/systemd/system/"
+        files: ["./data/postgresql-container.service"]
+
+  commands:
+    data:
+      - type: shell
+        action: "mkdir -p \"$PGDATA\""
+      - type: shell
+        action: "touch \"$PGDATA\"/.container_internal"
+
+  footer:
+    user: postgres
