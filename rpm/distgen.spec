@@ -1,19 +1,22 @@
-%global gitrev f6fc9
+%global gitrev 32635
 %global posttag git%{gitrev}
 %global snapshot %{version}-%{posttag}
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.1~dev
-Release:    4.%{posttag}%{?dist}
+Version:    0.2~dev
+Release:    1.%{posttag}%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
 BuildArch:  noarch
 
+%global both_requires python-jinja2, python-six, PyYAML
+
 Requires:       python2
-BuildRequires:  python2-devel
-Requires:       PyYAML
+BuildRequires:  python2-devel, %both_requires
+
+Requires:       %both_requires
 
 Source0: %{name}-%{version}.tar.gz
 
@@ -36,6 +39,10 @@ file and preexisting distribution metadata generate output file.
 %{pybin} setup.py install --root=%{buildroot}
 
 
+%check
+make check
+
+
 %clean
 
 
@@ -47,6 +54,9 @@ file and preexisting distribution metadata generate output file.
 
 
 %changelog
+* Wed May 20 2015 Pavel Raiskup <praiskup@redhat.com> - 0.2~dev-1.git32635
+- new release, enable testsuite
+
 * Mon May 11 2015 Pavel Raiskup <praiskup@redhat.com> - 0.1~dev-4.gitf6fc9
 - fixes to allow build of PostgreSQL Docker image correctly
 
