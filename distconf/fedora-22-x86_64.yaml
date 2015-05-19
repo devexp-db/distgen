@@ -1,4 +1,4 @@
-extends: "fedora-20-i686.yaml"
+extends: "fedora-22-i686.yaml"
 
 dirs:
   libdir: /usr/lib64

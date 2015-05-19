@@ -28,10 +28,12 @@ class AbstractPkgManger(Command):
 
 
 class YumPkgManager(AbstractPkgManger):
+    binary = "yum"
+
     def _base_command(self, opts):
-        base = "yum -y"
+        base = self.binary + " -y"
         if self.is_interactive(opts):
-            base = "yum"
+            base = self.binary
 
         docs = True
         if self.in_container(opts):
@@ -67,6 +69,10 @@ class YumPkgManager(AbstractPkgManger):
         return self._base_command(options) + " clean all --enablerepo='*'"
 
 
+class DnfPkgManager(YumPkgManager):
+    binary = "dnf"
+
+
 class CommandsConfig(object):
     interactive = False
     container = False
@@ -77,5 +83,8 @@ class Commands(object):
         self.commands_config = command_config
         self.system_config = system_config
 
-        if system_config['package_installer']['name'] == "yum":
+        pkginstid = system_config['package_installer']['name']
+        if "yum" == pkginstid:
             self.pkginstaller = YumPkgManager(command_config)
+        elif "dnf" == pkginstid:
+            self.pkginstaller = DnfPkgManager(command_config)

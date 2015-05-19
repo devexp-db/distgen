@@ -1,0 +1,131 @@
+=== fedora-20-i686 ===
+
+Basic yum commands:
+-------------------
+yum -y --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs reinstall PKG
+yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+yum -y install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+yum --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+
+=== fedora-20-x86_64 ===
+
+Basic yum commands:
+-------------------
+yum -y --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs reinstall PKG
+yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+yum -y install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+yum --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+
+=== fedora-21-i686 ===
+
+Basic yum commands:
+-------------------
+yum -y --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs reinstall PKG
+yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+yum -y install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+yum --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+
+=== fedora-21-x86_64 ===
+
+Basic yum commands:
+-------------------
+yum -y --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs reinstall PKG
+yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+yum -y install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+yum --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+
+=== fedora-22-i686 ===
+
+Basic yum commands:
+-------------------
+dnf -y --setopt=tsflags=nodocs install PKG
+dnf -y --setopt=tsflags=nodocs reinstall PKG
+dnf -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+dnf -y install PKG
+dnf -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+dnf --setopt=tsflags=nodocs install PKG
+dnf -y --setopt=tsflags=nodocs install PKG
+
+
+=== fedora-22-x86_64 ===
+
+Basic yum commands:
+-------------------
+dnf -y --setopt=tsflags=nodocs install PKG
+dnf -y --setopt=tsflags=nodocs reinstall PKG
+dnf -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+dnf -y install PKG
+dnf -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+dnf --setopt=tsflags=nodocs install PKG
+dnf -y --setopt=tsflags=nodocs install PKG
+
+
+=== rhel-7-x86_64 ===
+
+Basic yum commands:
+-------------------
+yum -y --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs reinstall PKG
+yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+Docs test:
+----------
+yum -y install PKG
+yum -y --setopt=tsflags=nodocs install PKG
+
+Interactive test:
+-----------------
+yum --setopt=tsflags=nodocs install PKG
+yum -y --setopt=tsflags=nodocs install PKG

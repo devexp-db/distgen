@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 testdir="$(dirname "$(readlink -f "$0")")"
 
 export PATH="$testdir/../${PATH+:$PATH}"
 
 tests="
-    yum
+    pkginstaller
 "
 
 success=:
@@ -20,9 +20,31 @@ for i in $tests; do
     wd="$testdir/$i"
     echo "testing: $wd"
     rm -rf "$wd/test.err" "$wd/test.out" "$wd/test.diff"
-    dg --distro=fedora-21-x86_64.yaml \
-        --instantiate "$wd/test.yaml" "$wd/test.tpl" > "$wd/test.out" \
-        || { fail "test '$i' failed (dg command)'" ; continue ; }
+
+    first=:
+    dg_success=:
+    while read distro ; do
+        outfile="$wd/test.out"
+        if $first; then
+            first=false
+        else
+            echo -e "\n" >> "$outfile"
+        fi
+        echo -e "=== $distro ===\n" >> "$outfile"
+        dg --distro="$distro".yaml \
+                --instantiate "$wd/test.yaml" "$wd/test.tpl" \
+                >> "$outfile"
+        if test $? -ne 0; then
+            dg_success=false
+            break
+        fi
+    done < <(cat "$wd/distros")
+
+    $dg_success || {
+        fail "test '$i' failed (dg command)'"
+        continue
+    }
+
     diff -ruN "$wd/test.exp" "$wd/test.out" > "$wd/test.diff" 2>> "$wd/test.err" \
         || { fail "test '$i' failed (diff)'" ; continue ; }
 done

@@ -1,4 +1,4 @@
 extends: "lib/fedora.yaml"
 
 os:
-  version: 21
+  version: 20

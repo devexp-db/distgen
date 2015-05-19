@@ -1,13 +1,20 @@
 dirs:
-  sysconfdir: /etc
   bindir: /usr/bin
-  libexecdir: /usr/libexec
   libdir: /usr/lib
+  libexecdir: /usr/libexec
+  sbindir: /usr/sbin
+  sysconfdir: /etc
 
-distribution: unknown
-distversion: unknown
-arch: i686
+os:
+  id: null
+  name: null
+  version: null
+  arch: i686
 
 docker:
-    registry: index.docker.io
-    from: unset
+  registry: index.docker.io
+  from: null
+
+package_installer:
+  name: null
+  version: null
