@@ -5,13 +5,15 @@
 {{      ctr.header() }}
 {%-   endblock %}
 
-{%    block body -%}
+{%-   block body -%}
 {%-     block pkginstall -%}
 {{-        ctr.body_env() -}}
+{%- if spec.parts is defined -%}
 {{-        ctr.body_pkginstall() -}}
 {{-        ctr.body_addfiles() -}}
 {{-        ctr.body_commands() -}}
 {{-        ctr.body_volumes() -}}
+{%- endif -%}
 {%-     endblock -%}
 {%-   endblock -%}
 {%-   block footer -%}

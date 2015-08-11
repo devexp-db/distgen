@@ -1,7 +1,7 @@
 {%- macro header() -%}
 FROM {{ config.docker.registry + "/" + config.docker.from }}
 MAINTAINER {% if spec.maintainer %}{{ spec.maintainer }}{% else %}{{ project.maintainer }}{% endif %}
-{%- endmacro -%}
+{% endmacro -%}
 
 {%- macro expose() -%}
 {% if spec.expose is defined -%}
@@ -13,14 +13,13 @@ EXPOSE {{ spec.expose | join(' ') }}
 {%- macro environment(envs) -%}
 {%- if envs -%}
 {%- for i in envs -%}
-{%- if loop.first -%}
+{%- if loop.first %}
 ENV {{ i.name }}="{{ i.value }}"
 {%- else %} \
     {{ i.name }}="{{ i.value }}"
 {%- endif -%}
-{% endfor %}
-
-{% endif -%}
+{%- endfor -%}
+{%- endif -%}
 {% endmacro -%}
 
 {%- macro body_env() -%}
@@ -28,35 +27,38 @@ ENV {{ i.name }}="{{ i.value }}"
 {%- if container.name == "docker" -%}
 {%-   set vars = vars + [{'name': 'container', 'value': 'docker'}] -%}
 {%- endif -%}
-{%- if spec.parts.envvars is defined  -%}
+{%- if spec.parts is defined and  spec.parts.envvars is defined  -%}
 {%-   set vars = vars + spec.parts.envvars.data -%}
 {%- endif -%}
-{{ environment(vars) }}
-{%- endmacro -%}
+{{- environment(vars) }}
+{% endmacro -%}
 
 
 {%- macro execute(actions) -%}
 {%- for i in actions -%}
-{%- if loop.first -%}
+{%- if loop.first %}
 RUN {{ command(i) }}{% else %} \
-    && {{ command(i) }}
-{%- endif %}
-{%- endfor %}
-
+    && {{ command(i) -}}
+{%- endif -%}
+{%- endfor -%}
 {% endmacro -%}
 
 {%- macro body_pkginstall() -%}
+{% if spec.parts.pkginstall is defined and spec.parts.pkginstall.data is defined %}
 {%- set cmds = spec.parts.pkginstall.data -%}
 {%- set cmds = cmds + [{"type": "pkg", "action": "cleancache"}] -%}
 {{ execute(cmds) }}
-{%- endmacro -%}
+{% endif -%}
+{% endmacro -%}
 
 {%- macro body_commands() -%}
+{%- if spec.parts.commands is defined and spec.parts.commands.data is defined -%}
 {{ execute(spec.parts.commands.data) }}
-{%- endmacro -%}
+{% endif -%}
+{% endmacro -%}
 
 {%- macro body_volumes() -%}
-{%- if spec.parts.volumes is defined -%}
+{%- if spec.parts.volumes is defined %}
 VOLUME
 {%- for i in spec.parts.volumes.data %} \
     "{{ i.path }}"{% endfor %}
@@ -64,24 +66,22 @@ VOLUME
 {%- endmacro -%}
 
 
-{%- macro add_tarball(file, dest="/") -%}
+{%- macro add_tarball(file, dest="/") %}
 ADD "{{ file }}" "{{ dest -}}"
-
 {% endmacro -%}
 
 
-{%- macro add_files(files) %}
-{%- if files.files is defined %}
+{%- macro add_files(files) -%}
+{%- if files.files is defined -%}
 {%- for i in files.files -%}
-{%- if loop.first -%}
+{%- if loop.first %}
 ADD "{{ i }}"{%- else %} \
     "{{ i }}"
 {%- endif -%}
 {%- endfor %} \
     "{{ files.dest }}"
-
-{% endif -%}
-{%- endmacro %}
+{%- endif %}
+{% endmacro %}
 
 
 {% macro body_addfiles() -%}
@@ -107,7 +107,7 @@ ENTRYPOINT [{% for i in entry %}"{{ i }}"{% endfor %}]
 {%- set user = "" -%}
 {%- set entry = "" -%}
 {%- set cmd = "container-start" -%}
-{%- if spec.parts.footer is defined %}
+{%- if spec.parts is defined and spec.parts.footer is defined %}
 {%- if spec.parts.footer.user is defined %}
 {%- set user = "USER " + spec.parts.footer.user %}
 {%- if spec.parts.footer.cmd is defined %}
@@ -118,8 +118,9 @@ ENTRYPOINT [{% for i in entry %}"{{ i }}"{% endfor %}]
 {{ expose() -}}
 {% if user %}{{ user }}
 {% endif -%}
-{% if spec.parts.footer.entry is defined %}{{ entrypoint(spec.parts.footer.entry) }}
+{%- if spec.parts is defined and spec.parts.footer is defined and spec.parts.footer.entry is defined %}{{ entrypoint(spec.parts.footer.entry) }}
 {% endif -%}
-{%- if cmd %}CMD ["{{ cmd }}"]
+{%- if cmd -%}
+CMD ["{{ cmd }}"]
 {%- endif -%}
 {%- endmacro -%}

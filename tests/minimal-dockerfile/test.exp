@@ -1,0 +1,28 @@
+=== fedora-21-x86_64 ===
+
+FROM index.docker.io/fedora
+MAINTAINER unknown <unknown@unknown.com>
+
+ENV container="docker"
+
+CMD ["container-start"]
+
+
+=== fedora-22-x86_64 ===
+
+FROM index.docker.io/fedora
+MAINTAINER unknown <unknown@unknown.com>
+
+ENV container="docker"
+
+CMD ["container-start"]
+
+
+=== rhel-7-x86_64 ===
+
+FROM registry.access.redhat.com/rhel7
+MAINTAINER unknown <unknown@unknown.com>
+
+ENV container="docker"
+
+CMD ["container-start"]
