@@ -1,0 +1,32 @@
+parts:
+  pkginstall:
+    data:
+      - type: "pkg"
+        action: "install"
+        packages:
+            - firefox
+            - xorg-x11-server-Xvfb
+            - java-1.8.0-openjdk-headless
+            - tmux
+
+  addfiles:
+    data:
+      - type: tarball
+        file: cont-lib.tar.gz
+
+      - type: files
+        files: [ ./selenium-server-standalone-2.47.1.jar ]
+        dest: /usr/share/ss.jar
+
+      - type: files
+        files: [ run ]
+        dest: !eval '"{0}/container-start".format(dirs["bindir"])'
+
+  commands:
+    data:
+      - type: shell
+        action: useradd browser
+
+  footer:
+    entry:
+    - !eval '"{0}/container-entrypoint".format(dirs["bindir"])'

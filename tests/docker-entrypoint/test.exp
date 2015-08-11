@@ -1,0 +1,23 @@
+=== rhel-7-x86_64 ===
+
+FROM registry.access.redhat.com/rhel7
+MAINTAINER unknown <unknown@unknown.com>
+
+ENV container="docker"
+
+RUN yum -y --setopt=tsflags=nodocs install firefox xorg-x11-server-Xvfb java-1.8.0-openjdk-headless tmux \
+    && yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+
+ADD "cont-lib.tar.gz" "/"
+
+ADD "./selenium-server-standalone-2.47.1.jar" \
+    "/usr/share/ss.jar"
+
+ADD "run" \
+    "/usr/bin/container-start"
+
+RUN useradd browser
+
+ENTRYPOINT ["/usr/bin/container-entrypoint"]
+
+CMD ["container-start"]

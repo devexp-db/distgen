@@ -6,6 +6,7 @@ export PATH="$testdir/../${PATH+:$PATH}"
 
 tests="
     dockerfile
+    docker-entrypoint
     pkginstaller
     minimal-dockerfile
 "

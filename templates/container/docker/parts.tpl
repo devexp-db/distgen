@@ -98,7 +98,7 @@ ADD "{{ i }}"{%- else %} \
 {% endmacro %}
 
 
-{%- macro entrypoint(entry) %}
+{% macro entrypoint(entry) -%}
 ENTRYPOINT [{% for i in entry %}"{{ i }}"{% endfor %}]
 {% endmacro %}
 
@@ -118,7 +118,8 @@ ENTRYPOINT [{% for i in entry %}"{{ i }}"{% endfor %}]
 {{ expose() -}}
 {% if user %}{{ user }}
 {% endif -%}
-{%- if spec.parts is defined and spec.parts.footer is defined and spec.parts.footer.entry is defined %}{{ entrypoint(spec.parts.footer.entry) }}
+{%- if spec.parts is defined and spec.parts.footer is defined and spec.parts.footer.entry is defined -%}
+{{- entrypoint(spec.parts.footer.entry) }}
 {% endif -%}
 {%- if cmd -%}
 CMD ["{{ cmd }}"]
