@@ -97,31 +97,36 @@ ADD "{{ i }}"{%- else %} \
 {%- endif -%}
 {% endmacro %}
 
-
-{% macro entrypoint(entry) -%}
-ENTRYPOINT [{% for i in entry %}"{{ i }}"{% endfor %}]
-{% endmacro %}
-
+{% macro cmd_footer(what, array) -%}
+{{ what }} [
+{%- for i in array -%}
+{%- if loop.last -%}
+"{{ i }}"
+{%- else -%}
+"{{ i }}", {% endif -%}
+{%- endfor -%}
+]
+{%- endmacro %}
 
 {%- macro footer() %}
 {%- set user = "" -%}
 {%- set entry = "" -%}
-{%- set cmd = "container-start" -%}
+{%- set cmd = ["container-start"] -%}
 {%- if spec.parts is defined and spec.parts.footer is defined %}
 {%- if spec.parts.footer.user is defined %}
 {%- set user = "USER " + spec.parts.footer.user %}
+{%- endif -%}
 {%- if spec.parts.footer.cmd is defined %}
 {%- set cmd = spec.parts.footer.cmd -%}
 {%- endif -%}
-{%- endif %}
 {%- endif %}
 {{ expose() -}}
 {% if user %}{{ user }}
 {% endif -%}
 {%- if spec.parts is defined and spec.parts.footer is defined and spec.parts.footer.entry is defined -%}
-{{- entrypoint(spec.parts.footer.entry) }}
+{{- cmd_footer("ENTRYPOINT", spec.parts.footer.entry) }}
 {% endif -%}
-{%- if cmd -%}
-CMD ["{{ cmd }}"]
+{%- if cmd %}
+{{- cmd_footer("CMD", cmd) }}
 {%- endif -%}
 {%- endmacro -%}

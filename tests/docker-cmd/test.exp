@@ -1,0 +1,10 @@
+=== rhel-7-x86_64 ===
+
+FROM registry.access.redhat.com/rhel7
+MAINTAINER unknown <unknown@unknown.com>
+
+ENV container="docker"
+
+USER root
+ENTRYPOINT ["/usr/bin/echo"]
+CMD ["hello", "world!"]

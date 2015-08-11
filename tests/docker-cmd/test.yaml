@@ -1,0 +1,5 @@
+parts:
+  footer:
+    user: root
+    entry: ["/usr/bin/echo"]
+    cmd: [hello, "world!"]

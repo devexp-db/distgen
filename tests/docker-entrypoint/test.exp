@@ -19,5 +19,4 @@ ADD "run" \
 RUN useradd browser
 
 ENTRYPOINT ["/usr/bin/container-entrypoint"]
-
 CMD ["container-start"]
