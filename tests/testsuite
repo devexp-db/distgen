@@ -34,10 +34,15 @@ for i in $tests; do
         else
             echo -e "\n" >> "$outfile"
         fi
+
         echo -e "=== $distro ===\n" >> "$outfile"
-        dg --projectdir="$wd" --distro="$distro".yaml \
-                --instantiate "$wd/test.yaml" "$wd/test.tpl" \
-                >> "$outfile"
+
+        dg  --projectdir    "$wd"                       \
+            --distro        "$distro".yaml              \
+            --spec          "$wd/test.yaml"             \
+            --template      "$wd/test.tpl"              \
+        >> "$outfile"
+
         if test $? -ne 0; then
             dg_success=false
             break
