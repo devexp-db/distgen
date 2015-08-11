@@ -1,6 +1,6 @@
 === fedora-21-x86_64 ===
 
-FROM index.docker.io/fedora
+FROM index.docker.io/fedora:21
 MAINTAINER Pavel Raiskup <praiskup@redhat.com>
 
 ENV container="docker" \
