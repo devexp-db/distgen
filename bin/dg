@@ -1,7 +1,20 @@
 #!/bin/python
 
+from __future__ import print_function
+
+import sys
+import tempfile
+import shutil
+
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from distgen.generator import Generator
+
+def error(msg):
+    print(msg, file=sys.stderr)
+
+def die(msg):
+    error(msg)
+    sys.exit(1)
 
 description = \
 """
@@ -51,6 +64,13 @@ def parse_args():
         help='Use SPEC yaml file to fill the TEMPLATE file.'
     )
 
+    parser.add_argument(
+        '--output',
+        metavar='OUTPUT',
+        type=str,
+        help='Write result to OUTPUT file instead of stdout',
+    )
+
     return parser.parse_args()
 
 
@@ -60,11 +80,20 @@ def main():
     required_opt_fail = False
     for i in ["template", "spec"]:
         if not getattr(args, i):
-            print "you must specify --" + i
+            error("you must specify --" + i)
             required_opt_fail = True
 
     if required_opt_fail:
         return 1
+
+    temp_filename = False
+    output = sys.stdout
+    try:
+        if args.output:
+            _, temp_filename = tempfile.mkstemp(prefix="distgen-")
+            output = open(temp_filename, 'w')
+    except:
+        die("can't create temporary file for '{0}'".format(args.output))
 
     generator = Generator()
     generator.load_project(args.projectdir)
@@ -72,7 +101,15 @@ def main():
         args.spec,
         args.template,
         args.distro,
+        output,
     )
+
+    if temp_filename:
+        try:
+            output.close()
+            shutil.move(temp_filename, args.output)
+        except:
+            die("can't move '{0}' into '{1}'".format(temp_filename, args.output))
 
 
 if __name__ == "__main__":

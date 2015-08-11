@@ -20,6 +20,26 @@ fail()
 }
 
 
+output_equals_stdout()
+{
+    local wd="$testdir/SAMPLE"
+    local rv=0
+    echo "testing: 'dg --output out' matches 'dg > out'"
+    for i in "rhel-7-x86_64.yaml"; do
+        local cmd="dg --projectdir '$wd' \
+           --distro '$i' \
+           --spec '$wd/test.yaml' \
+           --template '$wd/test.tpl'"
+
+        eval "$cmd --output '$wd/.output'"
+        eval "$cmd > '$wd/.stdout'"
+
+        diff "$wd"/.{output,stdout} \
+            || fail "--output differs from stdout"
+    done
+}
+
+
 for i in $tests; do
     wd="$testdir/$i"
     echo "testing: $wd"
@@ -57,5 +77,7 @@ for i in $tests; do
     diff -ruN "$wd/test.exp" "$wd/test.out" > "$wd/test.diff" 2>> "$wd/test.err" \
         || { fail "test '$i' failed (diff)'" ; continue ; }
 done
+
+output_equals_stdout
 
 $success && echo "success"

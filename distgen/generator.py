@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import os
+import os, sys
 import imp
 import jinja2
 from err import fatal
@@ -79,7 +79,7 @@ class Generator(object):
         self.project.initialize()
 
 
-    def render(self, specfile, template, config, output=None):
+    def render(self, specfile, template, config, output=sys.stdout):
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
 
@@ -124,11 +124,11 @@ class Generator(object):
         # TODO: used only "docker" for now as nothing else is needed ATM
         cmd_cfg.container = "docker"
 
-        print(tpl.render(
+        output.write(tpl.render(
             config=sysconfig,
             dirs=sysconfig["dirs"],
             container={'name': 'docker'},
             spec=spec,
             project=self.project,
             commands=Commands(cmd_cfg, sysconfig)
-        ))
+        ) + "\n")
