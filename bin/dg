@@ -78,7 +78,7 @@ def main():
     args = parse_args()
 
     required_opt_fail = False
-    for i in ["template", "spec"]:
+    for i in ["template"]:
         if not getattr(args, i):
             error("you must specify --" + i)
             required_opt_fail = True

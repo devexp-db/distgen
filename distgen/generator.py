@@ -100,18 +100,20 @@ class Generator(object):
 
         yaml.add_constructor(u'!eval', _eval_node)
 
-        specfd = self.pm_spc.open_file(
-            specfile,
-            [self.project.directory],
-            fail=True,
-        )
-        if not specfd:
-            fatal("Spec file {0} not found".format(specfile))
+        spec = {}
+        if specfile:
+            specfd = self.pm_spc.open_file(
+                specfile,
+                [self.project.directory],
+                fail=True,
+            )
+            if not specfd:
+                fatal("Spec file {0} not found".format(specfile))
 
-        try:
-            spec = yaml.load(specfd)
-        except yaml.YAMLError, exc:
-            fatal("Error in spec file: {0}".format(exc))
+            try:
+                spec = yaml.load(specfd)
+            except yaml.YAMLError, exc:
+                fatal("Error in spec file: {0}".format(exc))
 
         self.project.inst_finish(specfile, template, sysconfig, spec)
 
