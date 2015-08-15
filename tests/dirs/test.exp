@@ -1,0 +1,33 @@
+=== fedora-20-i686 ===
+
+{'docdir': '/usr/share/doc', 'sysconfdir': '/etc', 'libdir': '/usr/lib', 'prefix': '/usr', 'datadir': '/usr/share', 'sbindir': '/usr/sbin', 'libexecdir': '/usr/libexec', 'pkgdocdir': '/usr/share/doc/unknown-project', 'pkgdatadir': '/usr/share/unknown-project', 'bindir': '/usr/bin'}
+
+
+=== fedora-20-x86_64 ===
+
+{'docdir': '/usr/share/doc', 'sysconfdir': '/etc', 'libdir': '/usr/lib64', 'prefix': '/usr', 'datadir': '/usr/share', 'sbindir': '/usr/sbin', 'libexecdir': '/usr/libexec', 'pkgdocdir': '/usr/share/doc/unknown-project', 'pkgdatadir': '/usr/share/unknown-project', 'bindir': '/usr/bin'}
+
+
+=== fedora-21-i686 ===
+
+{'docdir': '/usr/share/doc', 'sysconfdir': '/etc', 'libdir': '/usr/lib', 'prefix': '/usr', 'datadir': '/usr/share', 'sbindir': '/usr/sbin', 'libexecdir': '/usr/libexec', 'pkgdocdir': '/usr/share/doc/unknown-project', 'pkgdatadir': '/usr/share/unknown-project', 'bindir': '/usr/bin'}
+
+
+=== fedora-21-x86_64 ===
+
+{'docdir': '/usr/share/doc', 'sysconfdir': '/etc', 'libdir': '/usr/lib64', 'prefix': '/usr', 'datadir': '/usr/share', 'sbindir': '/usr/sbin', 'libexecdir': '/usr/libexec', 'pkgdocdir': '/usr/share/doc/unknown-project', 'pkgdatadir': '/usr/share/unknown-project', 'bindir': '/usr/bin'}
+
+
+=== fedora-22-i686 ===
+
+{'docdir': '/usr/share/doc', 'sysconfdir': '/etc', 'libdir': '/usr/lib', 'prefix': '/usr', 'datadir': '/usr/share', 'sbindir': '/usr/sbin', 'libexecdir': '/usr/libexec', 'pkgdocdir': '/usr/share/doc/unknown-project', 'pkgdatadir': '/usr/share/unknown-project', 'bindir': '/usr/bin'}
+
+
+=== fedora-22-x86_64 ===
+
+{'docdir': '/usr/share/doc', 'sysconfdir': '/etc', 'libdir': '/usr/lib64', 'prefix': '/usr', 'datadir': '/usr/share', 'sbindir': '/usr/sbin', 'libexecdir': '/usr/libexec', 'pkgdocdir': '/usr/share/doc/unknown-project', 'pkgdatadir': '/usr/share/unknown-project', 'bindir': '/usr/bin'}
+
+
+=== rhel-7-x86_64 ===
+
+{'docdir': '/usr/share/doc', 'sysconfdir': '/etc', 'libdir': '/usr/lib64', 'prefix': '/usr', 'datadir': '/usr/share', 'sbindir': '/usr/sbin', 'libexecdir': '/usr/libexec', 'pkgdocdir': '/usr/share/doc/unknown-project', 'pkgdatadir': '/usr/share/unknown-project', 'bindir': '/usr/bin'}

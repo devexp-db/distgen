@@ -1,9 +1,15 @@
 dirs:
-  bindir: /usr/bin
-  libdir: /usr/lib
-  libexecdir: /usr/libexec
-  sbindir: /usr/sbin
-  sysconfdir: /etc
+  prefix: /usr
+  bindir: $prefix/bin
+  libdir: $prefix/lib
+  libexecdir: $prefix/libexec
+  sbindir: $prefix/sbin
+  sysconfdir: $prefix/etc
+  datadir: $prefix/share
+  pkgdatadir: $datadir/$name
+  docdir: $datadir/doc
+  pkgdocdir: $docdir/$name
+
 
 os:
   id: null

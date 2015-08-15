@@ -5,7 +5,7 @@ os:
   arch: x86_64
 
 dirs:
-  libdir: /usr/lib64
+  libdir: $prefix/lib64
 
 docker:
   from: rhel7

@@ -1,4 +1,7 @@
 extends: lib/general.yaml
 
+dirs:
+  sysconfdir: /etc
+
 package_installer:
   name: yum

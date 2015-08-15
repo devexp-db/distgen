@@ -79,6 +79,30 @@ class Generator(object):
         self.project.abstract_initialize()
 
 
+    def vars_fixed_point(self, config):
+        """ substitute variables in paths """
+        dirs = config['dirs']
+
+        dirs['name'] = self.project.name
+
+        keys = dirs.keys()
+
+        something_changed = True
+        while something_changed:
+            something_changed = False
+
+            for i in keys:
+                for j in keys:
+                    if j == i:
+                        continue
+                    replaced = dirs[i].replace("$" + j, dirs[j])
+                    if replaced != dirs[i]:
+                        something_changed = True
+                        dirs[i] = replaced
+
+        dirs.pop('name')
+
+
     def render(self, specfile, template, config, output=sys.stdout):
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
@@ -86,6 +110,8 @@ class Generator(object):
         self.project.abstract_setup_vars(sysconfig)
 
         init_data = self.project.inst_init(specfile, template, sysconfig)
+
+        self.vars_fixed_point(sysconfig)
 
         # NOTE: This is soo ugly, sorry for that, in future we need to modify
         # PyYAML to let us specify callbacks, somehow.  But for now, import

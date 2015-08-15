@@ -38,5 +38,4 @@ class AbstractProject():
         # Be careful here with changes.  Any change will survive to the next
         # call of render() method (its effect won't disappear for next
         # template).
-        config['dirs']['pkgdatadir'] = \
-            config['dirs']['datadir'] + "/" + self.name
+        pass
