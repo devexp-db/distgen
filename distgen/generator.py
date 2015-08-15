@@ -76,12 +76,14 @@ class Generator(object):
 
         self.project.tplgen = jinja2.Environment(loader=loader)
 
-        self.project.initialize()
+        self.project.abstract_initialize()
 
 
     def render(self, specfile, template, config, output=sys.stdout):
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
+
+        self.project.abstract_setup_vars(sysconfig)
 
         init_data = self.project.inst_init(specfile, template, sysconfig)
 

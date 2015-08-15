@@ -1,6 +1,8 @@
 class AbstractProject():
     tplgen = None
 
+    name = "unknown-project"
+
     maintainer = "unknown <unknown@unknown.com>"
 
 
@@ -16,12 +18,25 @@ class AbstractProject():
         pass
 
 
-    def prebuild(self):
+    def __init__(self):
+        """ Never overwrite constructor please! """
+        pass
+
+    def abstract_initialize(self):
         """
-        This be defined in inheritting Project
+        Never overwrite this function, please.  Its currently just a
+        placeholder called right after Project was instantiated and the
+        right paths to templates/specs was set.
         """
         pass
 
+    def abstract_setup_vars(self, config):
+        """
+        Never overwrite this function, please.
+        """
 
-    def initialize(self):
-        pass
+        # Be careful here with changes.  Any change will survive to the next
+        # call of render() method (its effect won't disappear for next
+        # template).
+        config['dirs']['pkgdatadir'] = \
+            config['dirs']['datadir'] + "/" + self.name
