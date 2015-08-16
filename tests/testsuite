@@ -9,8 +9,9 @@ tests="
     dockerfile
     docker-cmd
     docker-entrypoint
-    pkginstaller
     minimal-dockerfile
+    pkginstaller
+    vars-from
 "
 
 success=:
@@ -43,6 +44,7 @@ output_equals_stdout()
 
 for i in $tests; do
     wd="$testdir/$i"
+    ao="$wd/additional-options"
     echo "testing: $wd"
     rm -rf "$wd/test.err" "$wd/test.out" "$wd/test.diff"
 
@@ -62,6 +64,7 @@ for i in $tests; do
             --distro        "$distro".yaml              \
             --spec          "$wd/test.yaml"             \
             --template      "$wd/test.tpl"              \
+            $(test -f "$ao" && eval echo $(cat "$ao"))  \
         >> "$outfile"
 
         if test $? -ne 0; then

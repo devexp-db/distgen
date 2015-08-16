@@ -1,1 +1,1 @@
-{{ dirs }}
+{{ dirs | dictsort }}

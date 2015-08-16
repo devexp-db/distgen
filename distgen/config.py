@@ -7,7 +7,7 @@ from err import fatal
 from pathmanager import PathManager
 
 
-def merge_yaml(origin, override):
+def _merge_yaml(origin, override):
     """
     Merge simple yaml node recursively.  If the node is non-dict, return itself,
     otherwise recurse down for each item.
@@ -15,12 +15,18 @@ def merge_yaml(origin, override):
     if isinstance(origin, dict) and isinstance(override, dict):
         for k, v in six.iteritems(override):
             if k in origin:
-                origin[k] = merge_yaml(origin[k], override[k])
+                origin[k] = _merge_yaml(origin[k], override[k])
             else:
                 origin[k] = copy.deepcopy(override[k])
         return origin
 
     return copy.deepcopy(override)
+
+
+def merge_yaml(origin, override):
+    old = copy.deepcopy(origin)
+    new = copy.deepcopy(override)
+    return _merge_yaml(old, new)
 
 
 def __recursive_load(pm, stack, filename):

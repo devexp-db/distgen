@@ -5,7 +5,7 @@ import imp
 import jinja2
 from err import fatal
 from distgen.pathmanager import PathManager
-from distgen.config import load_config
+from distgen.config import load_config, merge_yaml
 from distgen.project import AbstractProject
 from distgen.commands import Commands, CommandsConfig
 
@@ -34,25 +34,9 @@ class Generator(object):
         self.pm_spc = PathManager([])
 
 
-    def _load_class_from_file(self, filename, classname):
-        mod_name, file_ext = os.path.splitext(os.path.split(filename)[-1])
-        if file_ext.lower() == '.py':
-            py_mod = imp.load_source(mod_name, filename)
-        elif file_ext.lower() == '.pyc':
-            py_mod = imp.load_compiled(mod_name, filename)
-
-        if hasattr(py_mod, classname):
-            return getattr(py_mod, classname)()
-        else:
-            return None
-
-
     def load_project(self, project):
-        project_file = project + "/project.py"
-
-        if os.path.isfile(project_file):
-            self.project = self._load_class_from_file(project_file, "Project")
-        else:
+        self.project = self._load_project_from_dir(project)
+        if not self.project:
             self.project = AbstractProject()
         self.project.directory = project
 
@@ -79,13 +63,60 @@ class Generator(object):
         self.project.abstract_initialize()
 
 
-    def vars_fixed_point(self, config):
+    @staticmethod
+    def _load_python_file(filename):
+        """ load compiled python source """
+        mod_name, file_ext = os.path.splitext(os.path.split(filename)[-1])
+        if file_ext.lower() == '.py':
+            py_mod = imp.load_source(mod_name, filename)
+        elif file_ext.lower() == '.pyc':
+            py_mod = imp.load_compiled(mod_name, filename)
+
+        return py_mod
+
+
+    def _load_obj_from_file(self, filename, objname):
+        py_mod = self._load_python_file(filename)
+
+        if hasattr(py_mod, objname):
+            return getattr(py_mod, objname)
+        else:
+            return None
+
+
+    def _load_obj_from_projdir(self, projectdir, objname):
+        """ given project directory, load possibly existing project.py """
+        project_file = projectdir + "/project.py"
+
+        if os.path.isfile(project_file):
+            return self._load_obj_from_file(project_file, objname)
+        else:
+            return None
+
+
+    def _load_project_from_dir(self, projectdir):
+        """ given project directory, load possibly existing project.py """
+        projclass = self._load_obj_from_projdir(projectdir, "Project")
+        if not projclass:
+            return None
+        return projclass()
+
+
+    def load_config_from_project(self, directory):
+        """
+        read the project.py file for (dirs only) variables
+        """
+        config = self._load_obj_from_projdir(directory, 'config')
+        if config:
+            return config
+        return {}
+
+
+    @staticmethod
+    def vars_fixed_point(config):
         """ substitute variables in paths """
-        dirs = config['dirs']
 
-        dirs['name'] = self.project.name
-
-        keys = dirs.keys()
+        keys = config.keys()
 
         something_changed = True
         while something_changed:
@@ -95,23 +126,57 @@ class Generator(object):
                 for j in keys:
                     if j == i:
                         continue
-                    replaced = dirs[i].replace("$" + j, dirs[j])
-                    if replaced != dirs[i]:
+                    replaced = config[i].replace("$" + j, config[j])
+                    if replaced != config[i]:
                         something_changed = True
-                        dirs[i] = replaced
-
-        dirs.pop('name')
+                        config[i] = replaced
 
 
-    def render(self, specfile, template, config, output=sys.stdout):
+    def vars_fill_variables(self, config, sysconfig=None):
+        if not 'dirs' in config:
+            return
+
+        dirs = config['dirs']
+
+        additional_dirs = {}
+        if sysconfig and 'dirs' in sysconfig:
+            additional_dirs = sysconfig['dirs']
+
+        merged = merge_yaml(additional_dirs, dirs)
+        if 'name' in config:
+            merged['name'] = config['name']
+        else:
+            merged['name'] = 'unknown-pkg'
+        self.vars_fixed_point(merged)
+
+        config['dirs'] = {x: merged[x] for x in dirs.keys()}
+
+
+    def render(self, specfile, template, config, output=sys.stdout,
+               confdirs=None):
+        """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
+
+        if not confdirs:
+            confdirs = []
+        for i in confdirs + [self.project.directory]:
+            additional_vars = self.load_config_from_project(i)
+            self.vars_fill_variables(additional_vars, sysconfig)
+            # filter only interresting variables
+            interresting_parts = ['dirs']
+            additional_vars = {x: additional_vars[x] \
+                    for x in interresting_parts if x in additional_vars}
+            sysconfig = merge_yaml(sysconfig, additional_vars)
 
         self.project.abstract_setup_vars(sysconfig)
 
         init_data = self.project.inst_init(specfile, template, sysconfig)
 
-        self.vars_fixed_point(sysconfig)
+        projcfg = self.load_config_from_project(self.project.directory)
+        if projcfg and 'name' in projcfg:
+            sysconfig['name'] = projcfg['name']
+        self.vars_fill_variables(sysconfig)
 
         # NOTE: This is soo ugly, sorry for that, in future we need to modify
         # PyYAML to let us specify callbacks, somehow.  But for now, import

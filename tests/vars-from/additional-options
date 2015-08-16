@@ -1,0 +1,1 @@
+--vars-from $wd/some-dir --vars-from $wd/some-other-dir

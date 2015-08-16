@@ -1,0 +1,145 @@
+=== fedora-20-i686 ===
+
+bindir: /usr/bin
+datadir: /usr/share
+docdir: /usr/share/doc
+dont_replace: /usr/share/remote-pkg/blah
+dont_replace_2: /usr/share/remote-pkg-2/blah
+libdir: /usr/lib
+libexecdir: /usr/libexec
+local_value: /some/random/path
+pkgdatadir: /usr/share/local-pkg
+pkgdocdir: /usr/share/doc/local-pkg
+prefix: /usr
+replace_by_second_project: replaced!
+sbindir: /usr/sbin
+sysconfdir: /etc
+to_be_replaced: new-value
+to_be_replaced_2: new-value-2
+
+
+
+=== fedora-20-x86_64 ===
+
+bindir: /usr/bin
+datadir: /usr/share
+docdir: /usr/share/doc
+dont_replace: /usr/share/remote-pkg/blah
+dont_replace_2: /usr/share/remote-pkg-2/blah
+libdir: /usr/lib64
+libexecdir: /usr/libexec
+local_value: /some/random/path
+pkgdatadir: /usr/share/local-pkg
+pkgdocdir: /usr/share/doc/local-pkg
+prefix: /usr
+replace_by_second_project: replaced!
+sbindir: /usr/sbin
+sysconfdir: /etc
+to_be_replaced: new-value
+to_be_replaced_2: new-value-2
+
+
+
+=== fedora-21-i686 ===
+
+bindir: /usr/bin
+datadir: /usr/share
+docdir: /usr/share/doc
+dont_replace: /usr/share/remote-pkg/blah
+dont_replace_2: /usr/share/remote-pkg-2/blah
+libdir: /usr/lib
+libexecdir: /usr/libexec
+local_value: /some/random/path
+pkgdatadir: /usr/share/local-pkg
+pkgdocdir: /usr/share/doc/local-pkg
+prefix: /usr
+replace_by_second_project: replaced!
+sbindir: /usr/sbin
+sysconfdir: /etc
+to_be_replaced: new-value
+to_be_replaced_2: new-value-2
+
+
+
+=== fedora-21-x86_64 ===
+
+bindir: /usr/bin
+datadir: /usr/share
+docdir: /usr/share/doc
+dont_replace: /usr/share/remote-pkg/blah
+dont_replace_2: /usr/share/remote-pkg-2/blah
+libdir: /usr/lib64
+libexecdir: /usr/libexec
+local_value: /some/random/path
+pkgdatadir: /usr/share/local-pkg
+pkgdocdir: /usr/share/doc/local-pkg
+prefix: /usr
+replace_by_second_project: replaced!
+sbindir: /usr/sbin
+sysconfdir: /etc
+to_be_replaced: new-value
+to_be_replaced_2: new-value-2
+
+
+
+=== fedora-22-i686 ===
+
+bindir: /usr/bin
+datadir: /usr/share
+docdir: /usr/share/doc
+dont_replace: /usr/share/remote-pkg/blah
+dont_replace_2: /usr/share/remote-pkg-2/blah
+libdir: /usr/lib
+libexecdir: /usr/libexec
+local_value: /some/random/path
+pkgdatadir: /usr/share/local-pkg
+pkgdocdir: /usr/share/doc/local-pkg
+prefix: /usr
+replace_by_second_project: replaced!
+sbindir: /usr/sbin
+sysconfdir: /etc
+to_be_replaced: new-value
+to_be_replaced_2: new-value-2
+
+
+
+=== fedora-22-x86_64 ===
+
+bindir: /usr/bin
+datadir: /usr/share
+docdir: /usr/share/doc
+dont_replace: /usr/share/remote-pkg/blah
+dont_replace_2: /usr/share/remote-pkg-2/blah
+libdir: /usr/lib64
+libexecdir: /usr/libexec
+local_value: /some/random/path
+pkgdatadir: /usr/share/local-pkg
+pkgdocdir: /usr/share/doc/local-pkg
+prefix: /usr
+replace_by_second_project: replaced!
+sbindir: /usr/sbin
+sysconfdir: /etc
+to_be_replaced: new-value
+to_be_replaced_2: new-value-2
+
+
+
+=== rhel-7-x86_64 ===
+
+bindir: /usr/bin
+datadir: /usr/share
+docdir: /usr/share/doc
+dont_replace: /usr/share/remote-pkg/blah
+dont_replace_2: /usr/share/remote-pkg-2/blah
+libdir: /usr/lib64
+libexecdir: /usr/libexec
+local_value: /some/random/path
+pkgdatadir: /usr/share/local-pkg
+pkgdocdir: /usr/share/doc/local-pkg
+prefix: /usr
+replace_by_second_project: replaced!
+sbindir: /usr/sbin
+sysconfdir: /etc
+to_be_replaced: new-value
+to_be_replaced_2: new-value-2
+

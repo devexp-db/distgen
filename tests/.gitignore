@@ -1,5 +1,6 @@
 *.diff
 *.err
+*.py
 *.out
 .stdout
 .output

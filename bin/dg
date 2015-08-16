@@ -36,9 +36,9 @@ def parse_args():
     )
     parser.add_argument(
         '--projectdir',
-        metavar='PROJECT',
+        metavar='PROJECTDIR',
         type=str,
-        help='directory with project (defaults to CWD)',
+        help='Directory with project (defaults to CWD)',
         default="."
     )
 
@@ -61,7 +61,7 @@ def parse_args():
         '--spec',
         metavar='SPEC',
         type=str,
-        help='Use SPEC yaml file to fill the TEMPLATE file.'
+        help='Use SPEC yaml file to fill the TEMPLATE file'
     )
 
     parser.add_argument(
@@ -69,6 +69,14 @@ def parse_args():
         metavar='OUTPUT',
         type=str,
         help='Write result to OUTPUT file instead of stdout',
+    )
+
+    parser.add_argument(
+        '--vars-from',
+        metavar='PROJECTDIR',
+        type=str,
+        action='append',
+        help='Load variables from PROJECTDIR',
     )
 
     return parser.parse_args()
@@ -102,6 +110,7 @@ def main():
         args.template,
         args.distro,
         output,
+        args.vars_from,
     )
 
     if temp_filename:
