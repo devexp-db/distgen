@@ -16,5 +16,4 @@ Interactive test:
 -----------------
 {{ commands.pkginstaller.install(["PKG"], {'interactive': True}) }}
 {{ commands.pkginstaller.install(["PKG"], {'interactive': False}) }}
-
-{%- endblock -%}
+{% endblock %}

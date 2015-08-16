@@ -58,7 +58,10 @@ class Generator(object):
             jinja2.FunctionLoader(absolute_load),
         ])
 
-        self.project.tplgen = jinja2.Environment(loader=loader)
+        self.project.tplgen = jinja2.Environment(
+            loader=loader,
+            keep_trailing_newline=True,
+        )
 
         self.project.abstract_initialize()
 
@@ -226,4 +229,4 @@ class Generator(object):
             spec=spec,
             project=self.project,
             commands=Commands(cmd_cfg, sysconfig)
-        ) + "\n")
+        ))

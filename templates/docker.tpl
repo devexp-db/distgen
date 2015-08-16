@@ -18,5 +18,5 @@
 {%-   endblock -%}
 {%-   block footer -%}
 {{-     ctr.footer() -}}
-{%-   endblock -%}
-{%- endblock -%}
+{%-   endblock %}
+{% endblock %}
