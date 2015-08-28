@@ -5,10 +5,11 @@ testdir="$(dirname "$(readlink -f "$0")")"
 export PATH="$testdir/../${PATH+:$PATH}"
 
 tests="
-    dirs
     dockerfile
     docker-cmd
     docker-entrypoint
+    macros
+    macros-short
     minimal-dockerfile
     pkginstaller
     vars-from

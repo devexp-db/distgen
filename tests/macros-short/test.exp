@@ -1,0 +1,33 @@
+=== fedora-20-i686 ===
+
+[('bindir', '/usr/bin'), ('datadir', '/usr/share'), ('docdir', '/usr/share/doc'), ('libdir', '/usr/lib'), ('libexecdir', '/usr/libexec'), ('pkgdatadir', '/usr/share/unknown-pkg'), ('pkgdocdir', '/usr/share/doc/unknown-pkg'), ('prefix', '/usr'), ('sbindir', '/usr/sbin'), ('sysconfdir', '/etc')]
+
+
+=== fedora-20-x86_64 ===
+
+[('bindir', '/usr/bin'), ('datadir', '/usr/share'), ('docdir', '/usr/share/doc'), ('libdir', '/usr/lib64'), ('libexecdir', '/usr/libexec'), ('pkgdatadir', '/usr/share/unknown-pkg'), ('pkgdocdir', '/usr/share/doc/unknown-pkg'), ('prefix', '/usr'), ('sbindir', '/usr/sbin'), ('sysconfdir', '/etc')]
+
+
+=== fedora-21-i686 ===
+
+[('bindir', '/usr/bin'), ('datadir', '/usr/share'), ('docdir', '/usr/share/doc'), ('libdir', '/usr/lib'), ('libexecdir', '/usr/libexec'), ('pkgdatadir', '/usr/share/unknown-pkg'), ('pkgdocdir', '/usr/share/doc/unknown-pkg'), ('prefix', '/usr'), ('sbindir', '/usr/sbin'), ('sysconfdir', '/etc')]
+
+
+=== fedora-21-x86_64 ===
+
+[('bindir', '/usr/bin'), ('datadir', '/usr/share'), ('docdir', '/usr/share/doc'), ('libdir', '/usr/lib64'), ('libexecdir', '/usr/libexec'), ('pkgdatadir', '/usr/share/unknown-pkg'), ('pkgdocdir', '/usr/share/doc/unknown-pkg'), ('prefix', '/usr'), ('sbindir', '/usr/sbin'), ('sysconfdir', '/etc')]
+
+
+=== fedora-22-i686 ===
+
+[('bindir', '/usr/bin'), ('datadir', '/usr/share'), ('docdir', '/usr/share/doc'), ('libdir', '/usr/lib'), ('libexecdir', '/usr/libexec'), ('pkgdatadir', '/usr/share/unknown-pkg'), ('pkgdocdir', '/usr/share/doc/unknown-pkg'), ('prefix', '/usr'), ('sbindir', '/usr/sbin'), ('sysconfdir', '/etc')]
+
+
+=== fedora-22-x86_64 ===
+
+[('bindir', '/usr/bin'), ('datadir', '/usr/share'), ('docdir', '/usr/share/doc'), ('libdir', '/usr/lib64'), ('libexecdir', '/usr/libexec'), ('pkgdatadir', '/usr/share/unknown-pkg'), ('pkgdocdir', '/usr/share/doc/unknown-pkg'), ('prefix', '/usr'), ('sbindir', '/usr/sbin'), ('sysconfdir', '/etc')]
+
+
+=== rhel-7-x86_64 ===
+
+[('bindir', '/usr/bin'), ('datadir', '/usr/share'), ('docdir', '/usr/share/doc'), ('libdir', '/usr/lib64'), ('libexecdir', '/usr/libexec'), ('pkgdatadir', '/usr/share/unknown-pkg'), ('pkgdocdir', '/usr/share/doc/unknown-pkg'), ('prefix', '/usr'), ('sbindir', '/usr/sbin'), ('sysconfdir', '/etc')]

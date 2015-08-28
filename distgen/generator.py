@@ -191,7 +191,7 @@ class Generator(object):
             return str(eval(str(loader.construct_scalar(node)), {
                 'init': init_data,
                 'config': sysconfig,
-                'macros': sysconfig['macros']
+                'macros': sysconfig['macros'],
             }))
 
         yaml.add_constructor(u'!eval', _eval_node)
@@ -225,6 +225,7 @@ class Generator(object):
         output.write(tpl.render(
             config=sysconfig,
             macros=sysconfig["macros"],
+            m=sysconfig["macros"],
             container={'name': 'docker'},
             spec=spec,
             project=self.project,
