@@ -1,4 +1,4 @@
-dirs:
+macros:
   prefix: /usr
   bindir: $prefix/bin
   libdir: $prefix/lib

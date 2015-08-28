@@ -107,7 +107,7 @@ class Generator(object):
 
     def load_config_from_project(self, directory):
         """
-        read the project.py file for (dirs only) variables
+        read the project.py file for macros
         """
         config = self._load_obj_from_projdir(directory, 'config')
         if config:
@@ -136,23 +136,23 @@ class Generator(object):
 
 
     def vars_fill_variables(self, config, sysconfig=None):
-        if not 'dirs' in config:
+        if not 'macros' in config:
             return
 
-        dirs = config['dirs']
+        macros = config['macros']
 
-        additional_dirs = {}
-        if sysconfig and 'dirs' in sysconfig:
-            additional_dirs = sysconfig['dirs']
+        additional_macros = {}
+        if sysconfig and 'macros' in sysconfig:
+            additional_macros = sysconfig['macros']
 
-        merged = merge_yaml(additional_dirs, dirs)
+        merged = merge_yaml(additional_macros, macros)
         if 'name' in config:
             merged['name'] = config['name']
         else:
             merged['name'] = 'unknown-pkg'
         self.vars_fixed_point(merged)
 
-        config['dirs'] = {x: merged[x] for x in dirs.keys()}
+        config['macros'] = {x: merged[x] for x in macros.keys()}
 
 
     def render(self, specfile, template, config, output=sys.stdout,
@@ -167,7 +167,7 @@ class Generator(object):
             additional_vars = self.load_config_from_project(i)
             self.vars_fill_variables(additional_vars, sysconfig)
             # filter only interresting variables
-            interresting_parts = ['dirs']
+            interresting_parts = ['macros']
             additional_vars = {x: additional_vars[x] \
                     for x in interresting_parts if x in additional_vars}
             sysconfig = merge_yaml(sysconfig, additional_vars)
@@ -191,7 +191,7 @@ class Generator(object):
             return str(eval(str(loader.construct_scalar(node)), {
                 'init': init_data,
                 'config': sysconfig,
-                'dirs': sysconfig['dirs']
+                'macros': sysconfig['macros']
             }))
 
         yaml.add_constructor(u'!eval', _eval_node)
@@ -224,7 +224,7 @@ class Generator(object):
 
         output.write(tpl.render(
             config=sysconfig,
-            dirs=sysconfig["dirs"],
+            macros=sysconfig["macros"],
             container={'name': 'docker'},
             spec=spec,
             project=self.project,

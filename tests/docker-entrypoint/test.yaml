@@ -20,7 +20,7 @@ parts:
 
       - type: files
         files: [ run ]
-        dest: !eval '"{0}/container-start".format(dirs["bindir"])'
+        dest: !eval '"{0}/container-start".format(macros["bindir"])'
 
   commands:
     data:
@@ -29,4 +29,4 @@ parts:
 
   footer:
     entry:
-    - !eval '"{0}/container-entrypoint".format(dirs["bindir"])'
+    - !eval '"{0}/container-entrypoint".format(macros["bindir"])'

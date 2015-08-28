@@ -1,6 +1,6 @@
 extends: "fedora-20-i686.yaml"
 
-dirs:
+macros:
   libdir: $prefix/lib64
 
 os:

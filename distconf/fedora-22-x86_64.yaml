@@ -1,6 +1,6 @@
 extends: "fedora-22-i686.yaml"
 
-dirs:
+macros:
   libdir: $prefix/lib64
 
 os:

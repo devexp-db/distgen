@@ -1,6 +1,6 @@
 extends: lib/general.yaml
 
-dirs:
+macros:
   sysconfdir: /etc
 
 package_installer:

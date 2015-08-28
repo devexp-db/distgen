@@ -32,7 +32,7 @@ parts:
   addfiles:
     data:
       - type: files
-        dest: !eval "config['dirs']['bindir']"
+        dest: !eval "config['macros']['bindir']"
         files:
           - "./scripts/rh-cont-pg-initdb"
           - "./scripts/rh-cont-pg-entry"

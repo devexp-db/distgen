@@ -4,7 +4,7 @@ os:
   version: 7
   arch: x86_64
 
-dirs:
+macros:
   libdir: $prefix/lib64
 
 docker:

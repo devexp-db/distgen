@@ -1,1 +1,1 @@
-{{ dirs | dictsort }}
+{{ macros | dictsort }}
