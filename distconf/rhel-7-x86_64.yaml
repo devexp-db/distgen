@@ -6,6 +6,9 @@ os:
 
 macros:
   libdir: $prefix/lib64
+  # systemd stuff
+  unitdir: /usr/lib/systemd/system
+  userunitdir: /usr/lib/systemd/user
 
 docker:
   from: rhel7

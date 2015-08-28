@@ -1,5 +1,10 @@
 extends: lib/rpmsystems.yaml
 
+macros:
+  # systemd stuff
+  unitdir: /usr/lib/systemd/system
+  userunitdir: /usr/lib/systemd/user
+
 os:
   id: fedora
   name: Fedora

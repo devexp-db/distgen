@@ -72,7 +72,7 @@ def parse_args():
     )
 
     parser.add_argument(
-        '--vars-from',
+        '--macros-from',
         metavar='PROJECTDIR',
         type=str,
         action='append',
@@ -110,7 +110,7 @@ def main():
         args.template,
         args.distro,
         output,
-        args.vars_from,
+        args.macros_from,
     )
 
     if temp_filename:

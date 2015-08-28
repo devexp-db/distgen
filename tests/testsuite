@@ -9,10 +9,10 @@ tests="
     docker-cmd
     docker-entrypoint
     macros
+    macros-from
     macros-short
     minimal-dockerfile
     pkginstaller
-    vars-from
 "
 
 success=:

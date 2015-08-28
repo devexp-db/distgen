@@ -16,6 +16,8 @@ sbindir: /usr/sbin
 sysconfdir: /etc
 to_be_replaced: new-value
 to_be_replaced_2: new-value-2
+unitdir: /usr/lib/systemd/system
+userunitdir: /usr/lib/systemd/user
 
 
 === fedora-20-x86_64 ===
@@ -36,6 +38,8 @@ sbindir: /usr/sbin
 sysconfdir: /etc
 to_be_replaced: new-value
 to_be_replaced_2: new-value-2
+unitdir: /usr/lib/systemd/system
+userunitdir: /usr/lib/systemd/user
 
 
 === fedora-21-i686 ===
@@ -56,6 +60,8 @@ sbindir: /usr/sbin
 sysconfdir: /etc
 to_be_replaced: new-value
 to_be_replaced_2: new-value-2
+unitdir: /usr/lib/systemd/system
+userunitdir: /usr/lib/systemd/user
 
 
 === fedora-21-x86_64 ===
@@ -76,6 +82,8 @@ sbindir: /usr/sbin
 sysconfdir: /etc
 to_be_replaced: new-value
 to_be_replaced_2: new-value-2
+unitdir: /usr/lib/systemd/system
+userunitdir: /usr/lib/systemd/user
 
 
 === fedora-22-i686 ===
@@ -96,6 +104,8 @@ sbindir: /usr/sbin
 sysconfdir: /etc
 to_be_replaced: new-value
 to_be_replaced_2: new-value-2
+unitdir: /usr/lib/systemd/system
+userunitdir: /usr/lib/systemd/user
 
 
 === fedora-22-x86_64 ===
@@ -116,6 +126,8 @@ sbindir: /usr/sbin
 sysconfdir: /etc
 to_be_replaced: new-value
 to_be_replaced_2: new-value-2
+unitdir: /usr/lib/systemd/system
+userunitdir: /usr/lib/systemd/user
 
 
 === rhel-7-x86_64 ===
@@ -136,3 +148,5 @@ sbindir: /usr/sbin
 sysconfdir: /etc
 to_be_replaced: new-value
 to_be_replaced_2: new-value-2
+unitdir: /usr/lib/systemd/system
+userunitdir: /usr/lib/systemd/user
