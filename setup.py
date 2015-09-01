@@ -22,6 +22,7 @@ setup(
         ]),
         (tpldir, [
             'templates/docker.tpl',
+            'templates/makefile-macros.tpl',
             'templates/README',
             'templates/general.tpl',
         ]),
@@ -32,6 +33,8 @@ setup(
             'distconf/fedora-21-x86_64.yaml',
             'distconf/fedora-22-i686.yaml',
             'distconf/fedora-22-x86_64.yaml',
+            'distconf/fedora-23-i686.yaml',
+            'distconf/fedora-23-x86_64.yaml',
             'distconf/rhel-7-x86_64.yaml',
         ]),
         (distconfdir + "/lib", [
