@@ -1,10 +1,10 @@
-%global gitrev 33125
+%global gitrev 2953f
 %global posttag git%{gitrev}
 %global snapshot %{version}-%{posttag}
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.3~dev
+Version:    0.4~dev
 Release:    1.%{posttag}%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -54,6 +54,9 @@ make check
 
 
 %changelog
+* Thu Sep 10 2015 Pavel Raiskup <praiskup@redhat.com> - 0.4~dev-1.git33125
+- rebase
+
 * Tue Sep 01 2015 Pavel Raiskup <praiskup@redhat.com> - 0.3~dev-1.git76d41
 - rebase
 
