@@ -1,0 +1,7 @@
+parts:
+  labels:
+    data:
+      - name: INSTALL
+        value: !eval macros['atomic_install']
+      - name: UNINSTALL
+        value: !eval macros['atomic_uninstall']

@@ -8,6 +8,7 @@
 {%-   block body -%}
 {%-     block pkginstall -%}
 {{-        ctr.body_env() -}}
+{{-        ctr.body_labels() -}}
 {%- if spec.parts is defined -%}
 {{-        ctr.body_pkginstall() -}}
 {{-        ctr.body_addfiles() -}}

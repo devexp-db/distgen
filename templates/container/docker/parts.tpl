@@ -10,17 +10,19 @@ EXPOSE {{ spec.expose | join(' ') }}
 {% endif -%}
 {%- endmacro -%}
 
-{%- macro environment(envs) -%}
+{%- macro variables(envs, type) -%}
 {%- if envs -%}
 {%- for i in envs -%}
 {%- if loop.first %}
-ENV {{ i.name }}="{{ i.value }}"
+{{ type }} {{ i.name }}="{{ i.value | replace('"', '\\"') }}"
 {%- else %} \
-    {{ i.name }}="{{ i.value }}"
+    {{ i.name }}="{{ i.value | replace('"', '\\"') }}"
 {%- endif -%}
 {%- endfor -%}
 {%- endif -%}
-{% endmacro -%}
+{%- if loop.last %}
+{% endif %}
+{%- endmacro -%}
 
 {%- macro body_env() -%}
 {%- set vars = [] -%}
@@ -30,9 +32,14 @@ ENV {{ i.name }}="{{ i.value }}"
 {%- if spec.parts is defined and  spec.parts.envvars is defined  -%}
 {%-   set vars = vars + spec.parts.envvars.data -%}
 {%- endif -%}
-{{- environment(vars) }}
-{% endmacro -%}
+{{- variables(vars, 'ENV') }}
+{%- endmacro -%}
 
+{%- macro body_labels() -%}
+{%- if spec.parts is defined and  spec.parts.labels is defined  -%}
+{{- variables(spec.parts.labels.data, 'LABEL') }}
+{%- endif -%}
+{%- endmacro -%}
 
 {%- macro execute(actions) -%}
 {%- for i in actions -%}
