@@ -65,6 +65,10 @@ class YumPkgManager(AbstractPkgManger):
         return self.action("reinstall", pkgs, options)
 
 
+    def update_all(self):
+        return self.action("update", [], []);
+
+
     def cleancache(self, options=None):
         return self._base_command(options) + " clean all --enablerepo='*'"
 
