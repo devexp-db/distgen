@@ -13,12 +13,13 @@ git_rev = \
 	rev_short=$${rev:0:5} ; \
 	echo $$rev_short
 
-rpmdif_options = \
+rpmbuild_options = \
 	--define "_sourcedir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_builddir $(PWD)" \
-	--define "_srcrpmdir $(PWD)"
+	--define "_srcrpmdir $(PWD)" \
+	--define "dist %nil"
 
 tarball = "$(project)-$(shell $(project_version)).tar.gz"
 
@@ -31,7 +32,7 @@ $(tarball): clean
 
 srpm: $(tarball)
 	rm -rf *.src.rpm
-	rpmbuild -bs $(rpmdif_options) $(spec)
+	rpmbuild -bs $(rpmbuild_options) $(spec)
 
 rpm: srpm
 	rpmbuild --rebuild *.src.rpm --define "_rpmdir $(PWD)"
