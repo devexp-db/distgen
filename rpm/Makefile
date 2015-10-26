@@ -29,10 +29,7 @@ all: srpm
 $(tarball): clean
 	$(generate_tarball)
 
-spec_check:
-	test '$(shell $(git_rev))' = '$(shell cat $(spec) | grep "gitrev " | cut -d' ' -f3 )'
-
-srpm: $(tarball) spec_check
+srpm: $(tarball)
 	rm -rf *.src.rpm
 	rpmbuild -bs $(rpmdif_options) $(spec)
 

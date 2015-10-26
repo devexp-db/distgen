@@ -1,11 +1,10 @@
-%global gitrev 2953f
-%global posttag git%{gitrev}
-%global snapshot %{version}-%{posttag}
+%global posttag %{?gitrev:.git%{gitrev}}
+%global snapshot %{version}%{posttag}
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.4~dev
-Release:    1.%{posttag}%{?dist}
+Version:    0.5~dev%{posttag}
+Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
@@ -54,6 +53,9 @@ make check
 
 
 %changelog
+* Mon Oct 26 2015 Pavel Raiskup <praiskup@redhat.com> - 0.5~dev-1
+- rebase
+
 * Thu Sep 10 2015 Pavel Raiskup <praiskup@redhat.com> - 0.4~dev-1.git33125
 - rebase
 
