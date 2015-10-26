@@ -1,10 +1,22 @@
 from distutils.core import setup
 from distgen.version import dg_version
+from os import listdir, path
 
 project = "distgen"
 datadir = "share"
 pkgdatadir = datadir + "/" + project
 tpldir = pkgdatadir + "/templates"
+distconfdir = pkgdatadir + "/distconf"
+
+def dynamic_data_files():
+    dynamic_list = []
+    for dcdir in ["distconf", "distconf/lib"]:
+        dcfiles = ["{0}/{1}".format(dcdir, f)
+                   for f in listdir(dcdir)]
+        dcfiles = [f for f in dcfiles if path.isfile(f)]
+        dynamic_list.append((pkgdatadir + "/" + dcdir, dcfiles))
+
+    return dynamic_list
 
 setup(
     name='distgen',
@@ -24,6 +36,6 @@ setup(
             'templates/README',
             'templates/general.tpl',
         ]),
-    ],
+    ] + dynamic_data_files(),
     scripts=['bin/dg'],
 )
