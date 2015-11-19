@@ -8,6 +8,7 @@ import shutil
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from distgen.generator import Generator
+from distgen.commands import CommandsConfig
 
 def error(msg):
     print(msg, file=sys.stderr)
@@ -79,6 +80,14 @@ def parse_args():
         help='Load variables from PROJECTDIR',
     )
 
+    parser.add_argument(
+        '--container',
+        metavar='CONTAINER_TYPE',
+        type=str,
+        help='Container type, e.g. \'docker\'',
+        default=False,
+    )
+
     return parser.parse_args()
 
 
@@ -103,12 +112,17 @@ def main():
     except:
         die("can't create temporary file for '{0}'".format(args.output))
 
+
+    cmd_cfg = CommandsConfig()
+    cmd_cfg.container = args.container
+
     generator = Generator()
     generator.load_project(args.projectdir)
     generator.render(
         args.spec,
         args.template,
         args.distro,
+        cmd_cfg,
         output,
         args.macros_from,
     )

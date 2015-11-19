@@ -7,7 +7,7 @@ from err import fatal
 from distgen.pathmanager import PathManager
 from distgen.config import load_config, merge_yaml
 from distgen.project import AbstractProject
-from distgen.commands import Commands, CommandsConfig
+from distgen.commands import Commands
 
 
 class Generator(object):
@@ -155,8 +155,8 @@ class Generator(object):
         config['macros'] = {x: merged[x] for x in macros.keys()}
 
 
-    def render(self, specfile, template, config, output=sys.stdout,
-               confdirs=None):
+    def render(self, specfile, template, config, cmd_cfg,
+               output=sys.stdout, confdirs=None):
         """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
@@ -217,10 +217,6 @@ class Generator(object):
             tpl = self.project.tplgen.get_template(template)
         except jinja2.exceptions.TemplateNotFound as err:
             fatal("Can not find template {0}".format(err))
-
-        cmd_cfg = CommandsConfig()
-        # TODO: used only "docker" for now as nothing else is needed ATM
-        cmd_cfg.container = "docker"
 
         output.write(tpl.render(
             config=sysconfig,

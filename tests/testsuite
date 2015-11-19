@@ -53,6 +53,9 @@ for i in $tests; do
     first=:
     dg_success=:
     while read distro ; do
+        # clear args
+        set dummy ; shift
+
         outfile="$wd/test.out"
         if $first; then
             first=false
@@ -62,10 +65,14 @@ for i in $tests; do
 
         echo -e "=== $distro ===\n" >> "$outfile"
 
+        test -f "$wd/container" && set dummy --container `cat "$wd/container"`
+        shift
+
         dg  --projectdir    "$wd"                       \
             --distro        "$distro".yaml              \
             --spec          "$wd/test.yaml"             \
             --template      "$wd/test.tpl"              \
+            "$@"                                        \
             $(test -f "$ao" && eval echo $(cat "$ao"))  \
         >> "$outfile"
 

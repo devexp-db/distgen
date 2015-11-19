@@ -2,9 +2,9 @@
 
 Basic yum commands:
 -------------------
-yum -y --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs reinstall PKG
-yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+yum -y install PKG
+yum -y reinstall PKG
+yum -y clean all --enablerepo='*'
 
 Docs test:
 ----------
@@ -13,17 +13,17 @@ yum -y --setopt=tsflags=nodocs install PKG
 
 Interactive test:
 -----------------
-yum --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs install PKG
+yum install PKG
+yum -y install PKG
 
 
 === fedora-20-x86_64 ===
 
 Basic yum commands:
 -------------------
-yum -y --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs reinstall PKG
-yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+yum -y install PKG
+yum -y reinstall PKG
+yum -y clean all --enablerepo='*'
 
 Docs test:
 ----------
@@ -32,17 +32,17 @@ yum -y --setopt=tsflags=nodocs install PKG
 
 Interactive test:
 -----------------
-yum --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs install PKG
+yum install PKG
+yum -y install PKG
 
 
 === fedora-21-i686 ===
 
 Basic yum commands:
 -------------------
-yum -y --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs reinstall PKG
-yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+yum -y install PKG
+yum -y reinstall PKG
+yum -y clean all --enablerepo='*'
 
 Docs test:
 ----------
@@ -51,17 +51,17 @@ yum -y --setopt=tsflags=nodocs install PKG
 
 Interactive test:
 -----------------
-yum --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs install PKG
+yum install PKG
+yum -y install PKG
 
 
 === fedora-21-x86_64 ===
 
 Basic yum commands:
 -------------------
-yum -y --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs reinstall PKG
-yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+yum -y install PKG
+yum -y reinstall PKG
+yum -y clean all --enablerepo='*'
 
 Docs test:
 ----------
@@ -70,17 +70,17 @@ yum -y --setopt=tsflags=nodocs install PKG
 
 Interactive test:
 -----------------
-yum --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs install PKG
+yum install PKG
+yum -y install PKG
 
 
 === fedora-22-i686 ===
 
 Basic yum commands:
 -------------------
-dnf -y --setopt=tsflags=nodocs install PKG
-dnf -y --setopt=tsflags=nodocs reinstall PKG
-dnf -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+dnf -y install PKG
+dnf -y reinstall PKG
+dnf -y clean all --enablerepo='*'
 
 Docs test:
 ----------
@@ -89,17 +89,17 @@ dnf -y --setopt=tsflags=nodocs install PKG
 
 Interactive test:
 -----------------
-dnf --setopt=tsflags=nodocs install PKG
-dnf -y --setopt=tsflags=nodocs install PKG
+dnf install PKG
+dnf -y install PKG
 
 
 === fedora-22-x86_64 ===
 
 Basic yum commands:
 -------------------
-dnf -y --setopt=tsflags=nodocs install PKG
-dnf -y --setopt=tsflags=nodocs reinstall PKG
-dnf -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+dnf -y install PKG
+dnf -y reinstall PKG
+dnf -y clean all --enablerepo='*'
 
 Docs test:
 ----------
@@ -108,17 +108,17 @@ dnf -y --setopt=tsflags=nodocs install PKG
 
 Interactive test:
 -----------------
-dnf --setopt=tsflags=nodocs install PKG
-dnf -y --setopt=tsflags=nodocs install PKG
+dnf install PKG
+dnf -y install PKG
 
 
 === rhel-7-x86_64 ===
 
 Basic yum commands:
 -------------------
-yum -y --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs reinstall PKG
-yum -y --setopt=tsflags=nodocs clean all --enablerepo='*'
+yum -y install PKG
+yum -y reinstall PKG
+yum -y clean all --enablerepo='*'
 
 Docs test:
 ----------
@@ -127,5 +127,5 @@ yum -y --setopt=tsflags=nodocs install PKG
 
 Interactive test:
 -----------------
-yum --setopt=tsflags=nodocs install PKG
-yum -y --setopt=tsflags=nodocs install PKG
+yum install PKG
+yum -y install PKG

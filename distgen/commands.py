@@ -19,8 +19,7 @@ class Command(object):
 
 
     def in_container(self, opts=None):
-        # For now.
-        return True
+        return self.config.container
 
 
 class AbstractPkgManger(Command):
