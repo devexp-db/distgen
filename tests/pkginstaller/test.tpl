@@ -6,6 +6,7 @@ Basic yum commands:
 {{ commands.pkginstaller.install(["PKG"]) }}
 {{ commands.pkginstaller.reinstall(["PKG"]) }}
 {{ commands.pkginstaller.cleancache() }}
+{{ commands.pkginstaller.remove(["a", "b"]) }}
 
 Docs test:
 ----------
