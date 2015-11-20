@@ -3,4 +3,4 @@ include Makefile
 include tests/testsuite
 include distconf/lib/*.yaml
 include distconf/*.yaml
-recursive-include tests *.exp *.py *.tpl *.yaml distros additional-options
+recursive-include tests *.exp *.py *.tpl *.yaml distros container additional-options
