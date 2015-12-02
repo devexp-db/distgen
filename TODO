@@ -2,3 +2,4 @@
 - generate the Docker README.md similarly to whats discussed in
   https://github.com/sclorg/rhscl2dockerfile/pull/11/commits
 - multiple inheritance in config
+- allow template reading from stdin
