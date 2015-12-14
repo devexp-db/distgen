@@ -225,5 +225,6 @@ class Generator(object):
             container={'name': 'docker'},
             spec=spec,
             project=self.project,
-            commands=Commands(cmd_cfg, sysconfig)
+            commands=Commands(cmd_cfg, sysconfig),
+            env=os.environ,
         ))
