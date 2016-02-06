@@ -1,6 +1,6 @@
 {%- macro command(cmdinfo) -%}
 {%- if cmdinfo.type == "pkg" -%}
-{%- if cmdinfo.action in ["install", "reinstall"] -%}
+{%- if cmdinfo.action in ["install", "reinstall", "update"] -%}
 {{ commands.pkginstaller[cmdinfo.action](cmdinfo.packages) }}
 {%- else -%}
 {{ commands.pkginstaller[cmdinfo.action]() }}

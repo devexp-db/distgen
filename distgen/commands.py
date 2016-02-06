@@ -67,6 +67,8 @@ class YumPkgManager(AbstractPkgManger):
     def remove(self, pkgs, options=None):
         return self.action("remove", pkgs, options)
 
+    def update(self, pkgs, options=None):
+        return self.action("update", pkgs, options)
 
     def update_all(self):
         return self.action("update", [], []);
