@@ -3,7 +3,7 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.7~dev%{posttag}
+Version:    0.8~dev%{posttag}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -53,6 +53,9 @@ make check
 
 
 %changelog
+* Sat Feb 06 2016 Pavel Raiskup <praiskup@redhat.com> - 0.8~dev-1
+- rebase
+
 * Wed Jan 27 2016 Pavel Raiskup <praiskup@redhat.com> - 0.7~dev-1
 - rebase
 
