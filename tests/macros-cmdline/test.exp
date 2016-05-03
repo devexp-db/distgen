@@ -1,0 +1,33 @@
+=== fedora-20-i686 ===
+
+is_defined
+
+
+=== fedora-20-x86_64 ===
+
+is_defined
+
+
+=== fedora-21-i686 ===
+
+is_defined
+
+
+=== fedora-21-x86_64 ===
+
+is_defined
+
+
+=== fedora-22-i686 ===
+
+is_defined
+
+
+=== fedora-22-x86_64 ===
+
+is_defined
+
+
+=== rhel-7-x86_64 ===
+
+is_defined
