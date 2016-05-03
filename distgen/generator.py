@@ -156,7 +156,7 @@ class Generator(object):
 
 
     def render(self, specfile, template, config, cmd_cfg,
-               output=sys.stdout, confdirs=None):
+               output=sys.stdout, confdirs=None, explicit_macros=None):
         """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
@@ -180,6 +180,10 @@ class Generator(object):
         if projcfg and 'name' in projcfg:
             sysconfig['name'] = projcfg['name']
         self.vars_fill_variables(sysconfig)
+
+        explicit_macros = {'macros': explicit_macros}
+        self.vars_fill_variables(explicit_macros, sysconfig)
+        sysconfig = merge_yaml(sysconfig, explicit_macros)
 
         # NOTE: This is soo ugly, sorry for that, in future we need to modify
         # PyYAML to let us specify callbacks, somehow.  But for now, import

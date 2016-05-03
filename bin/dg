@@ -88,6 +88,14 @@ def parse_args():
         default=False,
     )
 
+    parser.add_argument(
+        '--macro',
+        metavar='MACRO',
+        type=str,
+        action='append',
+        help='Define distgen\'s macro',
+    )
+
     return parser.parse_args()
 
 
@@ -116,6 +124,12 @@ def main():
     cmd_cfg = CommandsConfig()
     cmd_cfg.container = args.container
 
+    explicit_macros = {}
+    if args.macro:
+        for i in args.macro:
+            key, value = i.split(' ', 1)
+            explicit_macros[key] = value
+
     generator = Generator()
     generator.load_project(args.projectdir)
     generator.render(
@@ -125,6 +139,7 @@ def main():
         cmd_cfg,
         output,
         args.macros_from,
+        explicit_macros,
     )
 
     if temp_filename:
