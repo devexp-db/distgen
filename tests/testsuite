@@ -10,6 +10,7 @@ tests="
     docker-entrypoint
     docker-labels
     macros
+    macros-cmdline
     macros-from
     macros-short
     minimal-dockerfile
@@ -46,7 +47,6 @@ output_equals_stdout()
 
 for i in $tests; do
     wd="$testdir/$i"
-    ao="$wd/additional-options"
     echo "testing: $wd"
     rm -rf "$wd/test.err" "$wd/test.out" "$wd/test.diff"
 
@@ -67,13 +67,15 @@ for i in $tests; do
 
         test -f "$wd/container" && set dummy --container `cat "$wd/container"`
         shift
+        additional_opts=
+        test -f "$wd/dg-opts" && additional_opts=`cat "$wd/dg-opts"`
+        eval set dummy '$@' "$additional_opts" && shift
 
         dg  --projectdir    "$wd"                       \
             --distro        "$distro".yaml              \
             --spec          "$wd/test.yaml"             \
             --template      "$wd/test.tpl"              \
             "$@"                                        \
-            $(test -f "$ao" && eval echo $(cat "$ao"))  \
         >> "$outfile"
 
         if test $? -ne 0; then
