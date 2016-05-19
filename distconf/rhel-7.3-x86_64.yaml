@@ -1,0 +1,4 @@
+extends: "rhel-7-x86_64.yaml"
+
+os:
+  version: 7.3
