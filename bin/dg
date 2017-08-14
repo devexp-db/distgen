@@ -130,6 +130,9 @@ def main():
             key, value = i.split(' ', 1)
             explicit_macros[key] = value
 
+    if args.template == '-':
+        args.template = "/proc/self/fd/0"
+
     generator = Generator()
     generator.load_project(args.projectdir)
     generator.render(
