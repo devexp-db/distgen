@@ -19,10 +19,8 @@ EXPOSE {{ spec.expose | join(' ') }}
     {{ i.name }}="{{ i.value | replace('"', '\\"') }}"
 {%- endif -%}
 {%- endfor -%}
-{%- endif -%}
-{%- if loop.last %}
-{% endif %}
-{%- endmacro -%}
+{%- endif %}
+{% endmacro -%}
 
 {%- macro body_env() -%}
 {%- set vars = [] -%}
