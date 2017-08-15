@@ -62,7 +62,8 @@ def parse_args():
         '--spec',
         metavar='SPEC',
         type=str,
-        help='Use SPEC yaml file to fill the TEMPLATE file'
+        help='Use SPEC yaml file to fill the TEMPLATE file',
+        action='append',
     )
 
     parser.add_argument(

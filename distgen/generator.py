@@ -155,7 +155,7 @@ class Generator(object):
         config['macros'] = {x: merged[x] for x in macros.keys()}
 
 
-    def render(self, specfile, template, config, cmd_cfg,
+    def render(self, specfiles, template, config, cmd_cfg,
                output=sys.stdout, confdirs=None, explicit_macros=None):
         """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
@@ -174,7 +174,7 @@ class Generator(object):
 
         self.project.abstract_setup_vars(sysconfig)
 
-        init_data = self.project.inst_init(specfile, template, sysconfig)
+        init_data = self.project.inst_init(specfiles, template, sysconfig)
 
         projcfg = self.load_config_from_project(self.project.directory)
         if projcfg and 'name' in projcfg:
@@ -201,7 +201,7 @@ class Generator(object):
         yaml.add_constructor(u'!eval', _eval_node)
 
         spec = {}
-        if specfile:
+        for specfile in specfiles:
             specfd = self.pm_spc.open_file(
                 specfile,
                 [self.project.directory],
@@ -211,7 +211,8 @@ class Generator(object):
                 fatal("Spec file {0} not found".format(specfile))
 
             try:
-                spec = yaml.load(specfd)
+                specdata = yaml.load(specfd)
+                spec = merge_yaml(spec, specdata)
             except yaml.YAMLError, exc:
                 fatal("Error in spec file: {0}".format(exc))
 
