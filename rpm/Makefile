@@ -6,7 +6,7 @@ project_version = \
 
 generate_tarball = \
 	cd .. ; \
-	python setup.py sdist --owner=root --group=root --dist-dir rpm
+	python setup.py sdist --dist-dir rpm
 
 git_rev = \
 	rev="$$(git rev-parse HEAD)" ; \

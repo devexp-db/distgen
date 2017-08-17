@@ -3,7 +3,7 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.11~dev%{posttag}
+Version:    0.12.dev1%{posttag}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -53,6 +53,9 @@ make check
 
 
 %changelog
+* Fri Aug 18 2017 Slavek Kabrda <bkabrda@redhat.com> - 0.12.dev1-1
+- new release scheme
+
 * Tue Aug 15 2017 Pavel Raiskup <praiskup@redhat.com> - 0.11~dev-1
 - multiple --spec options
 
