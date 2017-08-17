@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 from distgen.version import dg_version
 from os import listdir, path
 
