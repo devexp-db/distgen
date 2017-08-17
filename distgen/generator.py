@@ -51,11 +51,21 @@ class Generator(object):
                         return f.read().decode('utf-8')
                 except:
                     pass
-            raise jinja2.TemplateNotFound()
+            raise jinja2.TemplateNotFound(name)
+
+        def string_load(name):
+            """
+            Allow specifying a string instead of template to be able
+            to return expanded config/specs/...
+            """
+            if name.startswith(('{{', '{%')):
+                return name
+            raise jinja2.TemplateNotFound(name)
 
         loader = jinja2.ChoiceLoader([
             jinja2.FileSystemLoader(self.pm_tpl.get_path()),
             jinja2.FunctionLoader(absolute_load),
+            jinja2.FunctionLoader(string_load),
         ])
 
         self.project.tplgen = jinja2.Environment(

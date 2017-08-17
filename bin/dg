@@ -55,7 +55,8 @@ def parse_args():
         '--template',
         metavar='TEMPLATE',
         type=str,
-        help='Use TEMPLATE file, e.g. docker.tpl'
+        help='Use TEMPLATE file, e.g. docker.tpl or a template string, '
+        'e.g. "{{ config.docker.from }}"'
     )
 
     parser.add_argument(
