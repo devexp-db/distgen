@@ -211,7 +211,7 @@ class Generator(object):
         yaml.add_constructor(u'!eval', _eval_node)
 
         spec = {}
-        for specfile in specfiles:
+        for specfile in specfiles or []:
             specfd = self.pm_spc.open_file(
                 specfile,
                 [self.project.directory],
@@ -226,7 +226,7 @@ class Generator(object):
             except yaml.YAMLError, exc:
                 fatal("Error in spec file: {0}".format(exc))
 
-        self.project.inst_finish(specfile, template, sysconfig, spec)
+        self.project.inst_finish(spec, template, sysconfig, spec)
 
         try:
             tpl = self.project.tplgen.get_template(template)

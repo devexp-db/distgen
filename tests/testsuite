@@ -15,6 +15,7 @@ tests="
     macros-short
     minimal-dockerfile
     pkginstaller
+    no-spec
 "
 
 success=:
@@ -71,9 +72,12 @@ for i in $tests; do
         test -f "$wd/dg-opts" && additional_opts=`cat "$wd/dg-opts"`
         eval set dummy '$@' "$additional_opts" && shift
 
+        spec_opts=()
+        test -f "$wd/test.yaml" && spec_opts=(--spec "$wd/test.yaml")
+
         dg  --projectdir    "$wd"                       \
             --distro        "$distro".yaml              \
-            --spec          "$wd/test.yaml"             \
+            ${spec_opts[@]}                             \
             --template      "$wd/test.tpl"              \
             "$@"                                        \
         >> "$outfile"
