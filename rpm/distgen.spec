@@ -3,7 +3,7 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.12.dev1%{posttag}
+Version:    0.13.dev1%{posttag}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -13,6 +13,9 @@ BuildArch:  noarch
 %global both_requires python-jinja2, python-six, PyYAML
 
 Requires:       python2
+%if 0%{?rhel} == 7
+BuildRequires: python-setuptools
+%endif
 BuildRequires:  python2-devel, %both_requires
 
 Requires:       %both_requires
@@ -53,6 +56,9 @@ make check
 
 
 %changelog
+* Fri Aug 18 2017 Pavel Raiskup <praiskup@redhat.com> - 0.13.dev1-1
+- fix build on RHEL7
+
 * Fri Aug 18 2017 Slavek Kabrda <bkabrda@redhat.com> - 0.12.dev1-1
 - new release scheme
 
