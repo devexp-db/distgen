@@ -60,6 +60,21 @@ def parse_args():
     )
 
     parser.add_argument(
+        '--multispec',
+        metavar='MULTISPEC',
+        type=str,
+        help='Use MULTISPEC yaml file to fill the TEMPLATE file',
+    )
+
+    parser.add_argument(
+        '--multispec-selector',
+        metavar='MULTISPEC_SELECTOR',
+        type=str,
+        help='Selectors for the multispec file',
+        action='append',
+    )
+
+    parser.add_argument(
         '--spec',
         metavar='SPEC',
         type=str,
@@ -139,6 +154,8 @@ def main():
     generator.load_project(args.projectdir)
     generator.render(
         args.spec,
+        args.multispec,
+        args.multispec_selector,
         args.template,
         args.distro,
         cmd_cfg,

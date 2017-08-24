@@ -8,6 +8,7 @@ from distgen.pathmanager import PathManager
 from distgen.config import load_config, merge_yaml
 from distgen.project import AbstractProject
 from distgen.commands import Commands
+from distgen.multispec import Multispec
 
 
 class Generator(object):
@@ -165,8 +166,9 @@ class Generator(object):
         config['macros'] = {x: merged[x] for x in macros.keys()}
 
 
-    def render(self, specfiles, template, config, cmd_cfg,
-               output=sys.stdout, confdirs=None, explicit_macros=None):
+    def render(self, specfiles, multispec, multispec_selectors, template,
+               config, cmd_cfg, output=sys.stdout, confdirs=None,
+               explicit_macros=None):
         """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
@@ -225,6 +227,20 @@ class Generator(object):
                 spec = merge_yaml(spec, specdata)
             except yaml.YAMLError, exc:
                 fatal("Error in spec file: {0}".format(exc))
+        if multispec:
+            multispecfd = self.pm_spc.open_file(
+                multispec,
+                [self.project.directory],
+                fail=True,
+            )
+            if not multispecfd:
+                fatal("Multispec file {0} not found".format(multispec))
+            try:
+                multispecdata = yaml.load(multispecfd)
+                mltspc = Multispec(multispecdata)
+                spec = merge_yaml(spec, mltspc.select_data(multispec_selectors, config))
+            except yaml.YAMLError as exc:
+                fatal("Error in multispec file: {0}".format(exc))
 
         self.project.inst_finish(spec, template, sysconfig, spec)
 
