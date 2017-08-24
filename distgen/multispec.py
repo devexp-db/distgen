@@ -36,6 +36,17 @@ class Multispec(object):
     def get_spec_group(self, group):
         return copy.deepcopy(self._specgroups[group])
 
+    def get_distroinfos_by_distro(self, distro):
+        distro = self.normalize_distro(distro)
+        distroinfos = []
+
+        for di in self.get_spec_group(DISTROINFO_GRP):
+            item = self.get_spec_group_item(DISTROINFO_GRP, di)
+            if distro in item[DISTROINFO_GRP_DISTROS]:
+                distroinfos.append(item)
+
+        return distroinfos
+
     def has_spec_group_item(self, group, item):
         return self.has_spec_group(group) and item in self.get_spec_group(group)
 
@@ -46,6 +57,11 @@ class Multispec(object):
         parsed_selectors = self.parse_selectors(selectors)
         distro = self.normalize_distro(distro)
 
+        if DISTROINFO_GRP in parsed_selectors.keys():
+            return False, \
+                '"{0}" not allowed in selectors, it is chosen automatically based on distro'.\
+                format(DISTROINFO_GRP)
+
         # first, verify that these selector values even exist in specs
         for selector_name, selector_val in parsed_selectors.items():
             if not self.has_spec_group(selector_name):
@@ -54,13 +70,7 @@ class Multispec(object):
                 return False, '"{0}" not an entry in specs.{1}'.format(
                     selector_val, selector_name)
 
-        # second, verify that the distro is allowed for given distroinfo
-        distroinfo_spec = self.get_spec_group_item(DISTROINFO_GRP, parsed_selectors[DISTROINFO_GRP])
-        if distro not in distroinfo_spec[DISTROINFO_GRP_DISTROS]:
-            return False, '"{0}" not an allowed distro for "{1}" distroinfo'.format(
-                distro, parsed_selectors['distroinfo'])
-
-        # third, verify that these selector values are not excluded by matrix
+        # second, verify that these selector values are not excluded by matrix
         for excluded in self._matrix.get('excluded', []):
             exclude = True
             for k, v in excluded.items():
@@ -81,11 +91,14 @@ class Multispec(object):
         selected_data = {}
 
         for selector_name, selector_val in parsed_selectors.items():
-            # we don't want the list of allowed distros to end up in spec
             spec_content = self.get_spec_group_item(selector_name, selector_val)
-            if selector_name == DISTROINFO_GRP:
-                spec_content.pop(DISTROINFO_GRP_DISTROS)
             selected_data = merge_yaml(selected_data, spec_content)
+
+        for di in self.get_distroinfos_by_distro(distro):
+            # we don't want the list of allowed distros to end up in spec
+            di = copy.deepcopy(di)
+            di.pop(DISTROINFO_GRP_DISTROS)
+            selected_data = merge_yaml(selected_data, di)
 
         return selected_data
 
