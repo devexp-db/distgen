@@ -8,7 +8,7 @@ from distgen.pathmanager import PathManager
 from distgen.config import load_config, merge_yaml
 from distgen.project import AbstractProject
 from distgen.commands import Commands
-from distgen.multispec import Multispec
+from distgen.multispec import Multispec, MultispecError
 
 
 class Generator(object):
@@ -241,6 +241,8 @@ class Generator(object):
                 spec = merge_yaml(spec, mltspc.select_data(multispec_selectors, config))
             except yaml.YAMLError as exc:
                 fatal("Error in multispec file: {0}".format(exc))
+            except MultispecError as exc:
+                fatal(str(exc))
 
         self.project.inst_finish(spec, template, sysconfig, spec)
 
