@@ -14,6 +14,7 @@ tests="
     macros-from
     macros-short
     minimal-dockerfile
+    multispec
     pkginstaller
     no-spec
 "
@@ -73,11 +74,16 @@ for i in $tests; do
         eval set dummy '$@' "$additional_opts" && shift
 
         spec_opts=()
+        multispec_opts=()
         test -f "$wd/test.yaml" && spec_opts=(--spec "$wd/test.yaml")
+        test -f "$wd/multispec.yaml" && \
+          multispec_opts=(--multispec "$wd/multispec.yaml" \
+                          --multispec-selector version=2.4)
 
         dg  --projectdir    "$wd"                       \
             --distro        "$distro".yaml              \
             ${spec_opts[@]}                             \
+            ${multispec_opts[@]}                        \
             --template      "$wd/test.tpl"              \
             "$@"                                        \
         >> "$outfile"
