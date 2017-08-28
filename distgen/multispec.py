@@ -80,6 +80,10 @@ class Multispec(object):
                     exclude = True
             return False, 'This combination is excluded in matrix section'
 
+        # third, make sure we have a distroinfo section that contains passed distro
+        if not self.get_distroinfos_by_distro(distro):
+            return False, '"{0}" distro not found in any specs.distroinfo.*.distros section'
+
         return True, ''
 
     def select_data(self, selectors, distro):
