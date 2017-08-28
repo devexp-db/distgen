@@ -19,16 +19,88 @@ class MultispecError(Exception):
 class Multispec(object):
     def __init__(self, data):
         self.raw_data = data
+        self._validate()
         self._version = None
         self._specgroups = {}
         self._matrix = {}
         self._process()
 
     def _process(self):
-        # TODO: validate
-        self._version = self.raw_data['version']
+        self._version = int(self.raw_data['version'])
         self._specgroups = self.raw_data['specs']
         self._matrix = self.raw_data.get('matrix', {})  # optional
+
+    def _validation_err(self, err):
+        raise MultispecError('Multispec validation error: ' + err)
+
+    def _validate(self):
+        if not isinstance(self.raw_data, dict):
+            self._validation_err('multispec must be a mapping, is "{0}"'.
+                                 format(type(self.raw_data)))
+        self._validate_version(self.raw_data.get('version', None))
+        self._validate_specs(self.raw_data.get('specs', None))
+        self._validate_matrix(self.raw_data.get('matrix', {}))
+
+    def _validate_version(self, version):
+        try:
+            v = int(version)
+        except TypeError:
+            self._validation_err('version must be int or string convertable to string, is "{0}"'.
+                                 format(version))
+        if v != 1:
+            self._validation_err('only version "1" is recognized by this distgen version')
+
+    def _validate_specs(self, specs):
+        if not isinstance(specs, dict):
+            self._validation_err('"specs" must be a mapping, is "{0}"'.format(type(specs)))
+
+        for k, v in specs.items():
+            self._validate_spec_group(k, v)
+
+        if 'distroinfo' not in specs:
+            self._validation_err('"distroinfo" must be in "specs"')
+
+    def _validate_spec_group(self, name, spec_group):
+        if not isinstance(spec_group, dict):
+            self._validation_err('a spec group "{0}" must be a mapping, is "{1}"'.
+                                 format(name, type(spec_group)))
+        for k, v in spec_group.items():
+            self._validate_single_spec(name, k, v)
+
+    def _validate_single_spec(self, groupname, specname, spec):
+        if not isinstance(spec, dict):
+            self._validation_err('a spec "{0}" must be a mapping, is "{1}"'.
+                                 format(specname, type(spec)))
+
+        if groupname == 'distroinfo':
+            if 'distros' not in spec:
+                self._validation_err('"distroinfo" spec "{0}" must contain "distros" list'.
+                                    format(specname))
+            self._validate_distros(spec['distros'])
+
+    def _validate_distros(self, distros):
+        if not isinstance(distros, list):
+            self._validation_err('"distros" entry must be a list, is "{0}"'.format(type(distros)))
+
+    def _validate_matrix(self, matrix):
+        if not isinstance(matrix, dict):
+            self._validation_err('matrix must be a mapping, is "{0}"'.format(type(matrix)))
+
+        self._validate_excludes(matrix.get('exclude', {}))
+
+    def _validate_excludes(self, excludes):
+        if not isinstance(excludes, list):
+            self._validation_err('matrix.exclude must be a list, is "{0}"'.format(type(excludes)))
+
+        for e in excludes:
+            self._validate_single_exclude(e)
+
+    def _validate_single_exclude(self, exclude):
+        if not isinstance(exclude, dict):
+            self._validation_err('each exclude must be a mapping, not "{0}"'.format(type(exclude)))
+        if 'distros' in exclude and not isinstance(exclude['distros'], list):
+            self._validation_err('matrix.exclude.*.distros must be a list, found "{0}"'.
+                                 format(type(exclude['distros'])))
 
     def has_spec_group(self, group):
         return group in self._specgroups
