@@ -86,7 +86,7 @@ class Multispec(object):
         if not isinstance(matrix, dict):
             self._validation_err('matrix must be a mapping, is "{0}"'.format(type(matrix)))
 
-        self._validate_excludes(matrix.get('exclude', {}))
+        self._validate_excludes(matrix.get('exclude', []))
 
     def _validate_excludes(self, excludes):
         if not isinstance(excludes, list):
