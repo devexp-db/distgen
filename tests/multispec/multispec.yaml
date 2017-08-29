@@ -23,7 +23,6 @@ specs:
 
 matrix:
   exclude:
-    - distroinfo: fedora
-      distros:
+    - distros:
         - fedora-26-x86_64
       version: 2.2

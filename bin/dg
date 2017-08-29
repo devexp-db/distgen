@@ -9,6 +9,7 @@ import shutil
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from distgen.generator import Generator
 from distgen.commands import CommandsConfig
+from distgen.multispec import Multispec
 
 def error(msg):
     print(msg, file=sys.stderr)
@@ -49,14 +50,6 @@ def parse_args():
         type=str,
         help='Use distribution metadata specified by DIST yaml file',
         default="fedora-21-x86_64.yaml",
-    )
-
-    parser.add_argument(
-        '--template',
-        metavar='TEMPLATE',
-        type=str,
-        help='Use TEMPLATE file, e.g. docker.tpl or a template string, '
-        'e.g. "{{ config.docker.from }}"'
     )
 
     parser.add_argument(
@@ -113,21 +106,34 @@ def parse_args():
         help='Define distgen\'s macro',
     )
 
+    tpl_or_combinations = parser.add_mutually_exclusive_group(required=True)
+
+    tpl_or_combinations.add_argument(
+        '--template',
+        metavar='TEMPLATE',
+        type=str,
+        help='Use TEMPLATE file, e.g. docker.tpl or a template string, '
+        'e.g. "{{ config.docker.from }}"'
+    )
+
+    tpl_or_combinations.add_argument(
+        '--multispec-combinations',
+        action='store_true',
+        help='Print available multispec combinations',
+    )
+
     return parser.parse_args()
 
 
-def main():
-    args = parse_args()
+def print_multispec_combinations(args):
+    ms = Multispec.from_path(args.projectdir, args.multispec)
+    for c in ms.get_all_combinations():
+        to_print = ['--distro {0}'.format(c.pop('distro'))]
+        [to_print.append('--multispec-selector {0}={1}'.format(k, v)) for k, v in c.items()]
+        print(' '.join(to_print))
 
-    required_opt_fail = False
-    for i in ["template"]:
-        if not getattr(args, i):
-            error("you must specify --" + i)
-            required_opt_fail = True
 
-    if required_opt_fail:
-        return 1
-
+def render_template(args):
     temp_filename = False
     output = sys.stdout
     try:
@@ -136,7 +142,6 @@ def main():
             output = open(temp_filename, 'w')
     except:
         die("can't create temporary file for '{0}'".format(args.output))
-
 
     cmd_cfg = CommandsConfig()
     cmd_cfg.container = args.container
@@ -170,6 +175,14 @@ def main():
             shutil.move(temp_filename, args.output)
         except:
             die("can't move '{0}' into '{1}'".format(temp_filename, args.output))
+
+
+def main():
+    args = parse_args()
+    if args.multispec_combinations:
+        print_multispec_combinations(args)
+    else:
+        render_template(args)
 
 
 if __name__ == "__main__":
