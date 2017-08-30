@@ -3,7 +3,7 @@ from __future__ import print_function
 import os, sys
 import imp
 import jinja2
-from err import fatal
+from distgen.err import fatal
 from distgen.pathmanager import PathManager
 from distgen.config import load_config, merge_yaml
 from distgen.project import AbstractProject
@@ -48,7 +48,7 @@ class Generator(object):
             """
             if name.startswith('/'):
                 try:
-                    with file(name) as f:
+                    with open(name, 'rb') as f:
                         return f.read().decode('utf-8')
                 except:
                     pass
@@ -225,7 +225,7 @@ class Generator(object):
             try:
                 specdata = yaml.load(specfd)
                 spec = merge_yaml(spec, specdata)
-            except yaml.YAMLError, exc:
+            except yaml.YAMLError as exc:
                 fatal("Error in spec file: {0}".format(exc))
         if multispec:
             try:
