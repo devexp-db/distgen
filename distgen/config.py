@@ -3,8 +3,9 @@ import six
 
 import sys
 import copy
-from err import fatal
-from pathmanager import PathManager
+
+from distgen.err import fatal
+from distgen.pathmanager import PathManager
 
 
 def _merge_yaml(origin, override):
@@ -42,7 +43,7 @@ def __recursive_load(pm, stack, filename):
             fail=True,
             file_desc="configuration file",
         ))
-    except yaml.YAMLError, exc:
+    except yaml.YAMLError as exc:
         print("Error in configuration file: {0}".format(exc))
         sys.exit(1)
 
