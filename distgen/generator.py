@@ -228,16 +228,8 @@ class Generator(object):
             except yaml.YAMLError, exc:
                 fatal("Error in spec file: {0}".format(exc))
         if multispec:
-            multispecfd = self.pm_spc.open_file(
-                multispec,
-                [self.project.directory],
-                fail=True,
-            )
-            if not multispecfd:
-                fatal("Multispec file {0} not found".format(multispec))
             try:
-                multispecdata = yaml.load(multispecfd)
-                mltspc = Multispec(multispecdata)
+                mltspc = Multispec.from_path(self.project.directory, multispec)
                 spec = merge_yaml(spec, mltspc.select_data(multispec_selectors, config))
             except yaml.YAMLError as exc:
                 fatal("Error in multispec file: {0}".format(exc))

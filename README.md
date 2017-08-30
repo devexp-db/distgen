@@ -117,8 +117,7 @@ of that software. To make that easy, distgen provides a feature called
     
     matrix:
       exclude:
-        - distroinfo: fedora
-          distros:
+        - distros:
             - fedora-26-x86_64
           version: 2.2
     ```
@@ -139,7 +138,8 @@ behind this file):
 
 * `matrix` (optional) - currently, this attribute can only contain the
   `exclude` member. When used, the `exclude` attribute contains a list
-  of combinations excluded from the matrix.
+  of combinations excluded from the matrix. The `distroinfo` members
+  must be referred to via `distro` list.
 
 How multispec works:
 
@@ -181,6 +181,9 @@ Some notes on usage:
   multispec. In the example above, you can't use fedora-22\_i686, since
   it's not listed in any `distroinfo` section.
 * Combinations explicitly listed in `matrix.exclude` cannot be used.
+* You can use `dg --multispec <path> --multispec-combinations` to print out
+  all available combinations of distros and selectors based on the
+  given multispec file.
 
 Multispec mainly solves two problems:
 
