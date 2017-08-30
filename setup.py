@@ -18,6 +18,10 @@ def dynamic_data_files():
 
     return dynamic_list
 
+def get_requirements():
+    with open('requirements.txt') as f:
+        return f.read().splitlines()
+
 setup(
     name='distgen',
     version=dg_version,
@@ -38,4 +42,5 @@ setup(
         ]),
     ] + dynamic_data_files(),
     scripts=['bin/dg'],
+    install_requires=get_requirements(),
 )

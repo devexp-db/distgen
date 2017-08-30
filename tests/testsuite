@@ -80,6 +80,7 @@ for i in $tests; do
           multispec_opts=(--multispec "$wd/multispec.yaml" \
                           --multispec-selector version=2.4)
 
+        PYTHON=${PYTHON}                                \
         dg  --projectdir    "$wd"                       \
             --distro        "$distro".yaml              \
             ${spec_opts[@]}                             \
