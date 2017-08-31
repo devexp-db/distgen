@@ -25,7 +25,9 @@ Stable releases of distgen are available (for Red Hat distributions) in
 
 You can also run development version directly from
 `Github <https://github.com/devexp-db/distgen/>`_, simply use the
-``dg`` shell wrapper available in git root directory.
+``dg`` shell wrapper available in git root directory. In order to use
+distgen from git checkout, you'll need to install dependencies manually.
+You can do that e.g. using pip: ``pip install --user -r requirements.txt``.
 
 Simple Example with Dockerfile
 ------------------------------
@@ -116,7 +118,7 @@ of supported **Fedora/CentOS** versions.
      CMD ["/usr/bin/script.sh"]
 
 
-4. Run ``dg`` tool to generate **Fedora 26** Dockerfile with software
+4. Run the ``dg`` tool to generate a **Fedora 26** Dockerfile with software
    version **2.4**::
 
      # when using "--multispec", "--multispec-selector" must be used for all
@@ -128,7 +130,7 @@ of supported **Fedora/CentOS** versions.
           --distro fedora-26-x86_64.yaml \
      > Dockerfile
 
-5. Run ``dg`` tool again to generate **CentOS 7** dockerfile with software
+5. Run the ``dg`` tool again to generate a **CentOS 7** dockerfile with software
    version **2.2**::
 
      $ dg --template Dockerfile.template \
@@ -139,4 +141,4 @@ of supported **Fedora/CentOS** versions.
      > Dockerfile
 
 There are more nuances and features of distgen that you can utilize,
-all of them are documented in following sections of this documentation.
+all of them are documented in the following sections of this documentation.

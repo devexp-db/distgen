@@ -28,7 +28,7 @@ Example template::
 By using specs with different ``version`` in the example above, you could
 render the template for various software versions. While this is ok for
 simpler usecases, it might become impractical on bigger scale: imagine
-you want to render Dockerfile for an image, that will be based on several
+you want to render a Dockerfile for an image, that will be based on several
 different distributions and contain a combination of several versions
 of 2 different packages. This would mean you'd need lots of small spec
 files, each with couple of lines and you'd need to manually select and
@@ -40,9 +40,9 @@ Multispecs
 
 Multispec is a file that solves two problems:
 
-* Merge several different smaller spec files into a single file for better
+* Merges several different smaller spec files into a single file for better
   readability and convenience.
-* Put smaller specs in logical groups and define a "matrix" - a list of all
+* Puts smaller specs in logical groups and defines a "matrix" - a list of all
   combinations of distro config and other features to render templates for.
 
 Here's an example multispec file::
