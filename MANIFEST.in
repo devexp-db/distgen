@@ -4,4 +4,7 @@ include Makefile
 include tests/testsuite
 include distconf/lib/*.yaml
 include distconf/*.yaml
+include docs/*.rst
+include docs/conf.py
+include docs/Makefile
 recursive-include tests *.exp *.py *.tpl *.yaml distros container dg-opts

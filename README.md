@@ -13,6 +13,8 @@ particular distribution.  The concept is to have *template* file (mostly raw
 jinja2 template) together with "declarative" *spec* file (YAML file) that
 fulfils the needs of particular template.
 
+You can find distgen documentation at http://distgen.readthedocs.io.
+
 Download/Installation
 ---------------------
 
@@ -85,110 +87,3 @@ To achieve that goal with distgen, you need to write something like
 
     CMD ["vim"]
     ```
-
-Multispec and Rendering Matrix
-==============================
-
-When using distgen, you'll often find yourself needing to build multiple
-variations of the image. For example, you might want to build an image
-based on 3 different distributions and do so for 2 different versions
-of that software. To make that easy, distgen provides a feature called
-"multispec". An example multispec file follows:
-
-    ```
-    version: 1
-    
-    specs:
-      distroinfo:
-        fedora:
-          distros:
-            - fedora-26-x86_64
-            - fedora-25-x86_64
-          vendor: "Fedora Project"
-        centos:
-          distros:
-            - centos-7-x86_64
-          vendor: "CentOS"
-      version:
-        "2.2":
-          version: 2.2
-        "2.4":
-          version: 2.4
-    
-    matrix:
-      exclude:
-        - distros:
-            - fedora-26-x86_64
-          version: 2.2
-    ```
-
-A multispec has 3 attributes (see below for the explanation of mechanics
-behind this file):
-
-* `version` (mandatory) - The version of the multispec file, currently there's
-  only version `1`.
-* `specs` (mandatory) - contains list of *groups* (`distroinfo` and `version`
-  in the example above). Each *group* contains named specs - these are exactly
-  like the specs that you would otherwise write into separate files and pass
-  to distgen via `--spec`.
-
-  * The `distroinfo` *group* is mandatory and each of its members *must*
-    contain the `distros` list. These are names of the distro configs
-    shipped with distgen.
-
-* `matrix` (optional) - currently, this attribute can only contain the
-  `exclude` member. When used, the `exclude` attribute contains a list
-  of combinations excluded from the matrix. The `distroinfo` members
-  must be referred to via `distro` list.
-
-How multispec works:
-
-Let's consider the example above. We could use it like this:
-
-    ```
-    $ dg --template docker.tpl \
-         --spec FOO.yaml \
-         --multispec MULTISPEC.yaml \
-         --multispec-selector version=2.4 \
-         --distro fedora-26-x86_64.yaml \
-    > Dockerfile
-    ```
-
-On calling this command, distgen will:
-
-* Take values from `FOO.yaml` for base of the result values used for
-  rendering the template.
-* It will then add values from `MULTISPEC.yaml`:
-
-  * The `--distro fedora-26-x86_64` argument will automatically select
-    the `distroinfo.fedora` section of multispec and add it to result
-    values.
-  * The `--multispec-selector version=2.4` will make the `version."2.4"`
-    section of multispec added to the result values.
-
-* Render the template providing the result of operations above accessible
-  under `spec.*` values.
-
-Some notes on usage:
-
-* There can be as many *groups* as you want, not just `distroinfo` and
-  `version`. This also means that you need to use `--multispec-selector`
-  multiple times on commandline.
-* The `--multispec-selector` must be used for all groups except `distroinfo`.
-  A proper section to be used from `distroinfo` is implicitly specified
-  by passing the `--distro` argument.
-* Only a combination of specs belonging to *groups* can be used when using
-  multispec. In the example above, you can't use fedora-22\_i686, since
-  it's not listed in any `distroinfo` section.
-* Combinations explicitly listed in `matrix.exclude` cannot be used.
-* You can use `dg --multispec <path> --multispec-combinations` to print out
-  all available combinations of distros and selectors based on the
-  given multispec file.
-
-Multispec mainly solves two problems:
-
-* With multispec, you don't have to write multiple simple specs (e.g. in this
-  case, you'd have to write a separate spec for version 2.2 and for version
-  2.4, each of which would contain only the `version` attribute).
-* Multispec specifies combinations (== matrix) of individual specs, that are
-  supposed to be used to render the Dockerfile.
