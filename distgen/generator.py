@@ -21,14 +21,12 @@ class Generator(object):
 
     def __init__(self):
         self.pm_cfg = PathManager(
-            # TODO: Is there better way to reuse configured directories
-            # from setup.py in python?
-            ["/usr/share/distgen/distconf"],
+            [os.path.join(sys.prefix, "share", "distgen", "distconf")],
             envvar="DG_DISTCONFDIR"
         )
 
         self.pm_tpl = PathManager(
-            ['/usr/share/distgen/templates'],
+            [os.path.join(sys.prefix, "share", "distgen", "templates")],
             envvar="DG_TPLDIR"
         )
 
