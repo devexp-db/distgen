@@ -53,7 +53,7 @@ class YumPkgManager(AbstractPkgManger):
             self._base_command(options),
             action,
             " ".join(pkgs),
-        )
+        ).strip()
 
 
     def install(self, pkgs, options=None):
@@ -70,8 +70,8 @@ class YumPkgManager(AbstractPkgManger):
     def update(self, pkgs, options=None):
         return self.action("update", pkgs, options)
 
-    def update_all(self):
-        return self.action("update", [], []);
+    def update_all(self, options=None):
+        return self.action("update", [], options);
 
 
     def cleancache(self, options=None):
