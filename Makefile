@@ -7,6 +7,6 @@ test-end2end:
 	@cd tests/ && PYTHON=${PYTHON} ./testsuite
 
 test-unit:
-	@cd tests/ && PYTHONPATH=..:$${PYTHONPATH} ${PYTHON} -m pytest `[ ! -z ${COVERAGE} ] && echo "--cov distgen"` unittests/
+	PYTHONPATH=..:$${PYTHONPATH} ${PYTHON} -m pytest `[ ! -z ${COVERAGE} ] && echo "--cov distgen"` tests/unittests/
 
 check: test-unit test-end2end
