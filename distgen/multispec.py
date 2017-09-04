@@ -45,6 +45,7 @@ class Multispec(object):
         raise MultispecError('Multispec validation error: ' + err)
 
     def _validate(self):
+        # TODO: perhaps use jsonschema or something similar?
         if not isinstance(self.raw_data, dict):
             self._validation_err('multispec must be a mapping, is "{0}"'.
                                  format(type(self.raw_data)))
@@ -189,7 +190,8 @@ class Multispec(object):
 
         # third, make sure we have a distroinfo section that contains passed distro
         if not self.get_distroinfos_by_distro(distro):
-            return False, '"{0}" distro not found in any specs.distroinfo.*.distros section'
+            return False, '"{0}" distro not found in any specs.distroinfo.*.distros section'.\
+                format(distro)
 
         return True, ''
 
@@ -214,7 +216,14 @@ class Multispec(object):
         return selected_data
 
     def parse_selectors(self, selectors):
-        return dict([s.split('=') for s in selectors])
+        res = []
+        for selector in selectors:
+            if selector.count('=') != 1:
+                raise MultispecError('selector "{0}" does not contain exactly one "="'.
+                                     format(selector))
+            else:
+                res.append(selector.split('='))
+        return dict(res)
 
     def normalize_distro(self, distro):
         return os.path.splitext(os.path.basename(distro))[0]
