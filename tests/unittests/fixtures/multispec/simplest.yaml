@@ -1,0 +1,7 @@
+version: '1'
+
+specs:
+  distroinfo:
+    fedora:
+      distros:
+        - fedora-26-x86_64
