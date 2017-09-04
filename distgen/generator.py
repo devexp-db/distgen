@@ -166,7 +166,7 @@ class Generator(object):
 
     def render(self, specfiles, multispec, multispec_selectors, template,
                config, cmd_cfg, output=sys.stdout, confdirs=None,
-               explicit_macros=None):
+               explicit_macros={}):
         """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
