@@ -1,5 +1,6 @@
 include dg
 include requirements.txt
+include LICENSE
 include Makefile
 include tests/testsuite
 include distconf/lib/*.yaml

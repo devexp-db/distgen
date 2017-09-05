@@ -27,6 +27,7 @@ setup(
     version=dg_version,
     description='Templating system/generator for distributions',
     author='praiskup@redhat.com',
+    license='GPLv2+',
     url='https://github.com/devexp-db/distgen',
     platforms=['any'],
     packages=['distgen'],
