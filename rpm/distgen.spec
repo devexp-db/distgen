@@ -3,7 +3,7 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.13.dev1%{posttag}
+Version:    0.14%{posttag}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -56,6 +56,9 @@ make check
 
 
 %changelog
+* Tue Sep 05 2017 Pavel Raiskup <praiskup@redhat.com> - 0.14-1
+- first stable release, thanks to Slavek
+
 * Fri Aug 18 2017 Pavel Raiskup <praiskup@redhat.com> - 0.13.dev1-1
 - fix build on RHEL7
 
