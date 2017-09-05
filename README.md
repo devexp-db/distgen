@@ -1,6 +1,10 @@
 Distribution oriented templating system
 =======================================
 
+[![Build Status](https://travis-ci.org/devexp-db/distgen.svg?branch=master)](https://travis-ci.org/devexp-db/distgen)
+[![Coverage Status](https://coveralls.io/repos/github/devexp-db/distgen/badge.svg)](https://coveralls.io/github/devexp-db/distgen)
+[![Documentation Status](https://readthedocs.org/projects/distgen/badge/?version=latest)](https://distgen.readthedocs.io)
+
 The problem this project tries to mitigate is "portable" scripting for variety
 of operating systems (currently Linux distributions only) in the wild.  While
 writing an "universal" script, one needs to take into account small or bigger
