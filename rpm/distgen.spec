@@ -1,26 +1,30 @@
+%global postrel dev1
 %global posttag %{?gitrev:.git%{gitrev}}
 %global snapshot %{version}%{posttag}
 
+%global pybin %{?fedora:%{__python3}}%{!?fedora:%{__python}}
+%global pylib %{?fedora:%{python3_sitelib}}%{!?fedora:%{python_sitelib}}
+%global pypkg %{?fedora:python3}%{!?fedora:python}
+
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.13.dev1%{posttag}
+Version:    0.15%{?postrel:.%{postrel}%{posttag}}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
 BuildArch:  noarch
 
-%global both_requires python-jinja2, python-six, PyYAML
+%global both_requires %{pypkg}-jinja2, %{pypkg}-six, %{?fedora:%{pypkg}-}PyYAML
 
-Requires:       python2
-%if 0%{?rhel} == 7
-BuildRequires: python-setuptools
+Requires:      %both_requires
+BuildRequires: %{pypkg}-setuptools %{pypkg}-devel %{?fedora:%{pypkg}-}pytest %both_requires
+
+%if 0%{?postrel:1}
+Source0:       %{name}-%{version}.tar.gz
+%else
+Source0:       https://pypi.python.org/packages/85/67/c5eda06be88a44767ce75acda4f301f5cf210de335be2276f70e198a71d2/%{name}-%{version}.tar.gz
 %endif
-BuildRequires:  python2-devel, %both_requires
-
-Requires:       %both_requires
-
-Source0: %{name}-%{version}.tar.gz
 
 %description
 Based on given template specification (configuration for template), template
@@ -30,8 +34,6 @@ file and preexisting distribution metadata generate output file.
 %prep
 %setup -q
 
-%global pybin %{?!__python2:%{__python}}%{?__python2}
-%global pylib %{?!python2_sitelib:%{python_sitelib}}%{?python2_sitelib}
 
 %build
 %{pybin} setup.py build
@@ -42,13 +44,12 @@ file and preexisting distribution metadata generate output file.
 
 
 %check
-make check
-
-
-%clean
+make PYTHON=%{pybin} check
 
 
 %files
+%license LICENSE
+%doc docs/
 %{_bindir}/dg
 %{pylib}/distgen
 %{pylib}/%{name}-*.egg-info
@@ -56,6 +57,10 @@ make check
 
 
 %changelog
+* Wed Sep 06 2017 Slavek Kabrda <bkabrda@redhat.com> - 0.15.dev1-1
+- spec cleanup
+- update to 0.15.dev1
+
 * Fri Aug 18 2017 Pavel Raiskup <praiskup@redhat.com> - 0.13.dev1-1
 - fix build on RHEL7
 
