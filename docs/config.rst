@@ -63,3 +63,43 @@ Creating Your Own Config
 When creating your own config, you don't need to specify any of these values,
 a config can contain any values you want. In that case however, your
 template must only use the values that your config has.
+
+Dynamic Values in Templates
+-----------------------
+
+It may happen to you, that you need a value available in template which is not
+static -- not known before. This could be time, values to generate a help file
+or others.
+
+The way to this in distgen is to create a new file: ``project.py`` in root of
+your project dir. The python code present in the file will be executed by
+distgen.
+
+::
+
+    import subprocess
+    from distgen.project import AbstractProject
+
+    class Project(AbstractProject):
+        """ This class has to be named "Project" """
+
+        def inst_init(self, spec, template, sysconf):
+            """ performed before loading configuration and templates """
+            # let's add current date to config
+            sysconf['current_date'] = subprocess \
+                .check_output(["date"]) \
+                .decode("utf-8")
+
+        def inst_finish(self, list_of_specfiles, template, configuration, spec):
+            """ performed after configuration is loaded so you can change it """
+            # you can easily add or change values here based on sourced
+            # spec, template, config...
+            if spec["..."]:
+                configuration["..."] = "..."
+
+
+And then in your template, you can use the ``current_date`` values like this:
+
+::
+
+    LABEL build_time="{{ config.current_date }}"
