@@ -6,15 +6,24 @@ class AbstractProject():
     maintainer = "unknown <unknown@unknown.com>"
 
 
-    def inst_init(self, spec, template, config):
+    def inst_init(self, specfiles, template, sysconfig):
         """
-        Returns dict with data to be used in specification file.
+        Executed before the project.py/spec files/template is loaded and
+        before all the dynamic stuff and specification is calculated.
+        Now is still time to dynamically change the list of specfiles or
+        adjust the system configuration.  Any object variable (defined
+        here) will be available in jinja template under 'project.*'
+        namespace, for example 'project.name'.
         """
-        return {}
+        pass
 
 
-    def inst_finish(self, spec, template, config, data):
-        """ edit data (parsed specification) """
+    def inst_finish(self, specfiles, template, sysconfig, spec):
+        """
+        Executed after the project.py/spec files/template is loaded, and
+        the specification (spec) calculated (== instantiated).  This is
+        the last chance to dynamically change sysconfig or spec.
+        """
         pass
 
 

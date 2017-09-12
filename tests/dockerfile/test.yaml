@@ -11,7 +11,7 @@ parts:
       - name: PGDATA
         value: /var/lib/pgsql/data
       - name: TEST_VAR
-        value: !eval 'init["test_var"]'
+        value: !eval 'project.test_var'
 
   pkginstall:
     data:

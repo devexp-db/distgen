@@ -184,7 +184,7 @@ class Generator(object):
 
         self.project.abstract_setup_vars(sysconfig)
 
-        init_data = self.project.inst_init(specfiles, template, sysconfig)
+        self.project.inst_init(specfiles, template, sysconfig)
 
         projcfg = self.load_config_from_project(self.project.directory)
         if projcfg and 'name' in projcfg:
@@ -203,7 +203,7 @@ class Generator(object):
 
         def _eval_node(loader, node):
             return str(eval(str(loader.construct_scalar(node)), {
-                'init': init_data,
+                'project': self.project,
                 'config': sysconfig,
                 'macros': sysconfig['macros'],
             }))
@@ -234,12 +234,12 @@ class Generator(object):
             except MultispecError as exc:
                 fatal(str(exc))
 
-        self.project.inst_finish(spec, template, sysconfig, spec)
-
         try:
             tpl = self.project.tplgen.get_template(template)
         except jinja2.exceptions.TemplateNotFound as err:
             fatal("Can not find template {0}".format(err))
+
+        self.project.inst_finish(specfiles, template, sysconfig, spec)
 
         output.write(tpl.render(
             config=sysconfig,
