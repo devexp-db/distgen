@@ -1,6 +1,6 @@
 === fedora-21-x86_64 ===
 
-FROM index.docker.io/fedora:21
+FROM registry.fedoraproject.org/fedora:21
 MAINTAINER unknown <unknown@unknown.com>
 
 ENV container="docker"
@@ -13,7 +13,7 @@ CMD ["container-start"]
 
 === fedora-22-x86_64 ===
 
-FROM index.docker.io/fedora:22
+FROM registry.fedoraproject.org/fedora:22
 MAINTAINER unknown <unknown@unknown.com>
 
 ENV container="docker"

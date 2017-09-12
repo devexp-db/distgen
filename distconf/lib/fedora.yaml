@@ -11,3 +11,4 @@ os:
 
 docker:
   from: fedora
+  registry: registry.fedoraproject.org
