@@ -11,9 +11,14 @@ class AbstractProject():
         Executed before the project.py/spec files/template is loaded and
         before all the dynamic stuff and specification is calculated.
         Now is still time to dynamically change the list of specfiles or
-        adjust the system configuration.  Any object variable (defined
-        here) will be available in jinja template under 'project.*'
-        namespace, for example 'project.name'.
+        adjust the system configuration. You can define a variable as an
+        attribute of this project:
+
+          self.variable = "42"
+
+        which can be later utilized in a template like this:
+
+          {{ project.variable }}
         """
         pass
 
