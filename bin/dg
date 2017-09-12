@@ -65,6 +65,7 @@ def parse_args():
         type=str,
         help='Selectors for the multispec file',
         action='append',
+        default=[],
     )
 
     parser.add_argument(

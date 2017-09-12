@@ -177,6 +177,10 @@ class Multispec(object):
                 return False, '"{0}" not an entry in specs.{1}'.format(
                     selector_val, selector_name)
 
+        for selector_name in self.raw_data['specs'].keys():
+            if selector_name != DISTROINFO_GRP and selector_name not in parsed_selectors:
+                return False, '"{0}" selector must be present'.format(selector_name)
+
         # second, verify that these selector values are not excluded by matrix
         for excluded in self._matrix.get('exclude', []):
             exclude = True

@@ -101,6 +101,7 @@ class TestMultispec(object):
     @pytest.mark.parametrize('selectors, distro, msg', [
         (['distroinfo=fedora'], 'fedora-26-x86_64', '"distroinfo" not allowed in selectors, it is '
          'chosen automatically based on distro'),
+        (['version=2.2'], 'fedora-26-x86_64', '"something_else" selector must be present'),
         (['xxx=asd'], 'fedora-26-x86_64', '"xxx" not an entry in specs'),
         (['version=3.4'], 'fedora-26-x86_64', '"3.4" not an entry in specs.version'),
         (['version=2.2', 'something_else=foo'], 'fedora-26-x86_64', 'This combination is excluded '
