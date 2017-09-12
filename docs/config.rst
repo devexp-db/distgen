@@ -83,23 +83,38 @@ distgen.
     class Project(AbstractProject):
         """ This class has to be named "Project" """
 
-        def inst_init(self, spec, template, sysconf):
-            """ performed before loading configuration and templates """
-            # let's add current date to config
-            sysconf['current_date'] = subprocess \
+        def inst_init(self, specfiles, template, sysconfig):
+            """
+            Executed before the project.py/spec files/template is loaded and
+            before all the dynamic stuff and specification is calculated.
+            Now is still time to dynamically change the list of specfiles or
+            adjust the system configuration. You can define a variable as an
+            attribute of this project:
+
+              self.variable = "42"
+
+            which can be later utilized in a template like this:
+
+              {{ project.variable }}
+            """
+            self.current_date = subprocess \
                 .check_output(["date"]) \
                 .decode("utf-8")
 
-        def inst_finish(self, list_of_specfiles, template, configuration, spec):
-            """ performed after configuration is loaded so you can change it """
+        def inst_finish(self, specfiles, template, sysconfig, spec):
+            """
+            Executed after the project.py/spec files/template is loaded, and
+            the specification (spec) calculated (== instantiated).  This is
+            the last chance to dynamically change sysconfig or spec.
+            """
             # you can easily add or change values here based on sourced
             # spec, template, config...
             if spec["..."]:
-                configuration["..."] = "..."
+                sysconfig["..."] = "..."
 
 
 And then in your template, you can use the ``current_date`` values like this:
 
 ::
 
-    LABEL build_time="{{ config.current_date }}"
+    LABEL build_time="{{ project.current_date }}"
