@@ -8,7 +8,7 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.15%{?postrel:.%{postrel}%{posttag}}
+Version:    0.16%{?postrel:.%{postrel}%{posttag}}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -57,6 +57,9 @@ make PYTHON=%{pybin} check
 
 
 %changelog
+* Wed Sep 13 2017 Slavek Kabrda <bkabrda@redhat.com> - 0.16.dev1-1
+- update to 0.16.dev1
+
 * Wed Sep 06 2017 Slavek Kabrda <bkabrda@redhat.com> - 0.15.dev1-1
 - spec cleanup
 - update to 0.15.dev1
