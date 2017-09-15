@@ -163,6 +163,17 @@ class Generator(object):
 
         config['macros'] = {x: merged[x] for x in macros.keys()}
 
+    def _recursive_render(self, tpl, max_passes=100, **kwargs):
+        rendered = tpl.render(**kwargs)
+
+        for i in range(0, max_passes):
+            new = jinja2.Template(rendered).render(**kwargs)
+            if new == rendered:
+                break
+            else:
+                rendered = new
+
+        return rendered
 
     def render(self, specfiles, multispec, multispec_selectors, template,
                config, cmd_cfg, output=sys.stdout, confdirs=None,
@@ -241,7 +252,8 @@ class Generator(object):
 
         self.project.inst_finish(specfiles, template, sysconfig, spec)
 
-        output.write(tpl.render(
+        output.write(self._recursive_render(
+            tpl,
             config=sysconfig,
             macros=sysconfig["macros"],
             m=sysconfig["macros"],
