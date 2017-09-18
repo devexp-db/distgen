@@ -15,6 +15,7 @@ Welcome to distgen's documentation!
    spec_multispec
    builtins
    macros
+   rerendering
 
 
 Indices and tables
