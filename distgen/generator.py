@@ -31,6 +31,7 @@ class Generator(object):
         )
 
         self.pm_spc = PathManager([])
+        self.jinjaenv_args = {'keep_trailing_newline': True}
 
 
     def load_project(self, project):
@@ -69,7 +70,7 @@ class Generator(object):
 
         self.project.tplgen = jinja2.Environment(
             loader=loader,
-            keep_trailing_newline=True,
+            **self.jinjaenv_args
         )
 
         self.project.abstract_initialize()
@@ -163,11 +164,12 @@ class Generator(object):
 
         config['macros'] = {x: merged[x] for x in macros.keys()}
 
-    def _recursive_render(self, tpl, max_passes=100, **kwargs):
+    def _recursive_render(self, tpl, max_passes=25, **kwargs):
         rendered = tpl.render(**kwargs)
 
-        for i in range(0, max_passes):
-            new = jinja2.Template(rendered).render(**kwargs)
+        # we use `max_passes - 1`, because first pass is above
+        for i in range(0, max_passes - 1):
+            new = jinja2.Template(rendered, **self.jinjaenv_args).render(**kwargs)
             if new == rendered:
                 break
             else:

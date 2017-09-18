@@ -59,4 +59,6 @@ class TestGenerator(object):
             out,
         )
 
+        if six.PY2:
+            result = result.decode('utf-8')
         assert out.getvalue() == result
