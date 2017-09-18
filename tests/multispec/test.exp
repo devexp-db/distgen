@@ -1,6 +1,6 @@
 === fedora-26-x86_64 ===
 
-FROM fedora:26
+FROM registry.fedoraproject.org/fedora:26
 
 LABEL MAINTAINER ...
 
@@ -34,7 +34,7 @@ CMD ["/usr/bin/script.sh"]
 
 === centos-7-x86_64 ===
 
-FROM centos:7
+FROM registry.centos.org/centos:centos7
 
 LABEL MAINTAINER ...
 
