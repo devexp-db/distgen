@@ -107,6 +107,14 @@ def parse_args():
         help='Define distgen\'s macro',
     )
 
+    parser.add_argument(
+        '--max-passes',
+        metavar='PASSES',
+        type=int,
+        default=1,
+        help='Maximum number of rendering passes, defaults to 1 (== no re-rendering)',
+    )
+
     tpl_or_combinations = parser.add_mutually_exclusive_group(required=True)
 
     tpl_or_combinations.add_argument(
@@ -168,6 +176,7 @@ def render_template(args):
         output,
         args.macros_from,
         explicit_macros,
+        args.max_passes,
     )
 
     if temp_filename:

@@ -41,11 +41,16 @@ class TestGenerator(object):
         self.g.vars_fill_variables(config, sysconfig)
         assert config == result
 
-    @pytest.mark.parametrize('template, result', [
-        (os.path.join(simple, 'Dockerfile'), open(os.path.join(simple, 'expected_output')).read()),
-        ('{{ config.os.id }}', 'fedora'),
+    @pytest.mark.parametrize('template, max_passes, result', [
+        (os.path.join(simple, 'Dockerfile'), 1,
+         open(os.path.join(simple, 'expected_output')).read()),
+        (os.path.join(simple, 'Dockerfile'), 10, # should be the same no matter how many passes
+         open(os.path.join(simple, 'expected_output')).read()),
+        ('{{ config.os.id }}', 1, 'fedora'),
+        ("{{ '{{ config.os.id }}' }}", 1, '{{ config.os.id }}'),
+        ("{{ '{{ config.os.id }}' }}", 3, 'fedora'),
     ])
-    def test_render(self, template, result):
+    def test_render(self, template, max_passes, result):
         # TODO: more test cases for rendering
         self.g.load_project(simple)
         out = six.StringIO()
@@ -57,6 +62,7 @@ class TestGenerator(object):
             'fedora-26-x86_64.yaml',
             CommandsConfig(),
             out,
+            max_passes=max_passes,
         )
 
         if six.PY2:

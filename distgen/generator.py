@@ -172,6 +172,8 @@ class Generator(object):
             new = jinja2.Template(rendered, **self.jinjaenv_args).render(**kwargs)
             if new == rendered:
                 break
+            elif i == max_passes - 2:
+                fatal('Maximum number of rendering passes reached but template still changing')
             else:
                 rendered = new
 
@@ -179,7 +181,7 @@ class Generator(object):
 
     def render(self, specfiles, multispec, multispec_selectors, template,
                config, cmd_cfg, output=sys.stdout, confdirs=None,
-               explicit_macros={}):
+               explicit_macros={}, max_passes=1):
         """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
         sysconfig = load_config(config_path, config)
@@ -256,6 +258,7 @@ class Generator(object):
 
         output.write(self._recursive_render(
             tpl,
+            max_passes=max_passes,
             config=sysconfig,
             macros=sysconfig["macros"],
             m=sysconfig["macros"],
