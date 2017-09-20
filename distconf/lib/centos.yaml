@@ -6,3 +6,4 @@ os:
 
 docker:
   from: centos
+  registry: registry.centos.org

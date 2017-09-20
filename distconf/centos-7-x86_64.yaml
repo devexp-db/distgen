@@ -11,4 +11,4 @@ macros:
   userunitdir: /usr/lib/systemd/user
 
 docker:
-  from: centos:7
+  from: centos:centos7

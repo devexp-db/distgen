@@ -12,3 +12,4 @@ os:
 docker:
   from: fedora
   registry: registry.fedoraproject.org
+  candidate_registry: candidate-registry.fedoraproject.org
