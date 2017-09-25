@@ -20,10 +20,11 @@ def die(msg):
 
 description = \
 """
-Generate script using predefined metadata about distribution and templates.
+Generate script using predefined metadata about distribution and
+templates.
 
-As an example of 'dg' usage, to generate _Dockerfile_ for Fedora 21 64-bit
-system, you may use command(s):
+As an example of 'dg' usage, to generate _Dockerfile_ for Fedora
+21 64-bit system, you may use command(s):
 
  $ cd project/directory
  $ dg --spec      docker-data.yaml      \\
@@ -31,108 +32,108 @@ system, you may use command(s):
       --distro    fedora-21-x86_64.yaml
 """
 
-def parse_args():
-    parser = ArgumentParser(
-        description=description,
-        formatter_class=RawDescriptionHelpFormatter,
-    )
-    parser.add_argument(
-        '--projectdir',
-        metavar='PROJECTDIR',
-        type=str,
-        help='Directory with project (defaults to CWD)',
-        default="."
-    )
+parser = ArgumentParser(
+    description=description,
+    formatter_class=RawDescriptionHelpFormatter,
+)
 
-    parser.add_argument(
-        '--distro',
-        metavar='DIST',
-        type=str,
-        help='Use distribution metadata specified by DIST yaml file',
-        default="fedora-21-x86_64.yaml",
-    )
+# Solely for the purpose of manpage generator
+parser.man_short_description = "templating system/generator for distributions"
 
-    parser.add_argument(
-        '--multispec',
-        metavar='MULTISPEC',
-        type=str,
-        help='Use MULTISPEC yaml file to fill the TEMPLATE file',
-    )
+parser.add_argument(
+    '--projectdir',
+    metavar='PROJECTDIR',
+    type=str,
+    help='Directory with project (defaults to CWD)',
+    default="."
+)
 
-    parser.add_argument(
-        '--multispec-selector',
-        metavar='MULTISPEC_SELECTOR',
-        type=str,
-        help='Selectors for the multispec file',
-        action='append',
-        default=[],
-    )
+parser.add_argument(
+    '--distro',
+    metavar='DIST',
+    type=str,
+    help='Use distribution metadata specified by DIST yaml file',
+    default="fedora-21-x86_64.yaml",
+)
 
-    parser.add_argument(
-        '--spec',
-        metavar='SPEC',
-        type=str,
-        help='Use SPEC yaml file to fill the TEMPLATE file',
-        action='append',
-    )
+parser.add_argument(
+    '--multispec',
+    metavar='MULTISPEC',
+    type=str,
+    help='Use MULTISPEC yaml file to fill the TEMPLATE file',
+)
 
-    parser.add_argument(
-        '--output',
-        metavar='OUTPUT',
-        type=str,
-        help='Write result to OUTPUT file instead of stdout',
-    )
+parser.add_argument(
+    '--multispec-selector',
+    metavar='MULTISPEC_SELECTOR',
+    type=str,
+    help='Selectors for the multispec file',
+    action='append',
+    default=[],
+)
 
-    parser.add_argument(
-        '--macros-from',
-        metavar='PROJECTDIR',
-        type=str,
-        action='append',
-        help='Load variables from PROJECTDIR',
-    )
+parser.add_argument(
+    '--spec',
+    metavar='SPEC',
+    type=str,
+    help='Use SPEC yaml file to fill the TEMPLATE file',
+    action='append',
+)
 
-    parser.add_argument(
-        '--container',
-        metavar='CONTAINER_TYPE',
-        type=str,
-        help='Container type, e.g. \'docker\'',
-        default=False,
-    )
+parser.add_argument(
+    '--output',
+    metavar='OUTPUT',
+    type=str,
+    help='Write result to OUTPUT file instead of stdout',
+)
 
-    parser.add_argument(
-        '--macro',
-        metavar='MACRO',
-        type=str,
-        action='append',
-        help='Define distgen\'s macro',
-    )
+parser.add_argument(
+    '--macros-from',
+    metavar='PROJECTDIR',
+    type=str,
+    action='append',
+    help='Load variables from PROJECTDIR',
+)
 
-    parser.add_argument(
-        '--max-passes',
-        metavar='PASSES',
-        type=int,
-        default=1,
-        help='Maximum number of rendering passes, defaults to 1 (== no re-rendering)',
-    )
+parser.add_argument(
+    '--container',
+    metavar='CONTAINER_TYPE',
+    type=str,
+    help='Container type, e.g. \'docker\'',
+    default=False,
+)
 
-    tpl_or_combinations = parser.add_mutually_exclusive_group(required=True)
+parser.add_argument(
+    '--macro',
+    metavar='MACRO',
+    type=str,
+    action='append',
+    help='Define distgen\'s macro',
+)
 
-    tpl_or_combinations.add_argument(
-        '--template',
-        metavar='TEMPLATE',
-        type=str,
-        help='Use TEMPLATE file, e.g. docker.tpl or a template string, '
-        'e.g. "{{ config.docker.from }}"'
-    )
+parser.add_argument(
+    '--max-passes',
+    metavar='PASSES',
+    type=int,
+    default=1,
+    help='Maximum number of rendering passes, defaults to 1 (== no re-rendering)',
+)
 
-    tpl_or_combinations.add_argument(
-        '--multispec-combinations',
-        action='store_true',
-        help='Print available multispec combinations',
-    )
+tpl_or_combinations = parser.add_mutually_exclusive_group(required=True)
 
-    return parser.parse_args()
+tpl_or_combinations.add_argument(
+    '--template',
+    metavar='TEMPLATE',
+    type=str,
+    help='Use TEMPLATE file, e.g. docker.tpl or a template string, '
+    'e.g. "{{ config.docker.from }}"'
+)
 
+tpl_or_combinations.add_argument(
+    '--multispec-combinations',
+    action='store_true',
+    help='Print available multispec combinations',
+)
 
 def print_multispec_combinations(args):
     ms = Multispec.from_path(args.projectdir, args.multispec)
@@ -188,7 +189,7 @@ def render_template(args):
 
 
 def main():
-    args = parse_args()
+    args = parser.parse_args()
     if args.multispec_combinations:
         print_multispec_combinations(args)
     else:

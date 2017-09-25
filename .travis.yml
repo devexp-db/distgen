@@ -1,4 +1,8 @@
 language: python
+
+before_script:
+  - git submodule update --init
+
 python:
   - "2.7"
   - "3.5"
@@ -8,6 +12,6 @@ install:
   - "pip install -r requirements.txt"
   - "pip install pytest pytest-cov coveralls"
 
-script: "make PYTHON=python${TRAVIS_PYTHON_VERSION} COVERAGE=true check"
+script: "make PYTHON=python${TRAVIS_PYTHON_VERSION} COVERAGE=true check && python$TRAVIS_PYTHON_VERSION setup.py install --root $PWD/i"
 
 after_success: "coveralls"
