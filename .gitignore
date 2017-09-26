@@ -1,5 +1,7 @@
 *.py[oc]
+*.egg-info
 build
 dist
+man
 MANIFEST
 docs/_build
