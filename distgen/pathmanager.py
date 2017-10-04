@@ -45,7 +45,7 @@ class PathManager(object):
 
         try:
             fd = open(filename)
-        except IOError as err:
+        except IOError:
             if fail:
                 print("can't open file {0}".format(relative))
                 sys.exit(1)
