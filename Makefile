@@ -12,4 +12,4 @@ test-unit:
 test-lint:
 	flake8 distgen/
 
-check: test-unit test-end2end
+check: test-lint test-unit test-end2end
