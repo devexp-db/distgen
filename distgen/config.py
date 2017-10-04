@@ -1,6 +1,6 @@
 from __future__ import print_function
-import six
 
+import six
 import sys
 import copy
 
@@ -10,8 +10,8 @@ from distgen.pathmanager import PathManager
 
 def _merge_yaml(origin, override):
     """
-    Merge simple yaml node recursively.  If the node is non-dict, return itself,
-    otherwise recurse down for each item.
+    Merge simple yaml node recursively.  If the node is non-dict, return
+    itself, otherwise recurse down for each item.
     """
     if isinstance(origin, dict) and isinstance(override, dict):
         for k, v in six.iteritems(override):
