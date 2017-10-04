@@ -1,5 +1,7 @@
 from __future__ import print_function
-import os, sys
+
+import os
+import sys
 
 
 class PathManager(object):
@@ -8,7 +10,6 @@ class PathManager(object):
     def __init__(self, path, envvar=None):
         self.path = path
         self.envvar = envvar
-
 
     def get_file(self, filename, prefered_path=None, fail=False,
                  file_desc="file"):
@@ -34,7 +35,6 @@ class PathManager(object):
 
         return None
 
-
     def open_file(self, relative, prefered_path=None,
                   fail=False, file_desc="file"):
 
@@ -45,14 +45,13 @@ class PathManager(object):
 
         try:
             fd = open(filename)
-        except IOError as err:
+        except IOError:
             if fail:
                 print("can't open file {0}".format(relative))
                 sys.exit(1)
             return None
 
         return fd
-
 
     def get_path(self):
         path = self.path

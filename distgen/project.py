@@ -5,7 +5,6 @@ class AbstractProject():
 
     maintainer = "unknown <unknown@unknown.com>"
 
-
     def inst_init(self, specfiles, template, sysconfig):
         """
         Executed before the project.py/spec files/template is loaded and
@@ -22,7 +21,6 @@ class AbstractProject():
         """
         pass
 
-
     def inst_finish(self, specfiles, template, sysconfig, spec):
         """
         Executed after the project.py/spec files/template is loaded, and
@@ -30,7 +28,6 @@ class AbstractProject():
         the last chance to dynamically change sysconfig or spec.
         """
         pass
-
 
     def __init__(self):
         """ Never overwrite constructor please! """
@@ -48,7 +45,6 @@ class AbstractProject():
         """
         Never overwrite this function, please.
         """
-
         # Be careful here with changes.  Any change will survive to the next
         # call of render() method (its effect won't disappear for next
         # template).

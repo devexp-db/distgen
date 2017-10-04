@@ -9,4 +9,7 @@ test-end2end:
 test-unit:
 	DG_DISTCONFDIR=./distconf PYTHONPATH=..:$${PYTHONPATH} ${PYTHON} -m pytest `[ ! -z ${COVERAGE} ] && echo "--cov distgen"` tests/unittests/
 
-check: test-unit test-end2end
+test-lint:
+	flake8 distgen/
+
+check: test-lint test-unit test-end2end
