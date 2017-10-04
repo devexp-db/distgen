@@ -1,8 +1,10 @@
 from __future__ import print_function
 
-import os, sys
+import os
+import sys
 import imp
 import jinja2
+
 from distgen.err import fatal
 from distgen.pathmanager import PathManager
 from distgen.config import load_config, merge_yaml
@@ -18,7 +20,6 @@ class Generator(object):
     pm_tpl = None
     pm_spc = None
 
-
     def __init__(self):
         self.pm_cfg = PathManager(
             [os.path.join(sys.prefix, "share", "distgen", "distconf")],
@@ -32,7 +33,6 @@ class Generator(object):
 
         self.pm_spc = PathManager([])
         self.jinjaenv_args = {'keep_trailing_newline': True}
-
 
     def load_project(self, project):
         self.project = self._load_project_from_dir(project)
@@ -75,7 +75,6 @@ class Generator(object):
 
         self.project.abstract_initialize()
 
-
     @staticmethod
     def _load_python_file(filename):
         """ load compiled python source """
@@ -87,7 +86,6 @@ class Generator(object):
 
         return py_mod
 
-
     def _load_obj_from_file(self, filename, objname):
         py_mod = self._load_python_file(filename)
 
@@ -95,7 +93,6 @@ class Generator(object):
             return getattr(py_mod, objname)
         else:
             return None
-
 
     def _load_obj_from_projdir(self, projectdir, objname):
         """ given project directory, load possibly existing project.py """
@@ -106,14 +103,12 @@ class Generator(object):
         else:
             return None
 
-
     def _load_project_from_dir(self, projectdir):
         """ given project directory, load possibly existing project.py """
         projclass = self._load_obj_from_projdir(projectdir, "Project")
         if not projclass:
             return None
         return projclass()
-
 
     def load_config_from_project(self, directory):
         """
@@ -123,7 +118,6 @@ class Generator(object):
         if config:
             return config
         return {}
-
 
     @staticmethod
     def vars_fixed_point(config):
@@ -144,9 +138,8 @@ class Generator(object):
                         something_changed = True
                         config[i] = replaced
 
-
     def vars_fill_variables(self, config, sysconfig=None):
-        if not 'macros' in config:
+        if 'macros' not in config:
             return
 
         macros = config['macros']
@@ -169,11 +162,14 @@ class Generator(object):
 
         # we use `max_passes - 1`, because first pass is above
         for i in range(0, max_passes - 1):
-            new = jinja2.Template(rendered, **self.jinjaenv_args).render(**kwargs)
+            new = jinja2.Template(rendered, **self.jinjaenv_args).render(
+                **kwargs)
             if new == rendered:
                 break
             elif i == max_passes - 2:
-                fatal('Maximum number of rendering passes reached but template still changing')
+                fatal(
+                    'Maximum number of rendering passes reached '
+                    'but template still changing')
             else:
                 rendered = new
 
@@ -193,8 +189,9 @@ class Generator(object):
             self.vars_fill_variables(additional_vars, sysconfig)
             # filter only interresting variables
             interresting_parts = ['macros']
-            additional_vars = {x: additional_vars[x] \
-                    for x in interresting_parts if x in additional_vars}
+            additional_vars = {
+                x: additional_vars[x] for x in
+                interresting_parts if x in additional_vars}
             sysconfig = merge_yaml(sysconfig, additional_vars)
 
         self.project.abstract_setup_vars(sysconfig)
@@ -243,7 +240,8 @@ class Generator(object):
         if multispec:
             try:
                 mltspc = Multispec.from_path(self.project.directory, multispec)
-                spec = merge_yaml(spec, mltspc.select_data(multispec_selectors, config))
+                spec = merge_yaml(
+                    spec, mltspc.select_data(multispec_selectors, config))
             except yaml.YAMLError as exc:
                 fatal("Error in multispec file: {0}".format(exc))
             except MultispecError as exc:
