@@ -163,7 +163,7 @@ class Multispec(object):
         for _, spec_vals in self.get_spec_group(DISTROINFO_GRP).items():
             distros.update(spec_vals[DISTROINFO_GRP_DISTROS])
 
-        values = [[{'group': 'distro', 'value': d} for d in distros]]
+        values = [[{'group': 'distro', 'value': d + '.yaml'} for d in distros]]
         for grp_name, grp_vals in self._specgroups.items():
             if grp_name != DISTROINFO_GRP:
                 values.append([{
