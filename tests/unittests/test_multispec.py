@@ -55,29 +55,29 @@ class TestMultispec(object):
 
     def test_get_all_combinations_simple(self):
         ms = Multispec.from_path(ms_fixtures, 'simplest.yaml')
-        assert list(ms.get_all_combinations()) == [{'distro': 'fedora-26-x86_64'}]
+        assert list(ms.get_all_combinations()) == [{'distro': 'fedora-26-x86_64.yaml'}]
 
     def test_get_all_combinations_complex(self):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')
         def comb_key(c):
             return (c['distro'], c['something_else'], c['version'])
         assert sorted(ms.get_all_combinations(), key=comb_key) == sorted([
-            {'distro': 'centos-7-x86_64', 'something_else': 'bar', 'version': '2.2'},
-            {'distro': 'centos-7-x86_64', 'something_else': 'bar', 'version': '2.4'},
-            {'distro': 'centos-7-x86_64', 'something_else': 'foo', 'version': '2.2'},
-            {'distro': 'centos-7-x86_64', 'something_else': 'foo', 'version': '2.4'},
-            {'distro': 'centos-7-x86_64', 'something_else': 'baz', 'version': '2.2'},
-            {'distro': 'centos-7-x86_64', 'something_else': 'baz', 'version': '2.4'},
-            {'distro': 'fedora-26-x86_64', 'something_else': 'bar', 'version': '2.2'},
-            {'distro': 'fedora-26-x86_64', 'something_else': 'bar', 'version': '2.4'},
-            {'distro': 'fedora-26-x86_64', 'something_else': 'foo', 'version': '2.4'},
-            {'distro': 'fedora-26-x86_64', 'something_else': 'baz', 'version': '2.2'},
-            {'distro': 'fedora-26-x86_64', 'something_else': 'baz', 'version': '2.4'},
-            {'distro': 'fedora-25-x86_64', 'something_else': 'bar', 'version': '2.2'},
-            {'distro': 'fedora-25-x86_64', 'something_else': 'foo', 'version': '2.2'},
-            {'distro': 'fedora-25-x86_64', 'something_else': 'foo', 'version': '2.4'},
-            {'distro': 'fedora-25-x86_64', 'something_else': 'baz', 'version': '2.2'},
-            {'distro': 'fedora-25-x86_64', 'something_else': 'baz', 'version': '2.4'},
+            {'distro': 'centos-7-x86_64.yaml', 'something_else': 'bar', 'version': '2.2'},
+            {'distro': 'centos-7-x86_64.yaml', 'something_else': 'bar', 'version': '2.4'},
+            {'distro': 'centos-7-x86_64.yaml', 'something_else': 'foo', 'version': '2.2'},
+            {'distro': 'centos-7-x86_64.yaml', 'something_else': 'foo', 'version': '2.4'},
+            {'distro': 'centos-7-x86_64.yaml', 'something_else': 'baz', 'version': '2.2'},
+            {'distro': 'centos-7-x86_64.yaml', 'something_else': 'baz', 'version': '2.4'},
+            {'distro': 'fedora-26-x86_64.yaml', 'something_else': 'bar', 'version': '2.2'},
+            {'distro': 'fedora-26-x86_64.yaml', 'something_else': 'bar', 'version': '2.4'},
+            {'distro': 'fedora-26-x86_64.yaml', 'something_else': 'foo', 'version': '2.4'},
+            {'distro': 'fedora-26-x86_64.yaml', 'something_else': 'baz', 'version': '2.2'},
+            {'distro': 'fedora-26-x86_64.yaml', 'something_else': 'baz', 'version': '2.4'},
+            {'distro': 'fedora-25-x86_64.yaml', 'something_else': 'bar', 'version': '2.2'},
+            {'distro': 'fedora-25-x86_64.yaml', 'something_else': 'foo', 'version': '2.2'},
+            {'distro': 'fedora-25-x86_64.yaml', 'something_else': 'foo', 'version': '2.4'},
+            {'distro': 'fedora-25-x86_64.yaml', 'something_else': 'baz', 'version': '2.2'},
+            {'distro': 'fedora-25-x86_64.yaml', 'something_else': 'baz', 'version': '2.4'},
         ], key=comb_key)
 
     def test_parse_selectors_ok(self):
