@@ -11,6 +11,7 @@ from distgen.project import AbstractProject
 here = os.path.dirname(__file__)
 fixtures = os.path.join(here, 'fixtures', 'generator')
 simple = os.path.join(fixtures, 'simple')
+simple_wp = os.path.join(fixtures, 'simple_with_projectfile')
 
 
 class TestGenerator(object):
@@ -41,22 +42,33 @@ class TestGenerator(object):
         self.g.vars_fill_variables(config, sysconfig)
         assert config == result
 
-    @pytest.mark.parametrize('template, max_passes, result', [
-        (os.path.join(simple, 'Dockerfile'), 1,
-         open(os.path.join(simple, 'expected_output')).read()),
-        (os.path.join(simple, 'Dockerfile'), 10, # should be the same no matter how many passes
-         open(os.path.join(simple, 'expected_output')).read()),
-        ('{{ config.os.id }}', 1, 'fedora'),
-        ("{{ '{{ config.os.id }}' }}", 1, '{{ config.os.id }}'),
-        ("{{ '{{ config.os.id }}' }}", 3, 'fedora'),
+    @pytest.mark.parametrize('project, result', [
+        ('projectfile', 'bar'),
     ])
-    def test_render(self, template, max_passes, result):
+    def test_load_project(self, project, result):
+        self.g.load_project(os.path.join(fixtures, project))
+        self.g.project.inst_init(None, None, None)
+        self.g.project.inst_finish(None, None, None, None)
+        assert self.g.project.foo == 'bar'
+
+    @pytest.mark.parametrize('project, template, max_passes, result', [
+        (simple, os.path.join(simple, 'Dockerfile'), 1,
+         open(os.path.join(simple, 'expected_output')).read()),
+        (simple, os.path.join(simple, 'Dockerfile'), 10, # should be the same no matter how many passes
+         open(os.path.join(simple, 'expected_output')).read()),
+        (simple, '{{ config.os.id }}', 1, 'fedora'),
+        (simple, "{{ '{{ config.os.id }}' }}", 1, '{{ config.os.id }}'),
+        (simple, "{{ '{{ config.os.id }}' }}", 3, 'fedora'),
+        (simple_wp, os.path.join(simple_wp, 'Dockerfile'), 10,
+         open(os.path.join(simple_wp, 'expected_output')).read()),
+    ])
+    def test_render(self, project, template, max_passes, result):
         # TODO: more test cases for rendering
-        self.g.load_project(simple)
+        self.g.load_project(project)
         out = six.StringIO()
         self.g.render(
-            [os.path.join(simple, 'common.yaml')],
-            os.path.join(simple, 'complex.yaml'),
+            [os.path.join(project, 'common.yaml')],
+            os.path.join(project, 'complex.yaml'),
             ['version=2.4', 'something_else=foo'],
             template,
             'fedora-26-x86_64.yaml',
