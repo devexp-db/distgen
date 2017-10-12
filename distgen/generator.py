@@ -96,7 +96,7 @@ class Generator(object):
 
     def _load_obj_from_projdir(self, projectdir, objname):
         """ given project directory, load possibly existing project.py """
-        project_file = projectdir + "/project.py"
+        project_file = os.path.join(projectdir, "project.py")
 
         if os.path.isfile(project_file):
             return self._load_obj_from_file(project_file, objname)
