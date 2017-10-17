@@ -140,7 +140,6 @@ class Multispec(object):
         return copy.deepcopy(self._specgroups[group])
 
     def get_distroinfos_by_distro(self, distro):
-        distro = self.normalize_distro(distro)
         distroinfos = []
 
         for di in self.get_spec_group(DISTROINFO_GRP):
@@ -174,12 +173,13 @@ class Multispec(object):
             selector_dict = {p['group']: p['value'] for p in combination}
             as_selectors = ['{0}={1}'.format(k, v)
                             for k, v in selector_dict.items() if k != 'distro']
-            if self.verify_selectors(as_selectors, selector_dict['distro'])[0]:
+            if self.verify_selectors(
+                    as_selectors,
+                    self.distrofile2name(selector_dict['distro']))[0]:
                 yield selector_dict
 
     def verify_selectors(self, selectors, distro):
         parsed_selectors = self.parse_selectors(selectors)
-        distro = self.normalize_distro(distro)
 
         if DISTROINFO_GRP in parsed_selectors.keys():
             return (
@@ -231,7 +231,8 @@ class Multispec(object):
 
         return True, ''
 
-    def select_data(self, selectors, distro):
+    def select_data(self, selectors, distrofile):
+        distro = self.distrofile2name(distrofile)
         allowed, reason = self.verify_selectors(selectors, distro)
         if not allowed:
             raise MultispecError(reason)
@@ -263,5 +264,5 @@ class Multispec(object):
                 res.append(selector.split('='))
         return dict(res)
 
-    def normalize_distro(self, distro):
+    def distrofile2name(self, distro):
         return os.path.splitext(os.path.basename(distro))[0]

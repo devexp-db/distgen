@@ -89,9 +89,9 @@ class TestMultispec(object):
         with pytest.raises(MultispecError):
             ms.parse_selectors(['foo bar'])
 
-    def test_normalize_distro(self):
+    def test_distrofile2name(self):
         ms = Multispec.from_path(ms_fixtures, 'simplest.yaml')
-        assert ms.normalize_distro('foo/bar/fedora-26-x86_64.yaml') == 'fedora-26-x86_64'
+        assert ms.distrofile2name('foo/bar/fedora-26-x86_64.yaml') == 'fedora-26-x86_64'
 
     def test_verify_selectors_ok(self):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')
