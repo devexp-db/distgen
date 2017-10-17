@@ -8,8 +8,8 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.17%{?postrel:.%{postrel}%{posttag}}
-Release:    2%{?dist}
+Version:    0.18%{?postrel:.%{postrel}%{posttag}}
+Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
@@ -59,6 +59,9 @@ make PYTHON=%{pybin} check
 
 
 %changelog
+* Tue Oct 17 2017 Slavek Kabrda <bkabrda@redhat.com> - 0.18.dev1-1
+- update to 0.18.dev1
+
 * Tue Sep 26 2017 Pavel Raiskup <praiskup@redhat.com> - 0.17.dev1-2
 - package manual page and AUTHORS file
 
