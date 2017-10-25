@@ -49,7 +49,7 @@ class Generator(object):
                 try:
                     with open(name, 'rb') as f:
                         return f.read().decode('utf-8')
-                except:
+                except Exception:
                     pass
             raise jinja2.TemplateNotFound(name)
 
