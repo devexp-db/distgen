@@ -7,6 +7,9 @@ import tempfile
 import shutil
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+
+import six
+
 from distgen.generator import Generator
 from distgen.commands import CommandsConfig
 from distgen.multispec import Multispec
@@ -145,11 +148,14 @@ def print_multispec_combinations(args):
 
 def render_template(args):
     temp_filename = False
-    output = sys.stdout
+    if six.PY2:
+        output = sys.stdout
+    else:
+        output = sys.stdout.buffer
     try:
         if args.output:
             _, temp_filename = tempfile.mkstemp(prefix="distgen-")
-            output = open(temp_filename, 'w')
+            output = open(temp_filename, 'wb')
     except:
         die("can't create temporary file for '{0}'".format(args.output))
 

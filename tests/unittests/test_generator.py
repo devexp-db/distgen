@@ -53,19 +53,19 @@ class TestGenerator(object):
 
     @pytest.mark.parametrize('project, template, max_passes, result', [
         (simple, os.path.join(simple, 'Dockerfile'), 1,
-         open(os.path.join(simple, 'expected_output')).read()),
+         open(os.path.join(simple, 'expected_output'), 'rb').read()),
         (simple, os.path.join(simple, 'Dockerfile'), 10, # should be the same no matter how many passes
-         open(os.path.join(simple, 'expected_output')).read()),
-        (simple, '{{ config.os.id }}', 1, 'fedora'),
-        (simple, "{{ '{{ config.os.id }}' }}", 1, '{{ config.os.id }}'),
-        (simple, "{{ '{{ config.os.id }}' }}", 3, 'fedora'),
+         open(os.path.join(simple, 'expected_output'), 'rb').read()),
+        (simple, '{{ config.os.id }}', 1, b'fedora'),
+        (simple, "{{ '{{ config.os.id }}' }}", 1, b'{{ config.os.id }}'),
+        (simple, "{{ '{{ config.os.id }}' }}", 3, b'fedora'),
         (simple_wp, os.path.join(simple_wp, 'Dockerfile'), 10,
-         open(os.path.join(simple_wp, 'expected_output')).read()),
+         open(os.path.join(simple_wp, 'expected_output'), 'rb').read()),
     ])
     def test_render(self, project, template, max_passes, result):
         # TODO: more test cases for rendering
         self.g.load_project(project)
-        out = six.StringIO()
+        out = six.BytesIO()
         self.g.render(
             [os.path.join(project, 'common.yaml')],
             os.path.join(project, 'complex.yaml'),

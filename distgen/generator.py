@@ -176,7 +176,7 @@ class Generator(object):
         return rendered
 
     def render(self, specfiles, multispec, multispec_selectors, template,
-               config, cmd_cfg, output=sys.stdout, confdirs=None,
+               config, cmd_cfg, output, confdirs=None,
                explicit_macros={}, max_passes=1):
         """ render single template """
         config_path = [self.project.directory] + self.pm_cfg.get_path()
@@ -265,4 +265,4 @@ class Generator(object):
             project=self.project,
             commands=Commands(cmd_cfg, sysconfig),
             env=os.environ,
-        ))
+        ).encode('utf-8'))

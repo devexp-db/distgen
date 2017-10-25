@@ -15,6 +15,7 @@ tests="
     macros-short
     minimal-dockerfile
     multispec
+    non-ascii-chars
     pkginstaller
     no-spec
 "

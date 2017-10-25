@@ -1,0 +1,14 @@
+=== fedora-26-x86_64 ===
+
+FROM registry.fedoraproject.org/fedora:26
+
+RUN čřž
+RUN ěšč
+
+
+=== centos-7-x86_64 ===
+
+FROM registry.centos.org/centos:centos7
+
+RUN čřž
+RUN ěšč
