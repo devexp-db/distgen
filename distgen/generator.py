@@ -40,18 +40,18 @@ class Generator(object):
             self.project = AbstractProject()
         self.project.directory = project
 
-        def absolute_load(name):
+        def file_load(name):
             """
-            In our templating system, we care about filenames specified by
-            absolute path, which is not truth for default FileSystemLoader.
+            The default FileSystemLoader doesn't load files specified
+            by absolute paths or paths that include '..' - therefore
+            we provide a custom fallback function that handles this.
             """
-            if name.startswith('/'):
-                try:
-                    with open(name, 'rb') as f:
-                        return f.read().decode('utf-8')
-                except Exception:
-                    pass
-            raise jinja2.TemplateNotFound(name)
+            name = os.path.abspath(name)
+            try:
+                with open(name, 'rb') as f:
+                    return f.read().decode('utf-8')
+            except Exception:
+                raise jinja2.TemplateNotFound(name)
 
         def string_load(name):
             """
@@ -64,8 +64,8 @@ class Generator(object):
 
         loader = jinja2.ChoiceLoader([
             jinja2.FileSystemLoader(self.pm_tpl.get_path()),
-            jinja2.FunctionLoader(absolute_load),
             jinja2.FunctionLoader(string_load),
+            jinja2.FunctionLoader(file_load),
         ])
 
         self.project.tplgen = jinja2.Environment(
