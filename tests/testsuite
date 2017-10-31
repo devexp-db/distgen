@@ -48,6 +48,22 @@ output_equals_stdout()
 }
 
 
+can_load_relative_paths()
+{
+    local wd="$testdir/SAMPLE"
+    echo "testing: pass template by relative path"
+    local cmd="cd $wd/subdir && \
+       dg --projectdir '$wd' \
+       --distro 'rhel-7-x86_64.yaml' \
+       --spec '../test.yaml' \
+       --template '../test.tpl'"
+
+    eval "$cmd > /dev/null"
+    [ $? -eq 0 ] || \
+        fail "failed to pass template by relative path"
+}
+
+
 for i in $tests; do
     wd="$testdir/$i"
     echo "testing: $wd"
@@ -106,5 +122,6 @@ for i in $tests; do
 done
 
 output_equals_stdout
+can_load_relative_paths
 
 $success && echo "success"
