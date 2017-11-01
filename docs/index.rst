@@ -16,6 +16,7 @@ Welcome to distgen's documentation!
    builtins
    macros
    rerendering
+   usage
 
 
 Indices and tables
