@@ -63,6 +63,28 @@ can_load_relative_paths()
         fail "failed to pass template by relative path"
 }
 
+respects_umask()
+{
+
+    local wd="$testdir/SAMPLE"
+    local orig_umask=`umask`
+    echo "testing: dg respects umask"
+    for i in 0000,-rw-rw-rw- 0002,-rw-rw-r--; do
+        IFS="," read mask bits <<< $i
+        umask $mask
+        local cmd="dg --projectdir '$wd' \
+           --distro 'rhel-7-x86_64.yaml' \
+           --spec '$wd/test.yaml' \
+           --template '$wd/test.tpl' \
+           --output '$wd/.output'"
+
+        eval "$cmd"
+	perm_bits=`stat -c "%A" $wd/.output`
+	[ "$perm_bits" == "$bits" ] || \
+            fail "umask not respected"
+    done
+}
+
 
 for i in $tests; do
     wd="$testdir/$i"
@@ -123,5 +145,6 @@ done
 
 output_equals_stdout
 can_load_relative_paths
+respects_umask
 
 $success && echo "success"
