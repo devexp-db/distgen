@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import os
 import sys
 import tempfile
 import shutil
@@ -190,6 +191,12 @@ def render_template(args):
         try:
             output.close()
             shutil.move(temp_filename, args.output)
+            # there's no way in Python to get umask without setting it
+            # to some value, therefore we have to get while setting
+            # to 0 and then re-set to original value
+            umask = os.umask(0)
+            os.umask(umask)
+            os.chmod(args.output, 0o666 &~umask)
         except:
             die("can't move '{0}' into '{1}'".format(temp_filename, args.output))
 
