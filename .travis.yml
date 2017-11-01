@@ -16,3 +16,11 @@ install:
 script: "make PYTHON=python${TRAVIS_PYTHON_VERSION} COVERAGE=true check && python$TRAVIS_PYTHON_VERSION setup.py install --root $PWD/i"
 
 after_success: "coveralls"
+
+deploy:
+  provider: "pypi"
+  user: "bkabrda"
+  on:
+    tags: true
+  password:
+    secure: "F5qQhlo0Bccpfchu9WVwiJo6EQtDm3OV2zw0sSVwe+MEs76QBBf6SHbemqPPBpvFChBxU0+MVIQ+tv/SWlBT/l4XIaqj4ySq3yaezMH0f6ejc1pBkKZndf30QheV4qowS2O+u5Wa6SU/fTePMnNuGV/kBmkIY0fIfo1+fAtpFTOWfu8T8rIXh9znPjL2dTveVJRUTx9cPVmUYDgijQl1t6IEG5xg2I9EO3GAmFlBf/ZGliWNTsoNX1E3/dGSWzr6V2c3v0KW7Pv/GFinOUhdgYSRnVfiNtD2Hb1BpCWPe1iBTdiuK4gAe7VUw55A/oiJK03WR28xuHZFIU63MQOV0sdvrvJDOpbhoyY1fZL8Jm03aJmuK5wsaMJ63p8cBqwK0+R4j/oKskO57hjKTQMDo5gtAfJqaY1h+q4WjqLdpdb6J+CdyPjxp1CHRRJfQAHguVXZIFW06UxeH/E4O7ZnsZ8ym4cBhJRDBrlVm6N1vMwjnCnBe5JBxRs/ooBkA3Tv0qyvpfV8rVmfqoGAiAOlz3KWcyjSuM6KJHbQSaLogvJUeNStFcN0c0F4oh8ltB8KbCusrI6fRCrRxxbwZT8r+2X3N4WJwixyGty0vKnb5To3A+/uKfplmtR55tbtFNwvILB9oB3irO3enJZdoKUW3PmC6lh/gWtDfy4m1atc/6s="
