@@ -157,23 +157,39 @@ class Generator(object):
 
         config['macros'] = {x: merged[x] for x in macros.keys()}
 
-    def _recursive_render(self, tpl, max_passes=25, **kwargs):
-        rendered = tpl.render(**kwargs)
+    def _rerender_spec(self, s, **kwargs):
+        changed = False
 
-        # we use `max_passes - 1`, because first pass is above
-        for i in range(0, max_passes - 1):
-            new = jinja2.Template(rendered, **self.jinjaenv_args).render(
-                **kwargs)
-            if new == rendered:
+        if isinstance(s, dict):
+            for k, v in s.items():
+                _changed, s[k] = self._rerender_spec(v, **kwargs)
+                changed |= _changed
+        elif isinstance(s, list):
+            for i in range(0, len(s)):
+                _changed, s[i] = self._rerender_spec(s[i], **kwargs)
+                changed |= _changed
+        elif isinstance(s, str):
+            new_spec = jinja2.Template(s).render(**kwargs)
+            changed = s != new_spec
+            s = new_spec
+        else:
+            pass  # int, float, perhaps something else?
+
+        return changed, s
+
+    def _recursive_render_spec(self, s, max_passes=25, **kwargs):
+        for i in range(0, max_passes):
+
+            changed, s = self._rerender_spec(s, **kwargs)
+
+            if not changed:
                 break
-            elif i == max_passes - 2:
+            elif i == max_passes - 1:
                 fatal(
                     'Maximum number of rendering passes reached '
-                    'but template still changing')
-            else:
-                rendered = new
+                    'but spec still changing')
 
-        return rendered
+        return s
 
     def render(self, specfiles, multispec, multispec_selectors, template,
                config, cmd_cfg, output, confdirs=None,
@@ -254,15 +270,21 @@ class Generator(object):
 
         self.project.inst_finish(specfiles, template, sysconfig, spec)
 
-        output.write(self._recursive_render(
-            tpl,
+        rendering_kwargs = {
+            'config': sysconfig,
+            'macros': sysconfig['macros'],
+            'm': sysconfig['macros'],
+            'container': {'name': 'docker'},
+            'spec': spec,
+            'project': self.project,
+            'commands': Commands(cmd_cfg, sysconfig),
+            'env': os.environ,
+        }
+
+        self._recursive_render_spec(
+            spec,
             max_passes=max_passes,
-            config=sysconfig,
-            macros=sysconfig["macros"],
-            m=sysconfig["macros"],
-            container={'name': 'docker'},
-            spec=spec,
-            project=self.project,
-            commands=Commands(cmd_cfg, sysconfig),
-            env=os.environ,
-        ).encode('utf-8'))
+            **rendering_kwargs
+        )
+
+        output.write(tpl.render(**rendering_kwargs).encode('utf-8'))
