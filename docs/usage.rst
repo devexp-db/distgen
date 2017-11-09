@@ -1,3 +1,5 @@
+.. _usage:
+
 Commandline Usage
 =================
 
@@ -21,8 +23,8 @@ A detailed explanation of commandline arguments follows:
 - ``--macros-from PROJECTDIR`` - load variables from ``PROJECTDIR``
 - ``--container CONTAINER_TYPE`` - container type, e.g. ``docker``
 - ``--macro MACRO`` - define distgen's macro
-- ``--max-passes PASSES`` - maximum number of rendering passes, defaults to 1
-  (== no re-rendering)
+- ``--max-passes PASSES`` - maximum number of spec expansion passes,
+  defaults to 32
 - ``--template TEMPLATE`` - use ``TEMPLATE`` file, e.g. ``docker.tpl`` or
   a template string, e.g. ``{{ config.docker.from }}``
 - ``--multispec-combinations`` print available multispec combinations

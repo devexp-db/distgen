@@ -119,8 +119,8 @@ parser.add_argument(
     '--max-passes',
     metavar='PASSES',
     type=int,
-    default=1,
-    help='Maximum number of rendering passes, defaults to 1 (== no re-rendering)',
+    default=32,
+    help='Maximum number of rendering passes, defaults to 32',
 )
 
 tpl_or_combinations = parser.add_mutually_exclusive_group(required=True)
