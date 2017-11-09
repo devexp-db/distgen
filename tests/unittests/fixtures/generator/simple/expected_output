@@ -27,7 +27,7 @@ EXPOSE 9000
 RUN dnf -y install nmap-ncat && \
     dnf -y clean all --enablerepo='*'
 
-RUN echo ham
+RUN echo ham fedora 2.4
 RUN echo 2.4
 
 # add help file

@@ -22,11 +22,11 @@ specs:
       version: "2.4"
   something_else:
     foo:
-      spam: ham
+      spam: ham {{ config.os.id }} {{ spec.version }}
     bar:
-      spam: eggs
+      spam: eggs {{ config.os.id }} {{ spec.version }}
     baz:
-      spam: beans
+      spam: beans {{ config.os.id }} {{ spec.version }}
 
 matrix:
   exclude:

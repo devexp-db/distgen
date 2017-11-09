@@ -52,13 +52,11 @@ class TestGenerator(object):
         assert self.g.project.foo == 'bar'
 
     @pytest.mark.parametrize('project, template, max_passes, result', [
-        (simple, os.path.join(simple, 'Dockerfile'), 1,
+        (simple, os.path.join(simple, 'Dockerfile'), 2,
          open(os.path.join(simple, 'expected_output'), 'rb').read()),
         (simple, os.path.join(simple, 'Dockerfile'), 10, # should be the same no matter how many passes
          open(os.path.join(simple, 'expected_output'), 'rb').read()),
-        (simple, '{{ config.os.id }}', 1, b'fedora'),
-        (simple, "{{ '{{ config.os.id }}' }}", 1, b'{{ config.os.id }}'),
-        (simple, "{{ '{{ config.os.id }}' }}", 3, b'fedora'),
+        (simple, '{{ config.os.id }}', 2, b'fedora'),
         (simple_wp, os.path.join(simple_wp, 'Dockerfile'), 10,
          open(os.path.join(simple_wp, 'expected_output'), 'rb').read()),
     ])
