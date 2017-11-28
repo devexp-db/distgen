@@ -14,6 +14,7 @@ import six
 from distgen.generator import Generator
 from distgen.commands import CommandsConfig
 from distgen.multispec import Multispec
+from distgen.version import dg_version
 
 def error(msg):
     print(msg, file=sys.stderr)
@@ -43,6 +44,12 @@ parser = ArgumentParser(
 
 # Solely for the purpose of manpage generator
 parser.man_short_description = "templating system/generator for distributions"
+
+parser.add_argument(
+    '--version',
+    action='version',
+    version="dg (distgen) {0}".format(dg_version)
+)
 
 parser.add_argument(
     '--projectdir',
