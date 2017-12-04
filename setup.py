@@ -2,13 +2,14 @@ import sys
 
 from setuptools import setup
 from distgen.version import dg_version
+from distgen._private.paths import paths
+
 from os import listdir, path, getcwd
 
 project = "distgen"
 datadir = "share"
 pkgdatadir = datadir + "/" + project
 tpldir = pkgdatadir + "/templates"
-distconfdir = pkgdatadir + "/distconf"
 
 from setuptools.command.build_py import build_py
 from setuptools.command.install import install
@@ -51,7 +52,7 @@ setup(
     license='GPLv2+',
     url='https://github.com/devexp-db/distgen',
     platforms=['any'],
-    packages=['distgen'],
+    packages=['distgen', 'distgen._private'],
     data_files=[
         (tpldir + '/container/docker', [
             'templates/container/docker/parts.tpl',
@@ -68,6 +69,6 @@ setup(
     cmdclass={
         'build_manpages': build_manpages,
         'build_py': get_build_py_cmd(build_py),
-        'install': get_install_cmd(install),
+        'install': get_install_cmd(paths.install_cls()),
     },
 )

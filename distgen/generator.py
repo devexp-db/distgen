@@ -1,7 +1,6 @@
 from __future__ import print_function
 
 import os
-import sys
 import imp
 import jinja2
 
@@ -11,6 +10,7 @@ from distgen.config import load_config, merge_yaml
 from distgen.project import AbstractProject
 from distgen.commands import Commands
 from distgen.multispec import Multispec, MultispecError
+from distgen._private.paths import paths
 
 
 class Generator(object):
@@ -22,12 +22,12 @@ class Generator(object):
 
     def __init__(self, global_jinja_args=None):
         self.pm_cfg = PathManager(
-            [os.path.join(sys.prefix, "share", "distgen", "distconf")],
+            paths['distconfpath'],
             envvar="DG_DISTCONFDIR"
         )
 
         self.pm_tpl = PathManager(
-            [os.path.join(sys.prefix, "share", "distgen", "templates")],
+            paths['templatepath'],
             envvar="DG_TPLDIR"
         )
 

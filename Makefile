@@ -7,7 +7,7 @@ test-end2end:
 	@cd tests/ && PYTHON=${PYTHON} ./testsuite
 
 test-unit:
-	DG_DISTCONFDIR=./distconf PYTHONPATH=..:$${PYTHONPATH} ${PYTHON} -m pytest `[ ! -z ${COVERAGE} ] && echo "--cov distgen"` tests/unittests/
+	DG_DISTCONFDIR=./distconf PYTHONPATH=..:$${PYTHONPATH} SOURCEDIR=. ${PYTHON} -m pytest `[ ! -z ${COVERAGE} ] && echo "--cov distgen"` tests/unittests/
 
 test-lint:
 	flake8 distgen/

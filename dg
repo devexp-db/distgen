@@ -4,8 +4,6 @@ proj_cli_dir="$(dirname "$(readlink -f "$0")")"
 
 export PYTHON=${PYTHON:-`which python2`}
 export PYTHONPATH="$proj_cli_dir${PYTHONPATH+:$PYTHONPATH}"
-
-export DG_TPLDIR="$proj_cli_dir/templates"
-export DG_DISTCONFDIR="$proj_cli_dir/distconf"
+export SOURCEDIR=$proj_cli_dir
 
 $PYTHON $proj_cli_dir/bin/dg "$@"
