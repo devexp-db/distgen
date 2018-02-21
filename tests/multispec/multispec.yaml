@@ -11,6 +11,7 @@ specs:
       distro_specific_help: "Some Fedora specific help"
     centos:
       distros:
+        - centos-6-x86_64
         - centos-7-x86_64
       vendor: "CentOS"
       authoritative_source_url: "some.url.centos.org"
