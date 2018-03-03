@@ -8,7 +8,7 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.18%{?postrel:.%{postrel}%{posttag}}
+Version:    0.21%{?postrel:.%{postrel}%{posttag}}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -18,7 +18,8 @@ BuildArch:  noarch
 %global both_requires %{pypkg}-jinja2, %{pypkg}-six, %{?fedora:%{pypkg}-}PyYAML
 
 Requires:      %both_requires
-BuildRequires: %{pypkg}-setuptools %{pypkg}-devel %{?fedora:%{pypkg}-}pytest %both_requires
+BuildRequires: %{pypkg}-setuptools %{pypkg}-devel %{?fedora:%{pypkg}-}pytest %{pypkg}-flake8 %both_requires
+BuildRequires: %{pypkg}-pytest-catchlog
 
 %if 0%{?postrel:1}
 Source0:       %{name}-%{version}.tar.gz
