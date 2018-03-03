@@ -18,6 +18,7 @@ tests="
     non-ascii-chars
     pkginstaller
     no-spec
+    keep-block-whitespaces
 "
 
 success=:
