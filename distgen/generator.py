@@ -20,7 +20,7 @@ class Generator(object):
     pm_tpl = None
     pm_spc = None
 
-    def __init__(self):
+    def __init__(self, global_jinja_args=None):
         self.pm_cfg = PathManager(
             [os.path.join(sys.prefix, "share", "distgen", "distconf")],
             envvar="DG_DISTCONFDIR"
@@ -33,6 +33,9 @@ class Generator(object):
 
         self.pm_spc = PathManager([])
         self.jinjaenv_args = {'keep_trailing_newline': True}
+
+        if global_jinja_args:
+            self.jinjaenv_args.update(global_jinja_args)
 
     def load_project(self, project):
         self.project = self._load_project_from_dir(project)

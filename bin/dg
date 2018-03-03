@@ -130,6 +130,12 @@ parser.add_argument(
     help='Maximum number of rendering passes, defaults to 32',
 )
 
+parser.add_argument(
+    '--keep-block-whitespaces',
+    help="Disable the jinja2 trim_blocks and lstrip_blocks options",
+    action="store_true",
+)
+
 tpl_or_combinations = parser.add_mutually_exclusive_group(required=True)
 
 tpl_or_combinations.add_argument(
@@ -179,7 +185,14 @@ def render_template(args):
     if args.template == '-':
         args.template = "/proc/self/fd/0"
 
-    generator = Generator()
+    global_jinja_args = None
+    if not args.keep_block_whitespaces:
+        global_jinja_args = {
+            'trim_blocks': True,
+            'lstrip_blocks': True,
+        }
+
+    generator = Generator(global_jinja_args=global_jinja_args)
     generator.load_project(args.projectdir)
     generator.render(
         args.spec,
