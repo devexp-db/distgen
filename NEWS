@@ -21,6 +21,8 @@ New in 1.0:
     detects the underlying distribution for the defaults, instead of
     instantiating the templates artificially for 'fedora-21-x86_64'.
 
+  - The --distro flag accepts arguments both with/without ".yaml" suffix.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New in 0.20:

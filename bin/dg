@@ -63,7 +63,9 @@ parser.add_argument(
     '--distro',
     metavar='DIST',
     type=str,
-    help='Use distribution metadata specified by DIST yaml file',
+    help='Use DIST distribution configuration.  Either that DIST.yaml needs '
+         'to exist in the distgen installation, or it can be any file '
+         'within PROJECTDIR (relative or absolute file name).',
 )
 
 parser.add_argument(
