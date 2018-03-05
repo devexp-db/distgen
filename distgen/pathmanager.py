@@ -1,7 +1,6 @@
-from __future__ import print_function
-
 import os
-import sys
+
+from distgen.err import fatal
 
 
 class PathManager(object):
@@ -34,8 +33,7 @@ class PathManager(object):
                     return cf
 
         if fail:
-            print("can't find {0} '{1}'".format(file_desc, filename))
-            sys.exit(1)
+            fatal("can't find {0} '{1}'".format(file_desc, filename))
 
         return None
 
@@ -51,8 +49,7 @@ class PathManager(object):
             fd = open(filename)
         except IOError:
             if fail:
-                print("can't open file {0}".format(relative))
-                sys.exit(1)
+                fatal("can't open file {0}".format(relative))
             return None
 
         return fd
