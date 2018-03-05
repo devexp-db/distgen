@@ -26,3 +26,13 @@ MAINTAINER unknown <unknown@unknown.com>
 ENV container="docker"
 
 CMD ["container-start"]
+
+
+=== rhel-8-x86_64 ===
+
+FROM registry.access.redhat.com/rhel8
+MAINTAINER unknown <unknown@unknown.com>
+
+ENV container="docker"
+
+CMD ["container-start"]

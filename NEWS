@@ -15,7 +15,7 @@ New in 1.0:
 
   - Added option '--version'.
 
-  - Added 'centos-6-x86_64' dist config.
+  - Added 'centos-6-x86_64' and 'rhel-8-x86_64' dist config.
 
   - When the --distro flag is not specified, 'dg' newly automatically
     detects the underlying distribution for the defaults, instead of
