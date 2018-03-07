@@ -15,6 +15,7 @@ from distgen.generator import Generator
 from distgen.commands import CommandsConfig
 from distgen.multispec import Multispec
 from distgen.version import dg_version
+from distgen.distro_version import detect_default_distro
 
 def error(msg):
     print(msg, file=sys.stderr)
@@ -33,8 +34,7 @@ As an example of 'dg' usage, to generate _Dockerfile_ for Fedora
 
  $ cd project/directory
  $ dg --spec      docker-data.yaml      \\
-      --template  docker.tpl            \\
-      --distro    fedora-21-x86_64.yaml
+      --template  docker.tpl
 """
 
 parser = ArgumentParser(
@@ -64,7 +64,6 @@ parser.add_argument(
     metavar='DIST',
     type=str,
     help='Use distribution metadata specified by DIST yaml file',
-    default="fedora-21-x86_64.yaml",
 )
 
 parser.add_argument(
@@ -194,12 +193,19 @@ def render_template(args):
 
     generator = Generator(global_jinja_args=global_jinja_args)
     generator.load_project(args.projectdir)
+
+    distro = args.distro
+    if not distro:
+        distro = detect_default_distro()
+    if not distro:
+        fatal("distribution not detected, use --distro option")
+
     generator.render(
         args.spec,
         args.multispec,
         args.multispec_selector,
         args.template,
-        args.distro,
+        distro,
         cmd_cfg,
         output,
         args.macros_from,
