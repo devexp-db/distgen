@@ -1,0 +1,68 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New in 1.0:
+
+* Incompatible changes
+
+  - The 'trim_blocks' and 'lstrip_blocks' jinja2 options are enabled by
+    default for more convenient white-space maintenance.  The macros blocks
+    (conditions, loops, etc.) can look like '{% .. %}' instead of '{%- -%}'
+    in most cases.  This might require updating the templates (if
+    whitespaces matters) or using --keep-block-whitespaces to use the
+    old behavior.
+
+* New features
+
+  - Added option '--version'.
+
+  - Added 'centos-6-x86_64' dist config.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New in 0.20:
+
+* New features
+
+  - Recursive re-rendering is done only for specs, not for the whole
+    template (performance, step towards having a library), PR#64.
+
+  - Recursive re-rendering is enabled by default, with default 32 passes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New in 0.19:
+
+  - Template files can be specified also with relative path.
+
+  - Files created through '--output' option are created according to the
+    umask setup.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New in 0.18:
+
+* Bugfixes
+
+  - Lint fixes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New in 0.17:
+
+* New features
+
+  - Started shipping 'dg.1' manual page.
+
+* Bugfixes
+
+  - Distconf update for docker registries.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New in 0.16:
+
+* New features
+
+  - recursive re-rendering, disabled by default (PR#41)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
