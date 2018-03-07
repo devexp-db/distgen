@@ -17,6 +17,10 @@ New in 1.0:
 
   - Added 'centos-6-x86_64' dist config.
 
+  - When the --distro flag is not specified, 'dg' newly automatically
+    detects the underlying distribution for the defaults, instead of
+    instantiating the templates artificially for 'fedora-21-x86_64'.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New in 0.20:
