@@ -1,1 +1,1 @@
-dg_version = "0.21.dev1"
+dg_version = "1.0.dev1"

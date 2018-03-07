@@ -3,6 +3,7 @@ include dg
 include requirements.txt
 include LICENSE
 include Makefile
+include NEWS
 include tests/testsuite
 include distconf/lib/*.yaml
 include distconf/*.yaml

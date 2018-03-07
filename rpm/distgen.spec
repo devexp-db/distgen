@@ -8,7 +8,7 @@
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
-Version:    0.21%{?postrel:.%{postrel}%{posttag}}
+Version:    1.0%{?postrel:.%{postrel}%{posttag}}
 Release:    1%{?dist}
 Group:      Applications/Communications
 License:    GPLv2+
@@ -50,7 +50,7 @@ make PYTHON=%{pybin} check
 
 %files
 %license LICENSE
-%doc AUTHORS
+%doc AUTHORS NEWS
 %doc docs/
 %{_bindir}/dg
 %{pylib}/distgen
@@ -60,6 +60,9 @@ make PYTHON=%{pybin} check
 
 
 %changelog
+* Wed Mar 07 2018 Pavel Raiskup <praiskup@redhat.com> - 1.0.dev1-1
+- bump v1.0
+
 * Tue Oct 17 2017 Slavek Kabrda <bkabrda@redhat.com> - 0.18.dev1-1
 - update to 0.18.dev1
 
