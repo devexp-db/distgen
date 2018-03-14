@@ -107,7 +107,7 @@ for i in $tests; do
 
         echo -e "=== $distro ===\n" >> "$outfile"
 
-        test -f "$wd/container" && set dummy --container `cat "$wd/container"`
+        test -f "$wd/container_opt" && set dummy --container `cat "$wd/container_opt"`
         shift
         additional_opts=
         test -f "$wd/dg-opts" && additional_opts=`cat "$wd/dg-opts"`
