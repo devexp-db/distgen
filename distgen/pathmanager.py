@@ -7,9 +7,10 @@ import sys
 class PathManager(object):
     envvar = None
 
-    def __init__(self, path, envvar=None):
+    def __init__(self, path, envvar=None, file_suffix=None):
         self.path = path
         self.envvar = envvar
+        self.suffix = file_suffix
 
     def get_file(self, filename, prefered_path=None, fail=False,
                  file_desc="file"):
@@ -25,9 +26,12 @@ class PathManager(object):
             path = prefered_path + path
 
         for i in path:
-            config_file = i + "/" + filename
-            if os.path.isfile(config_file):
-                return config_file
+            config_files = [os.path.join(i, filename)]
+            if self.suffix:
+                config_files.append(config_files[0] + self.suffix)
+            for cf in config_files:
+                if os.path.isfile(cf):
+                    return cf
 
         if fail:
             print("can't find {0} '{1}'".format(file_desc, filename))

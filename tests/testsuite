@@ -122,7 +122,7 @@ for i in $tests; do
 
         PYTHON=${PYTHON}                                \
         dg  --projectdir    "$wd"                       \
-            --distro        "$distro".yaml              \
+            --distro        "$distro"                   \
             ${spec_opts[@]}                             \
             ${multispec_opts[@]}                        \
             --template      "$wd/test.tpl"              \

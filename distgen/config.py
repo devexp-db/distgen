@@ -55,5 +55,6 @@ def __recursive_load(pm, stack, filename):
 
 
 def load_config(path, config_file, context=None):
-    yaml_data = __recursive_load(PathManager(path), [], config_file)
+    pm = PathManager(path, file_suffix='.yaml')
+    yaml_data = __recursive_load(pm, [], config_file)
     return yaml_data
