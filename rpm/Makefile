@@ -1,12 +1,7 @@
-project = distgen
-
-project_version = \
-	cd .. ; \
-	python setup.py --version
-
-generate_tarball = \
-	cd .. ; \
-	python setup.py sdist --dist-dir rpm
+PROJECT = distgen
+PYTHON  := python3
+VERSION := $(shell cd .. ; $(PYTHON) setup.py --version)
+RELEASE := 1
 
 git_rev = \
 	rev="$$(git rev-parse HEAD)" ; \
@@ -21,16 +16,24 @@ rpmbuild_options = \
 	--define "_srcrpmdir $(PWD)" \
 	--define "dist %nil"
 
-tarball = "$(project)-$(shell $(project_version)).tar.gz"
+tarball = "$(PROJECT)-$(VERSION).tar.gz"
 
-spec = $(project).spec
+spec = $(PROJECT).spec
 
-all: srpm
+all: $(spec) $(tarball)
 
-$(tarball): clean
-	$(generate_tarball)
+$(spec): $(PROJECT).spec.dg
+	PYTHON="$(PYTHON)" \
+	../dg --template $< \
+	    --macro "VERSION $(VERSION)" \
+	    --macro "RELEASE $(RELEASE)" \
+	    --output $@
 
-srpm: $(tarball)
+$(tarball):
+	rm -rf $(tarball)
+	cd .. && $(PYTHON) setup.py sdist --dist-dir rpm
+
+srpm: $(spec) $(tarball)
 	rm -rf *.src.rpm
 	rpmbuild -bs $(rpmbuild_options) $(spec)
 
@@ -39,4 +42,4 @@ rpm: srpm
 
 
 clean:
-	rm -rf *.src.rpm *.tar.gz $(project)-*
+	rm -rf *.src.rpm *.tar.gz $(PROJECT)-* noarch *.spec
