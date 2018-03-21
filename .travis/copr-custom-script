@@ -1,0 +1,40 @@
+#! /bin/bash -x
+
+set -e
+
+hook_payload=$(readlink -f "${HOOK_PAYLOAD-hook_payload}")
+
+# clone the helper scripts when needed, and add to PATH
+test -d copr-ci-tooling \
+    || git clone --depth 1 https://github.com/praiskup/copr-ci-tooling.git
+export PATH="$PWD/copr-ci-tooling:$PATH"
+
+# clone the tested project
+git clone \
+    --recursive \
+    --no-single-branch \
+    https://github.com/devexp-db/distgen.git
+
+# checkout requested revision
+cd distgen
+copr-travis-checkout "$hook_payload"
+
+commit=$(git rev-parse HEAD)
+short_commit=${commit::5}
+date=$(date +"%Y%m%d_%H%M%S")
+
+if grep PUSH "$hook_payload"; then
+    # number of commits since last tag
+    git_describe=$(git describe)
+    # e.g. v0.20-13-g3878fff
+    IFS=- eval "set -- \$git_describe"
+    RELEASE="git_$2_$short_commit"
+else
+    # we are checked out to 'pull-requests/pr/78'
+    pr_branch=$(git branch -r --contains HEAD)
+    IFS=/ eval "set -- \$pr_branch"
+    RELEASE="PR${3}_${date}_git$short_commit"
+fi
+
+cd rpm
+make RELEASE="$RELEASE"

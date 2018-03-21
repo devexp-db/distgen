@@ -1,0 +1,58 @@
+# vim: ft=spec
+
+%global pybin %{?fedora:%{__python3}}%{!?fedora:%{__python}}
+%global pylib %{?fedora:%{python3_sitelib}}%{!?fedora:%{python_sitelib}}
+%global pypkg %{?fedora:python3}%{!?fedora:python}
+
+Name:       distgen
+Summary:    Templating system/generator for distributions
+Version:    {{ m.VERSION }}
+Release:    {{ m.RELEASE }}%{?dist}
+Group:      Applications/Communications
+License:    GPLv2+
+URL:        https://github.com/devexp-db/distgen
+BuildArch:  noarch
+
+%global both_requires %{pypkg}-jinja2, %{pypkg}-six, %{?fedora:%{pypkg}-}PyYAML
+
+Requires:      %both_requires
+BuildRequires: %{pypkg}-setuptools %{pypkg}-devel %{?fedora:%{pypkg}-}pytest %both_requires
+BuildRequires: %{pypkg}-pytest-catchlog %pypkg-mock
+
+Source0: https://github.com/devexp-db/distgen/archive/v%version/distgen-%version.tar.gz
+
+%description
+Based on given template specification (configuration for template), template
+file and preexisting distribution metadata generate output file.
+
+
+%prep
+%setup -q
+
+
+%build
+%{pybin} setup.py build
+
+
+%install
+%{pybin} setup.py install --root=%{buildroot}
+
+
+%check
+make PYTHON=%{pybin} check
+
+
+%files
+%license LICENSE
+%doc AUTHORS NEWS
+%doc docs/
+%{_bindir}/dg
+%{pylib}/distgen
+%{pylib}/%{name}-*.egg-info
+%{_datadir}/%{name}
+%{_mandir}/man1/*
+
+
+%changelog
+* Wed Mar 21 2018 Pavel Raiskup <praiskup@redhat.com> - {{ m.VERSION }}-{{ m.RELEASE }}
+- no changelog from git-repo build ATM

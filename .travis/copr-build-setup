@@ -1,0 +1,50 @@
+#! /bin/bash
+
+# Helper script (used by praiskup atm) to update CI scripting on Copr side.
+
+script=$(readlink -f "$(dirname "$0")")/copr-custom-script
+
+PROJECT_PUSH=praiskup/distgen-ci
+PROJECT_PR=praiskup/distgen
+
+build_deps=(
+    git
+    distgen
+    python3
+)
+
+resultdir=distgen/rpm
+
+project=
+case $1 in
+    PR) project=$PROJECT_PR ;;
+    PUSH) project=$PROJECT_PUSH ;;
+esac
+
+if test "$2" = --local-debug; then
+    cmd=(
+        copr-sources-custom
+        --workdir /workdir
+        --mock-config /etc/mock/srpm-builds.cfg
+        --script "$script"
+        --builddeps "${build_deps[*]}"
+        --hook-payload-file sth
+        --resultdir "$resultdir"
+    )
+    space=
+    for arg in "${cmd[@]}"; do
+        printf "%q" "$arg"
+        space=' '
+        printf "$space"
+    done
+    echo
+    exit 0
+fi
+
+test -n "$project" || { echo no \$project ; exit 1 ; }
+
+copr edit-package-custom "$project" \
+    --name distgen \
+    --script "$script" \
+    --script-resultdir "$resultdir" \
+    --script-builddeps "${build_deps[*]}"

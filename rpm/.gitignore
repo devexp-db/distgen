@@ -1,2 +1,3 @@
 distgen-*
 noarch
+*.spec
