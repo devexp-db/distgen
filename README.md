@@ -22,11 +22,20 @@ You can find distgen documentation at http://distgen.readthedocs.io.
 Download/Installation
 ---------------------
 
-Stable releases of distgen are available (for Red Hat distributions) in
-[Copr](https://copr.fedoraproject.org/coprs/praiskup/distgen).
+Stable releases of distgen are available as RPMs in Fedora and EPEL
+repositories, and in [pypi](https://pypi.python.org/pypi/distgen):
+
+  ```
+  $ sudo dnf install distgen
+
+  $ pip install distgen
+  ````
+
+Development (git snapshot) RPMs are automatically built in [Fedora
+Copr](https://copr.fedoraproject.org/coprs/praiskup/distgen).
 
 You can also run development version directly from `git`, simply use the `dg`
-shell wrapper available in git root directory.
+shell wrapper available in this git root directory.
 
 Example with Dockerfile
 -----------------------
