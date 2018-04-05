@@ -84,7 +84,7 @@ Here's an example multispec file::
      exclude:
        - distros:
            - fedora-26-x86_64
-         version: 2.2
+         version: "2.2"
 
 A multispec has 3 attributes (see below for the explanation of mechanics
 behind this file):
