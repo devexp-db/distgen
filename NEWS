@@ -23,6 +23,8 @@ New in 1.0:
 
   - The --distro flag accepts arguments both with/without ".yaml" suffix.
 
+  - Error output is printed out consistently through fatal() to stderr.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New in 0.20:

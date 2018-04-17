@@ -1,7 +1,4 @@
-from __future__ import print_function
-
 import six
-import sys
 import copy
 
 from distgen.err import fatal
@@ -44,8 +41,7 @@ def __recursive_load(pm, stack, filename):
             file_desc="configuration file",
         ))
     except yaml.YAMLError as exc:
-        print("Error in configuration file: {0}".format(exc))
-        sys.exit(1)
+        fatal("Error in configuration file: {0}".format(exc))
 
     if yaml_data and "extends" in yaml_data:
         subdata = __recursive_load(pm, stack, yaml_data["extends"])

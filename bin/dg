@@ -11,18 +11,16 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import six
 
+import logging
+logging.basicConfig(format='dg: %(levelname)-8s: %(message)s')
+
 from distgen.generator import Generator
 from distgen.commands import CommandsConfig
 from distgen.multispec import Multispec
 from distgen.version import dg_version
 from distgen.distro_version import detect_default_distro
+from distgen.err import fatal
 
-def error(msg):
-    print(msg, file=sys.stderr)
-
-def die(msg):
-    error(msg)
-    sys.exit(1)
 
 description = \
 """
@@ -172,7 +170,7 @@ def render_template(args):
             _, temp_filename = tempfile.mkstemp(prefix="distgen-")
             output = open(temp_filename, 'wb')
     except:
-        die("can't create temporary file for '{0}'".format(args.output))
+        fatal("can't create temporary file for '{0}'".format(args.output))
 
     cmd_cfg = CommandsConfig()
     cmd_cfg.container = args.container
@@ -226,7 +224,7 @@ def render_template(args):
             os.umask(umask)
             os.chmod(args.output, 0o666 &~umask)
         except:
-            die("can't move '{0}' into '{1}'".format(temp_filename, args.output))
+            fatal("can't move '{0}' into '{1}'".format(temp_filename, args.output))
 
 
 def main():
