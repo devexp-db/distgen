@@ -106,32 +106,34 @@ class Multispec(object):
             self._validation_err(
                 'matrix must be a mapping, is "{0}"'.format(type(matrix)))
 
-        self._validate_excludes(matrix.get('exclude', []))
+        self._validate_matrix_node('exclude', matrix)
+        self._validate_matrix_node('combination_extras', matrix)
 
-    def _validate_excludes(self, excludes):
-        if not isinstance(excludes, list):
+    def _validate_matrix_node(self, node_name, matrix):
+        node = matrix.get(node_name, [])
+        if not isinstance(node, list):
             self._validation_err(
-                'matrix.exclude must be a list, is "{0}"'.
-                format(type(excludes)))
+                'matrix.{0} must be a list, is "{1}"'.
+                format(node_name, type(node)))
 
-        for e in excludes:
-            self._validate_single_exclude(e)
+        for e in node:
+            self._validate_single_matrix_item(e, node_name)
 
-    def _validate_single_exclude(self, exclude):
-        if not isinstance(exclude, dict):
+    def _validate_single_matrix_item(self, item, name):
+        if not isinstance(item, dict):
             self._validation_err(
-                'each exclude must be a mapping, not "{0}"'.
-                format(type(exclude)))
+                'each matrix node item must be a mapping, not "{0}"'.
+                format(type(item)))
 
-        if 'distroinfo' in exclude:
+        if 'distroinfo' in item:
             self._validation_err(
-                'a matrix.exclude member must not contain "distroinfo", '
-                'use "distro" list instead')
+                'a matrix.{0} member must not contain "distroinfo", '
+                'use "distro" list instead'.format(name))
 
-        if 'distros' in exclude and not isinstance(exclude['distros'], list):
+        if 'distros' in item and not isinstance(item['distros'], list):
             self._validation_err(
-                'matrix.exclude.*.distros must be a list, found "{0}"'.
-                format(type(exclude['distros'])))
+                'matrix.{0}.*.distros must be a list, found "{1}"'.
+                format(name, type(item['distros'])))
 
     def has_spec_group(self, group):
         return group in self._specgroups
@@ -178,6 +180,20 @@ class Multispec(object):
                     self.distrofile2name(selector_dict['distro']))[0]:
                 yield selector_dict
 
+    def check_matrix_combinations(self, node, distro, parsed_selectors):
+
+        def process_combinations(data, distro, parsed_selectors):
+            for k, v in data.items():
+                if k == DISTROINFO_GRP_DISTROS and distro not in v:
+                    return False
+                elif (k != DISTROINFO_GRP_DISTROS and k in parsed_selectors and
+                      parsed_selectors[k] != v):
+                    return False
+            return data.get('data', True)
+
+        for data in self._matrix.get(node, []):
+            yield process_combinations(data, distro, parsed_selectors)
+
     def verify_selectors(self, selectors, distro):
         parsed_selectors = self.parse_selectors(selectors)
 
@@ -210,15 +226,10 @@ class Multispec(object):
                 )
 
         # second, verify that these selector values are not excluded by matrix
-        for excluded in self._matrix.get('exclude', []):
-            exclude = True
-            for k, v in excluded.items():
-                if k == DISTROINFO_GRP_DISTROS and distro not in v:
-                    exclude = False
-                elif k != DISTROINFO_GRP_DISTROS and parsed_selectors[k] != v:
-                    exclude = False
-            if exclude:
-                return False, 'This combination is excluded in matrix section'
+        if any([v for v in self.check_matrix_combinations('exclude',
+                                                          distro,
+                                                          parsed_selectors)]):
+            return False, 'This combination is excluded in matrix section'
 
         # third, make sure we have a distroinfo section that contains
         # passed distro
@@ -250,6 +261,12 @@ class Multispec(object):
             di = copy.deepcopy(di)
             di.pop(DISTROINFO_GRP_DISTROS)
             selected_data = merge_yaml(selected_data, di)
+
+        for extras in self.check_matrix_combinations('combination_extras',
+                                                     distro,
+                                                     parsed_selectors):
+            if extras:
+                selected_data = merge_yaml(selected_data, extras)
 
         return selected_data
 
