@@ -19,13 +19,16 @@ class Generator(object):
     pm_spc = None
 
     def __init__(self, global_jinja_args=None):
+        here = os.path.dirname(os.path.abspath(__file__))
         self.pm_cfg = PathManager(
-            [os.path.join(sys.prefix, "share", "distgen", "distconf")],
+            [os.path.join(here, "distconf"),
+             os.path.join(sys.prefix, "share", "distgen", "distconf")],
             envvar="DG_DISTCONFDIR"
         )
 
         self.pm_tpl = PathManager(
-            [os.path.join(sys.prefix, "share", "distgen", "templates")],
+            [os.path.join(here, "templates"),
+             os.path.join(sys.prefix, "share", "distgen", "templates")],
             envvar="DG_TPLDIR"
         )
 
