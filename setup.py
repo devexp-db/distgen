@@ -24,17 +24,6 @@ except:
     raise
 
 
-def dynamic_data_files():
-    dynamic_list = []
-    for dcdir in ["distconf", "distconf/lib"]:
-        dcfiles = ["{0}/{1}".format(dcdir, f)
-                   for f in listdir(dcdir)]
-        dcfiles = [f for f in dcfiles if path.isfile(f)]
-        dynamic_list.append((pkgdatadir + "/" + dcdir, dcfiles))
-
-    return dynamic_list
-
-
 def get_requirements():
     with open('requirements.txt') as f:
         return f.read().splitlines()
@@ -52,17 +41,11 @@ setup(
     url='https://github.com/devexp-db/distgen',
     platforms=['any'],
     packages=['distgen'],
-    data_files=[
-        (tpldir + '/container/docker', [
-            'templates/container/docker/parts.tpl',
-        ]),
-        (tpldir, [
-            'templates/docker.tpl',
-            'templates/makefile-macros.tpl',
-            'templates/README',
-            'templates/general.tpl',
-        ]),
-    ] + dynamic_data_files(),
+    # this is bit impractical, but I see no better way to include subdirs properly
+    package_data={'distgen':
+                  ['distconf/*.yaml', 'distconf/**/*.yaml',
+                   'templates/*.tpl', 'templates/**/*.tpl', 'templates/**/**/*.tpl']
+                 },
     scripts=['bin/dg'],
     install_requires=get_requirements(),
     cmdclass={

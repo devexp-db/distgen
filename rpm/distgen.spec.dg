@@ -36,6 +36,8 @@ file and preexisting distribution metadata generate output file.
 
 %install
 %{pybin} setup.py install --root=%{buildroot}
+mkdir -p %{buildroot}%{_datadir}/distgen
+mv %{buildroot}%{pylib}/distgen/{distconf,templates} %{buildroot}%{_datadir}/distgen
 
 
 %check
