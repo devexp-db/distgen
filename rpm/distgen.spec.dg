@@ -19,7 +19,7 @@ Requires:      %both_requires
 BuildRequires: %{pypkg}-setuptools %{pypkg}-devel %{?fedora:%{pypkg}-}pytest %both_requires
 BuildRequires: %{pypkg}-pytest-catchlog %pypkg-mock
 
-Source0: https://github.com/devexp-db/distgen/archive/v%version/distgen-%version.tar.gz
+Source0: https://pypi.org/packages/source/d/%name/%name-%version.tar.gz
 
 %description
 Based on given template specification (configuration for template), template
