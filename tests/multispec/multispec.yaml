@@ -26,4 +26,16 @@ matrix:
   exclude:
     - distros:
         - fedora-26-x86_64
-      version: 2.2
+      version: "2.2"
+
+  combination_extras:
+    - distros:
+        - fedora-26-x86_64
+      version: "2.4"
+      data:
+        name_label: "$FGC/$NAME"
+    - distros:
+        - centos-7-x86_64
+      version: "2.2"
+      data:
+        name_label: "centos/SW-2.2-centos7"
