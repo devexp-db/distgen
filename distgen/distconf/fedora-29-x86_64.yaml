@@ -1,4 +1,4 @@
-extends: "fedora-rawhide-i686.yaml"
+extends: "fedora-29-i686.yaml"
 
 macros:
   libdir: $prefix/lib64
@@ -7,4 +7,4 @@ os:
   arch: x86_64
 
 docker:
-  from: fedora:rawhide
+  from: fedora:29
