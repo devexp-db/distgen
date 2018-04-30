@@ -2,7 +2,12 @@
 
 New in 1.2:
 
-*
+* New features
+
+  - Added 'fedora-29-x86_64' dist config.
+
+  - The distconf 'fedora-rawhide-x86_64' now uses value 'fedora:rawhide'
+    for 'docker.from', instead of 'fedora:NN'.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
