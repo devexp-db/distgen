@@ -89,6 +89,25 @@ class TestMultispec(object):
         with pytest.raises(MultispecError):
             ms.parse_selectors(['foo bar'])
 
+    @pytest.mark.parametrize('node, distro, selectors, expected', [
+        ('exclude', 'fedora-26-x86_64', ['version=2.2'], [True, False]),
+        ('exclude', 'fedora-26-x86_64', ['version=2.4'], [False, False]),
+        ('combination_extras', 'fedora-26-x86_64', ['version=2.4'],
+         [{'name_label': "$FGC/$NAME",
+           'base_version': 1}, False]),
+        ('combination_extras', 'fedora-26-x86_64', ['version=2.2'],
+         [False, False]),
+        ('combination_extras', 'centos-7-x86_64', ['version=2.2'],
+         [False, {'name_label': 'centos/SW-2.2-centos7'}]),
+    ])
+    def test_check_matrix_combinations(self, node, distro,
+                                       selectors, expected):
+        ms = Multispec.from_path(ms_fixtures, 'complex.yaml')
+        parsed_selectors = ms.parse_selectors(selectors)
+        assert list(ms.check_matrix_combinations(node,
+                                                 distro,
+                                                 parsed_selectors)) == expected
+
     def test_distrofile2name(self):
         ms = Multispec.from_path(ms_fixtures, 'simplest.yaml')
         assert ms.distrofile2name('foo/bar/fedora-26-x86_64.yaml') == 'fedora-26-x86_64'
@@ -120,7 +139,9 @@ class TestMultispec(object):
              'distro_specific_help': 'Some Fedora specific help',
              'spam': 'ham',
              'vendor': 'Fedora Project',
-             'version': '2.4'}
+             'version': '2.4',
+             'base_version': 1,
+             'name_label': '$FGC/$NAME'}
 
     def test_select_data_nok(self):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')

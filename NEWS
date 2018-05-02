@@ -9,6 +9,10 @@ New in 1.2:
   - The distconf 'fedora-rawhide-x86_64' now uses value 'fedora:rawhide'
     for 'docker.from', instead of 'fedora:NN'.
 
+  - The 'combination_extras' member in matrix section of 'multipec' allow
+    to list extras, mapping of key-value pairs, which are only added to the
+    specific distro and version combination.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New in 1.1:

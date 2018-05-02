@@ -6,6 +6,9 @@ ENV NAME=mycontainer VERSION=0 RELEASE=1 ARCH=x86_64
 
 LABEL summary="A container that tells you how awesome it is." \
       com.redhat.component="$NAME" \
+      {% if spec.name_label %}
+      NAME="{{ spec.name_label }}" \
+      {% endif %}
       version="$VERSION" \
       release="$RELEASE.$DISTTAG" \
       architecture="$ARCH" \

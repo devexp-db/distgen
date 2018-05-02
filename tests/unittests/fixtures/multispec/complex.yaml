@@ -39,3 +39,17 @@ matrix:
       version: "2.4"
       something_else: bar
 
+  combination_extras:
+    - distros:
+        - fedora-26-x86_64
+      version: "2.4"
+      data:
+        name_label: "$FGC/$NAME"
+        base_version: 1
+
+    - distros:
+        - centos-7-x86_64
+      version: "2.2"
+      data:
+        name_label: "centos/SW-2.2-centos7"
+

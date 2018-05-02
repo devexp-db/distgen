@@ -78,13 +78,20 @@ Here's an example multispec file::
        "2.4":
          version: "2.4"
    
-   # in the "matrix" section, you can specify combinations that you want
-   # to explicitly exclude from the rendering matrix
+   # in the "matrix" section, you can define an action that is
+   # applied only to specified distro and version combinations
    matrix:
      exclude:
        - distros:
            - fedora-26-x86_64
          version: "2.2"
+
+     combination_extras:
+       - distros:
+           - centos-7-x86_64
+         version: "2.4"
+         data:
+           extra_pkgs: ['foo', 'bar']
 
 A multispec has 3 attributes (see below for the explanation of mechanics
 behind this file):
@@ -104,10 +111,16 @@ behind this file):
     ``distroinfo`` *group* is an exception, as its members ``distros`` list
     are used in the cartesian product.
 
-* ``matrix`` (optional) - currently, this attribute can only contain the
-  ``exclude`` member. When used, the ``exclude`` attribute contains a list
-  of combinations excluded from the matrix. The ``distroinfo`` members
-  must be referred to via ``distro`` list.
+* ``matrix`` (optional) - currently, this attribute can only contain two
+  members.
+
+  * The ``exclude`` attribute contains a list of combinations excluded
+    from the matrix. The ``distroinfo`` members must be referred to via
+    ``distro`` list.
+  
+  * The ``combination_extras`` member contains a list of combinations and
+    extras, mapping of key-value pairs, which are only added to this combination
+    and can be used in your templates.
 
 Hence the above example produces a following rendering matrix:
 
