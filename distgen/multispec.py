@@ -152,8 +152,8 @@ class Multispec(object):
         return distroinfos
 
     def has_spec_group_item(self, group, item):
-        return (self.has_spec_group(group) and
-                item in self.get_spec_group(group))
+        return (self.has_spec_group(group)
+                and item in self.get_spec_group(group))
 
     def get_spec_group_item(self, group, item):
         return copy.deepcopy(self.get_spec_group(group)[item])
@@ -186,8 +186,8 @@ class Multispec(object):
             for k, v in data.items():
                 if k == DISTROINFO_GRP_DISTROS and distro not in v:
                     return False
-                elif (k != DISTROINFO_GRP_DISTROS and k in parsed_selectors and
-                      parsed_selectors[k] != v):
+                elif (k != DISTROINFO_GRP_DISTROS and k in parsed_selectors
+                      and parsed_selectors[k] != v):
                     return False
             return data.get('data', True)
 
@@ -218,8 +218,8 @@ class Multispec(object):
                 )
 
         for selector_name in self.raw_data['specs'].keys():
-            if (selector_name != DISTROINFO_GRP and
-                    selector_name not in parsed_selectors):
+            if (selector_name != DISTROINFO_GRP
+                    and selector_name not in parsed_selectors):
                 return (
                     False,
                     '"{0}" selector must be present'.format(selector_name)
