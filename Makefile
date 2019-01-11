@@ -9,8 +9,10 @@ test-end2end:
 test-unit:
 	PYTHONPATH=..:$${PYTHONPATH} ${PYTHON} -m pytest `[ ! -z ${COVERAGE} ] && echo "--cov distgen"` tests/unittests/
 
+# Note that flake8 reports both W503 and W504 ATM :-/ so ignore W503 for now,
+# which is what should be considered the right setup.
 test-lint:
-	flake8 distgen/
+	flake8 distgen/ --ignore=W503
 
 # Check that testsuite in packaged sources work fine, too.
 test-sdist-check:
