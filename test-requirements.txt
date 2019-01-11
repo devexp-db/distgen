@@ -1,5 +1,5 @@
 pytest
 pytest-catchlog
-pytest-cov
+pytest-cov<2.6
 coverage
 flake8
