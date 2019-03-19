@@ -35,11 +35,14 @@ def __recursive_load(pm, stack, filename):
 
     import yaml
     try:
-        yaml_data = yaml.load(pm.open_file(
-            filename,
-            fail=True,
-            file_desc="configuration file",
-        ))
+        yaml_data = yaml.load(
+            pm.open_file(
+                filename,
+                fail=True,
+                file_desc="configuration file",
+            ),
+            Loader=yaml.SafeLoader,
+        )
     except yaml.YAMLError as exc:
         fatal("Error in configuration file: {0}".format(exc))
 

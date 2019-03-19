@@ -28,7 +28,7 @@ class TestMultispec(object):
 
     def test_validate(self):
         with open(os.path.join(ms_fixtures, 'complex.yaml')) as f:
-            Multispec(yaml.load(f))._validate()
+            Multispec(yaml.load(f, Loader=yaml.SafeLoader))._validate()
 
     def test_has_spec_group(self):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')

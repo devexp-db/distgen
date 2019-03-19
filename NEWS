@@ -6,6 +6,8 @@ New in 1.3:
 
   - Added 'fedora-30' config, and rawhide moved to 'fedora-31'.
 
+  - Compatibility fixes for new PyYAML 5.1.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New in 1.2:

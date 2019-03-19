@@ -2,6 +2,7 @@ import os
 import sys
 import imp
 import jinja2
+import functools
 
 from distgen.err import fatal
 from distgen.pathmanager import PathManager
@@ -195,6 +196,32 @@ class Generator(object):
 
         return s
 
+    def _enhanced_yaml_module(self, sysconfig):
+
+        # NOTE: This is soo ugly, sorry for that, in future we need to modify
+        # PyYAML to let us specify callbacks, somehow.  But for now, import
+        # yaml right here (local import) to be able to add the
+        # constructors/representers **only** locally (don't modify global
+        # context).
+        def _eval_node(loader, node):
+            return str(eval(str(loader.construct_scalar(node)), {
+                'project': self.project,
+                'config': sysconfig,
+                'macros': sysconfig['macros'],
+            }))
+
+        import yaml
+        try:
+            yaml.add_constructor(u'!eval', _eval_node, yaml.FullLoader)
+            yaml.dg_load = functools.partial(yaml.load, Loader=yaml.FullLoader)
+        except AttributeError:
+            # Older versions of PyYAML don't have yaml.FullLoader, remove this
+            # once we don't have to deal with those.
+            yaml.add_constructor(u'!eval', _eval_node)
+            yaml.dg_load = yaml.load
+
+        return yaml
+
     def render(self, specfiles, multispec, multispec_selectors, template,
                config, cmd_cfg, output, confdirs=None,
                explicit_macros={}, max_passes=1):
@@ -227,20 +254,7 @@ class Generator(object):
         self.vars_fill_variables(explicit_macros, sysconfig)
         sysconfig = merge_yaml(sysconfig, explicit_macros)
 
-        # NOTE: This is soo ugly, sorry for that, in future we need to modify
-        # PyYAML to let us specify callbacks, somehow.  But for now, import
-        # yaml right here to be able to add the constructors/representers
-        # "locally".
-        import yaml
-
-        def _eval_node(loader, node):
-            return str(eval(str(loader.construct_scalar(node)), {
-                'project': self.project,
-                'config': sysconfig,
-                'macros': sysconfig['macros'],
-            }))
-
-        yaml.add_constructor(u'!eval', _eval_node)
+        yaml = self._enhanced_yaml_module(sysconfig)
 
         spec = {}
         for specfile in specfiles or []:
@@ -253,7 +267,7 @@ class Generator(object):
                 fatal("Spec file {0} not found".format(specfile))
 
             try:
-                specdata = yaml.load(specfd)
+                specdata = yaml.dg_load(specfd)
                 spec = merge_yaml(spec, specdata)
             except yaml.YAMLError as exc:
                 fatal("Error in spec file: {0}".format(exc))
