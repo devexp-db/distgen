@@ -159,6 +159,10 @@ On calling this command, distgen will:
 * Render the template providing the result of operations above accessible
   under ``spec.*`` values.
 
+* The template ``spec.multispec_raw`` namespace exists as well.  Under
+  this namespace temlpates can access the whole multispec matrix (not only
+  the selected slice).
+
 Notes on Multispec Usage
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

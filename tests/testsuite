@@ -19,6 +19,7 @@ tests="
     pkginstaller
     no-spec
     keep-block-whitespaces
+    multispec-raw
 "
 
 success=:
@@ -141,7 +142,7 @@ for i in $tests; do
     }
 
     diff -ruN "$wd/test.exp" "$wd/test.out" > "$wd/test.diff" 2>> "$wd/test.err" \
-        || { fail "test '$i' failed (diff)'" ; continue ; }
+        || { fail "test '$i' failed (diff)'" ; cat "$wd/test.diff" ; continue ; }
 done
 
 output_equals_stdout

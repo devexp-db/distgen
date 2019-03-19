@@ -276,6 +276,7 @@ class Generator(object):
                 mltspc = Multispec.from_path(self.project.directory, multispec)
                 spec = merge_yaml(
                     spec, mltspc.select_data(multispec_selectors, config))
+                spec = merge_yaml(spec, {'multispec_raw': mltspc.raw()})
             except yaml.YAMLError as exc:
                 fatal("Error in multispec file: {0}".format(exc))
             except MultispecError as exc:

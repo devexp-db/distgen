@@ -283,3 +283,10 @@ class Multispec(object):
 
     def distrofile2name(self, distro):
         return os.path.splitext(os.path.basename(distro))[0]
+
+    def raw(self):
+        return {
+            'version': copy.deepcopy(self._version),
+            'matrix': copy.deepcopy(self._matrix),
+            'specs': copy.deepcopy(self._specgroups),
+        }

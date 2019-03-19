@@ -1,0 +1,41 @@
+version: 1
+
+specs:
+  distroinfo:
+    fedora:
+      distros:
+        - fedora-26-x86_64
+        - fedora-25-x86_64
+      vendor: "Fedora Project"
+      authoritative_source_url: "some.url.fedoraproject.org"
+      distro_specific_help: "Some Fedora specific help"
+    centos:
+      distros:
+        - centos-6-x86_64
+        - centos-7-x86_64
+      vendor: "CentOS"
+      authoritative_source_url: "some.url.centos.org"
+      distro_specific_help: "Some CentOS specific help"
+  version:
+    "2.2":
+      version: 2.2
+    "2.4":
+      version: 2.4
+
+matrix:
+  exclude:
+    - distros:
+        - fedora-26-x86_64
+      version: "2.2"
+
+  combination_extras:
+    - distros:
+        - fedora-26-x86_64
+      version: "2.4"
+      data:
+        name_label: "$FGC/$NAME"
+    - distros:
+        - centos-7-x86_64
+      version: "2.2"
+      data:
+        name_label: "centos/SW-2.2-centos7"
