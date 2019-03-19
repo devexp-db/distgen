@@ -33,7 +33,7 @@ class Multispec(object):
     def from_path(cls, project_dir, path):
         pm = PathManager([])
         fd = pm.open_file(path, [project_dir], fail=True)
-        data = yaml.load(fd)
+        data = yaml.load(fd, Loader=yaml.SafeLoader)
         return cls(data)
 
     def _process(self):
