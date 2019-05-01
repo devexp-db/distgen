@@ -13,11 +13,20 @@ License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
 BuildArch:  noarch
 
-%global both_requires %{pypkg}-jinja2, %{pypkg}-six, %{?fedora:%{pypkg}-}PyYAML
+Requires: %{pypkg}-jinja2
+Requires: %{pypkg}-distro
+Requires: %{?fedora:%{pypkg}-}PyYAML
+Requires: %{pypkg}-six
 
-Requires:      %both_requires
-BuildRequires: %{pypkg}-setuptools %{pypkg}-devel %{?fedora:%{pypkg}-}pytest %both_requires
-BuildRequires: %{pypkg}-pytest-catchlog %pypkg-mock
+BuildRequires: %{pypkg}-devel
+BuildRequires: %{pypkg}-distro
+BuildRequires: %{pypkg}-jinja2
+BuildRequires: %pypkg-mock
+BuildRequires: %{?fedora:%{pypkg}-}pytest
+BuildRequires: %{pypkg}-pytest-catchlog
+BuildRequires: %{?fedora:%{pypkg}-}PyYAML
+BuildRequires: %{pypkg}-setuptools
+BuildRequires: %{pypkg}-six
 
 Source0: https://pypi.org/packages/source/d/%name/%name-%version.tar.gz
 
