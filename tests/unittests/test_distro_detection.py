@@ -15,7 +15,7 @@ class TestDistroDetection(object):
         ('rhel',    7, 'sth',             7),
     ])
     @patch('subprocess.check_output')
-    @patch('platform.dist')
+    @patch('distro.linux_distribution')
     def test_rpm(self, pdist, sp_co, distro, version, name, cversion, arch):
         sp_co.return_value = arch
         pdist.return_value = (distro, version, name)
@@ -25,7 +25,7 @@ class TestDistroDetection(object):
         )
 
 
-    @patch('platform.dist')
+    @patch('distro.linux_distribution')
     def test_others(self, dist):
         dist.return_value = ('debian', 1, 'something')
         assert detect_default_distro() == None

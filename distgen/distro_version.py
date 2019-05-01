@@ -1,9 +1,9 @@
-import platform
+import distro
 import subprocess
 
 
 def detect_default_distro():
-    os, version, name = platform.dist()
+    os, version, name = distro.linux_distribution(full_distribution_name=True)
     os = os.lower()
 
     if os == 'fedora':
