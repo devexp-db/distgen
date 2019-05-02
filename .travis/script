@@ -12,6 +12,9 @@ fi
 set -x
 
 test -n "$TRAVIS_PYTHON_VERSION"
+case $TRAVIS_PYTHON_VERSION in
+    *-dev) TRAVIS_PYTHON_VERSION=${TRAVIS_PYTHON_VERSION%%-dev} ;;
+esac
 export PYTHON="python$TRAVIS_PYTHON_VERSION"
 
 make check \
