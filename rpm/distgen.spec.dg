@@ -3,6 +3,15 @@
 %global pybin %{?fedora:%{__python3}}%{!?fedora:%{__python}}
 %global pylib %{?fedora:%{python3_sitelib}}%{!?fedora:%{python_sitelib}}
 %global pypkg %{?fedora:python3}%{!?fedora:python}
+%global meh_pypkg %{?fedora:%{pypkg}-}
+
+%if 0%{?rhel} == 8
+%global pybin %__python3
+%global pylib %python3_sitelib
+%global pypkg python3
+%global meh_pypkg python3-
+%endif
+
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
@@ -21,9 +30,9 @@ BuildRequires: %{pypkg}-devel
 BuildRequires: %{pypkg}-distro
 BuildRequires: %{pypkg}-jinja2
 BuildRequires: %pypkg-mock
-BuildRequires: %{?fedora:%{pypkg}-}pytest
+BuildRequires: %{meh_pypkg}pytest
 BuildRequires: %{pypkg}-pytest-catchlog
-BuildRequires: %{?fedora:%{pypkg}-}PyYAML
+BuildRequires: %{meh_pypkg}PyYAML
 BuildRequires: %{pypkg}-setuptools
 BuildRequires: %{pypkg}-six
 
@@ -35,7 +44,7 @@ file and preexisting distribution metadata generate output file.
 
 
 %prep
-%setup -q
+%autosetup -p1
 
 
 %build
