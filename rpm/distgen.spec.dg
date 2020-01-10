@@ -1,7 +1,7 @@
 # vim: ft=spec
 
-%global pybin %{?fedora:%{__python3}}%{!?fedora:%{__python}}
-%global pylib %{?fedora:%{python3_sitelib}}%{!?fedora:%{python_sitelib}}
+%global pybin %{?fedora:%{__python3}}%{!?fedora:%{__python2}}
+%global pylib %{?fedora:%{python3_sitelib}}%{!?fedora:%{python2_sitelib}}
 %global pypkg %{?fedora:python3}%{!?fedora:python}
 %global meh_pypkg %{?fedora:%{pypkg}-}
 
