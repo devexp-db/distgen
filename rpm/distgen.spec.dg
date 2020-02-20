@@ -23,7 +23,7 @@ BuildArch:  noarch
 
 Requires: %{pypkg}-jinja2
 Requires: %{pypkg}-distro
-Requires: %{?fedora:%{pypkg}-}PyYAML
+Requires: %{meh_pypkg}PyYAML
 Requires: %{pypkg}-six
 
 BuildRequires: %{pypkg}-devel
