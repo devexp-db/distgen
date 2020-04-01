@@ -6,13 +6,13 @@ matrix:
     - python: "3.5"
     - python: "3.6"
     - python: "3.7"
-      dist: xenial
-    - python: "3.8-dev"
-      dist: xenial
+    - python: "3.8"
+    - python: "3.9-dev"
     - env:
         - COPR_BUILD=1
         - secure: SGDMCbIpOZs6H2jHVqqtR40Qr8puKGI3ttNgisI4c6v5Xk6py0N6ZmaGx4WedWbkiYhfrrCah7w9kB626KXOV0qaFxTV5CcGIIoxfdHFAuHdAi+6UNEGLi1GHbsDHTvRUBtLEUwt8O2inhBsQWU/g3MBzPZvqVt7TFJ8mgnQ4pc++QLl2bARd/PbrxcryZ0bpNnVzRqm3ldOYq/Lg1GeROyh6MqpsS2yQgsZ2dchIJOr5Zh4tiRts3LY7OXfLQFDrqA1Jj8niTpRW4gvnSl2N5xCRqn+cAO3Zh4eopEgh8aBEVqcsCVUZQjzzOBXv1d0ELOHUu7I8yCf0SQdvGc59O0/5n0LViq12D0ukNJhfaIvlQUvD5auXXK+kVjAwMa/m7yEIGy7qCtYxaaV3DYjZapgTEPGMV2odQPz94v0yTmTN79zf/n69ZM8GROuTKJ2y7TD7j4kQUDnER76kDBDdvse6bAU8pT/scic+IcLzuxXcuN0VJLYXiWtpdvXn7cESWD9KoMWcdK+VNDyvKtbJJqzVZpn7gbEHkHbnef/6tD1zgvKU15JME9P1NfoMofMy9eeh7qiUVCe5ahRTNNEP0MSJEROFY2trSOJwtvPoHscACGCHy+pYoC6VlaYX3EubdJid8ED6pIgnC7HCgC4gm95oLjQvK69FfwEm9HnRaU=
       install: true
+      name: Copr CI Build
 before_script:
   - git submodule update --init
 
