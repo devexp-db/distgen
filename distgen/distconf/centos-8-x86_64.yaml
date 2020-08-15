@@ -1,0 +1,14 @@
+extends: "lib/centos.yaml"
+
+os:
+  version: 8
+  arch: x86_64
+
+macros:
+  libdir: $prefix/lib64
+  # systemd stuff
+  unitdir: /usr/lib/systemd/system
+  userunitdir: /usr/lib/systemd/user
+
+docker:
+  from: centos:centos8
