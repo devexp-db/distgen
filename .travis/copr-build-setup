@@ -10,6 +10,7 @@ PROJECT_PR=praiskup/distgen
 build_deps=(
     git
     distgen
+    make
     python3
 )
 

@@ -26,6 +26,7 @@ Requires: %{pypkg}-distro
 Requires: %{meh_pypkg}PyYAML
 Requires: %{pypkg}-six
 
+BuildRequires: make
 BuildRequires: %{pypkg}-devel
 BuildRequires: %{pypkg}-distro
 BuildRequires: %{pypkg}-jinja2
