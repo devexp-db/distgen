@@ -4,4 +4,4 @@ package_installer:
   name: dnf
 
 os:
-  version: 34
+  version: 35
