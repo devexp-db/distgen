@@ -1,4 +1,4 @@
-extends: "fedora-34-i686.yaml"
+extends: "fedora-35-i686.yaml"
 
 macros:
   libdir: $prefix/lib64
@@ -7,4 +7,4 @@ os:
   arch: x86_64
 
 docker:
-  from: fedora:34
+  from: fedora:35
