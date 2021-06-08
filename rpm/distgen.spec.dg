@@ -32,7 +32,9 @@ BuildRequires: %{pypkg}-distro
 BuildRequires: %{pypkg}-jinja2
 BuildRequires: %pypkg-mock
 BuildRequires: %{meh_pypkg}pytest
+%if 0%{?rhel} && 0%{?rhel} < 8
 BuildRequires: %{pypkg}-pytest-catchlog
+%endif
 BuildRequires: %{meh_pypkg}PyYAML
 BuildRequires: %{pypkg}-setuptools
 BuildRequires: %{pypkg}-six
