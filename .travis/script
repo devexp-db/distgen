@@ -4,7 +4,7 @@
 
 set -e
 if test -n "$COPR_BUILD"; then
-    curl -o copr-build https://raw.githubusercontent.com/praiskup/copr-ci-tooling/master/copr-travis-submit
+    curl -o copr-build https://raw.githubusercontent.com/praiskup/copr-ci-tooling/main/copr-travis-submit
     export COPR_PR_WEBHOOK="https://copr.fedorainfracloud.org/webhooks/custom/18597/341df2dc-df8d-4d15-bded-cdd23ffdd077/distgen/"
     exec bash copr-build
 fi
