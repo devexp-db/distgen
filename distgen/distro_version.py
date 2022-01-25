@@ -1,15 +1,28 @@
-import distro
+"""
+Detect distribution we are running on.
+"""
+
 import subprocess
+import distro as distro_module
 
 
 def detect_default_distro():
-    os, version, name = distro.linux_distribution(full_distribution_name=True)
-    os = os.lower()
+    """
+    Based on the current information from python-distro module, return the
+    expected default distgen config.  Return None if distro can not be detected.
+    """
 
-    if os == 'fedora':
+    distro, version, name = distro_module.linux_distribution(full_distribution_name=True)
+
+    if distro == 'Fedora Linux':
+        distro = 'Fedora'
+
+    distro = distro.lower()
+
+    if distro == 'fedora':
         if name.lower() == 'rawhide':
             version = 'rawhide'
-    elif os in ['centos', 'rhel']:
+    elif distro in ['centos', 'rhel']:
         pass
     else:
         return None
@@ -18,4 +31,4 @@ def detect_default_distro():
     cmd = ['rpm', '--eval', '%_arch']
     arch = subprocess.check_output(cmd).decode('ascii').strip()
 
-    return '{0}-{1}-{2}.yaml'.format(os, version, arch)
+    return '{0}-{1}-{2}.yaml'.format(distro, version, arch)
