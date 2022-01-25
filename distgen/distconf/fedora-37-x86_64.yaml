@@ -1,0 +1,10 @@
+extends: "fedora-37-i686.yaml"
+
+macros:
+  libdir: $prefix/lib64
+
+os:
+  arch: x86_64
+
+docker:
+  from: fedora:37
