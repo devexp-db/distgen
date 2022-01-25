@@ -1,6 +1,7 @@
 extends: "lib/centos.yaml"
 
 os:
+  name: CentOS Stream
   version: 9
   arch: x86_64
 
