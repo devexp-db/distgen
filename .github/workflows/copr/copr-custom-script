@@ -2,6 +2,11 @@
 
 set -e
 
+clone_url_parent=https://github.com/devexp-db/distgen.git
+
+workdir=$(basename "$clone_url_parent")
+workdir=${workdir%%.git}
+
 hook_payload=$(readlink -f "${HOOK_PAYLOAD-hook_payload}")
 
 # clone the helper scripts when needed, and add to PATH
@@ -13,11 +18,12 @@ export PATH="$PWD/copr-ci-tooling:$PATH"
 git clone \
     --recursive \
     --no-single-branch \
-    https://github.com/devexp-db/distgen.git
+    "$clone_url_parent"
 
 # checkout requested revision
-cd distgen
-copr-travis-checkout "$hook_payload"
+cd "$workdir"
+
+webhook-checkout "$hook_payload"
 
 commit=$(git rev-parse HEAD)
 short_commit=${commit::5}
