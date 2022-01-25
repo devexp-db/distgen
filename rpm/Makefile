@@ -25,6 +25,7 @@ all: $(spec) $(tarball)
 $(spec): $(PROJECT).spec.dg
 	PYTHON="$(PYTHON)" \
 	../dg --template $< \
+	    --distro fedora-rawhide-x86_64 \
 	    --macro "VERSION $(VERSION)" \
 	    --macro "RELEASE $(RELEASE)" \
 	    --output $@
