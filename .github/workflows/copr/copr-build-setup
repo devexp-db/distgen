@@ -1,0 +1,31 @@
+#! /bin/bash
+
+# Helper script (used by praiskup atm) to update CI scripting on Copr side.
+
+script=$(readlink -f "$(dirname "$0")")/copr-custom-script
+script_resultdir=distgen/rpm
+pkgname=distgen
+
+PROJECT_PUSH=praiskup/distgen-ci
+PROJECT_PR=praiskup/distgen
+
+build_deps=(
+    git
+    distgen
+    make
+    python3
+)
+
+for PROJECT in $PROJECT_PR $PROJECT_PUSH; do
+    copr_cmd=(
+        copr edit-package-custom "$PROJECT" \
+            --webhook-rebuild on \
+            --script "$script" \
+            --script-chroot "fedora-latest-x86_64" \
+            --script-builddeps "${build_deps[*]}" \
+            --name "$pkgname" \
+            --script-resultdir "$script_resultdir"
+    )
+    test "$PROJECT" = "$PROJECT_PR" && copr_cmd+=( --max-builds 20 )
+    "${copr_cmd[@]}"
+done
