@@ -34,7 +34,7 @@ if grep PUSH "$hook_payload"; then
     git_describe=$(git describe)
     # e.g. v0.20-13-g3878fff
     IFS=- eval "set -- \$git_describe"
-    RELEASE="git_$2_$short_commit"
+    RELEASE="999.git_$2_$short_commit"
 else
     # we are checked out to 'pull-requests/pr/78'
     pr_branch=$(git branch -r --contains HEAD)
