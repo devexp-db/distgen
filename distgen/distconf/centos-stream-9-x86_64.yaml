@@ -1,0 +1,15 @@
+extends: "lib/centos.yaml"
+
+os:
+  version: 9
+  arch: x86_64
+
+macros:
+  libdir: $prefix/lib64
+  # systemd stuff
+  unitdir: /usr/lib/systemd/system
+  userunitdir: /usr/lib/systemd/user
+
+docker:
+  registry: quay.io/centos
+  from: centos:stream9
