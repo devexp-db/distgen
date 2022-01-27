@@ -1,7 +1,9 @@
-import os
-import sys
 import pytest
-from mock import patch
+
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 from distgen.distro_version import detect_default_distro
 
