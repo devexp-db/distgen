@@ -1,5 +1,11 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New in 1.10:
+
+* Preferably using 'unittest.mock' than third-party 'mock' for testing
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New in 1.9:
 
 * Fixed detection of OS/RELEASE on Fedora 35+
