@@ -5,7 +5,7 @@
 %global pypkg %{?fedora:python3}%{!?fedora:python}
 %global meh_pypkg %{?fedora:%{pypkg}-}
 
-%if 0%{?rhel} == 8
+%if 0%{?rhel} >= 8
 %global pybin %__python3
 %global pylib %python3_sitelib
 %global pypkg python3
