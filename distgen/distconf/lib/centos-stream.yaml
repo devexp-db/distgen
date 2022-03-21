@@ -1,0 +1,9 @@
+extends: lib/rpmsystems.yaml
+
+os:
+  id: centos-stream
+  name: CentOS Stream Linux
+
+docker:
+  registry: quay.io/centos
+  from: centos:stream9
