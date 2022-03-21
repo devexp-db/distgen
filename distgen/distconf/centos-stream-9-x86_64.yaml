@@ -1,4 +1,4 @@
-extends: "lib/centos.yaml"
+extends: "lib/centos-stream.yaml"
 
 os:
   name: CentOS Stream
