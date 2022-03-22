@@ -6,4 +6,4 @@ os:
 
 docker:
   registry: quay.io/centos
-  from: centos:stream9
+  from: centos
