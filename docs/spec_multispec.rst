@@ -127,8 +127,8 @@ Hence the above example produces a following rendering matrix:
 * ``distroinfo: fedora`` (for ``fedora-25-x86_64`` distro), ``version: "2.2"``
 * ``distroinfo: fedora`` (for ``fedora-25-x86_64`` distro), ``version: "2.4"``
 * ``distroinfo: fedora`` (for ``fedora-26-x86_64`` distro), ``version: "2.4"``
-* ``distroinfo: fedora`` (for ``centos-7-x86_64`` distro), ``version: "2.2"``
-* ``distroinfo: fedora`` (for ``centos-7-x86_64`` distro), ``version: "2.4"``
+* ``distroinfo: centos`` (for ``centos-7-x86_64`` distro), ``version: "2.2"``
+* ``distroinfo: centos`` (for ``centos-7-x86_64`` distro), ``version: "2.4"``
 
 Note that ``version: "2.2"`` is excluded for ``fedora-26-x86_64``.
 
