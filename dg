@@ -2,7 +2,7 @@
 
 proj_cli_dir="$(dirname "$(readlink -f "$0")")"
 
-export PYTHON=${PYTHON:-`which python2`}
+export PYTHON=${PYTHON:-`which python3`}
 export PYTHONPATH="$proj_cli_dir${PYTHONPATH+:$PYTHONPATH}"
 
 $PYTHON $proj_cli_dir/bin/dg "$@"
