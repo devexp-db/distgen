@@ -1,4 +1,4 @@
-PYTHON = `which python2`
+PYTHON = `which python3`
 
 all:
 	@echo no build make rule yet, just '"make check"'
