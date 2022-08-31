@@ -180,22 +180,41 @@ class Multispec(object):
                     self.distrofile2name(selector_dict['distro']))[0]:
                 yield selector_dict
 
-    def check_matrix_combinations(self, node, distro, parsed_selectors):
+    def get_extras(self, distro, parsed_selectors):
+        for data in self._matrix.get("combination_extras", []):
+            if self.is_combination_in_matrix(data, distro, parsed_selectors):
+                yield data.get("data", None)
 
-        def process_combinations(data, distro, parsed_selectors):
-            for k, v in data.items():
+    @staticmethod
+    def is_combination_in_matrix(data, distro, parsed_selectors):
+        """
+        Returns True if a record in a matrix from multispec
+        fits distro and all selectors.
+        """
+        if isinstance(data, dict):
+            data = [data,]
+        for section in data:
+            for k, v in section.items():
                 if k == DISTROINFO_GRP_DISTROS and distro not in v:
-                    return False
+                    break
                 elif (k != DISTROINFO_GRP_DISTROS and k in parsed_selectors
-                      and parsed_selectors[k] != v):
-                    return False
-            return data.get('data', True)
-
-        for data in self._matrix.get(node, []):
-            yield process_combinations(data, distro, parsed_selectors)
+                        and parsed_selectors[k] != v):
+                    break
+            else:
+                return True
+        return False
 
     def verify_selectors(self, selectors, distro):
         parsed_selectors = self.parse_selectors(selectors)
+
+        exclude = "exclude" in self._matrix
+        include = "include" in self._matrix
+
+        if exclude and include:
+            return (
+                False,
+                "`include` and `exclude` are mutually exclusive in matrix section"
+            )
 
         if DISTROINFO_GRP in parsed_selectors.keys():
             return (
@@ -225,11 +244,22 @@ class Multispec(object):
                     '"{0}" selector must be present'.format(selector_name)
                 )
 
-        # second, verify that these selector values are not excluded by matrix
-        if any([v for v in self.check_matrix_combinations('exclude',
-                                                          distro,
-                                                          parsed_selectors)]):
-            return False, 'This combination is excluded in matrix section'
+        # second, verify that these selector values are included or not excluded by matrix
+        # Excluded - if found, the combination is not allowed
+        if exclude:
+            for data in self._matrix.get("exclude", []):
+                is_in_matrix = self.is_combination_in_matrix(data, distro, parsed_selectors)
+                if is_in_matrix:
+                    return False, 'This combination is excluded in matrix section'
+
+        # Included - if *not* found, the combination is not allowed
+        if include:
+            for data in self._matrix.get("include", []):
+                is_in_matrix = self.is_combination_in_matrix(data, distro, parsed_selectors)
+                if is_in_matrix:
+                    break
+            else:
+                return False, 'This combination is not included in matrix section'
 
         # third, make sure we have a distroinfo section that contains
         # passed distro
@@ -262,9 +292,7 @@ class Multispec(object):
             di.pop(DISTROINFO_GRP_DISTROS)
             selected_data = merge_yaml(selected_data, di)
 
-        for extras in self.check_matrix_combinations('combination_extras',
-                                                     distro,
-                                                     parsed_selectors):
+        for extras in self.get_extras(distro, parsed_selectors):
             if extras:
                 selected_data = merge_yaml(selected_data, extras)
 

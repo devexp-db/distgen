@@ -90,32 +90,67 @@ class TestMultispec(object):
             ms.parse_selectors(['foo bar'])
 
     @pytest.mark.parametrize('node, distro, selectors, expected', [
-        ('exclude', 'fedora-26-x86_64', ['version=2.2'], [True, False]),
-        ('exclude', 'fedora-26-x86_64', ['version=2.4'], [False, False]),
-        ('combination_extras', 'fedora-26-x86_64', ['version=2.4'],
-         [{'name_label': "$FGC/$NAME",
-           'base_version': 1}, False]),
-        ('combination_extras', 'fedora-26-x86_64', ['version=2.2'],
-         [False, False]),
-        ('combination_extras', 'centos-7-x86_64', ['version=2.2'],
-         [False, {'name_label': 'centos/SW-2.2-centos7'}]),
+        ('exclude', 'fedora-26-x86_64', ['version=2.2'], True),
+        ('exclude', 'fedora-26-x86_64', ['version=2.4'], False),
+        ('exclude', 'fedora-25-x86_64', ['version=2.2'], False),
+        ('exclude', 'fedora-25-x86_64', ['version=2.4'], True),
     ])
-    def test_check_matrix_combinations(self, node, distro,
+    def test_is_combination_in_matrix_exclude(self, node, distro,
                                        selectors, expected):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')
         parsed_selectors = ms.parse_selectors(selectors)
-        assert list(ms.check_matrix_combinations(node,
-                                                 distro,
-                                                 parsed_selectors)) == expected
+        data = ms._matrix[node]
+        assert ms.is_combination_in_matrix(data,
+                                           distro,
+                                           parsed_selectors) == expected
+
+    @pytest.mark.parametrize('node, distro, selectors, expected', [
+        ('include', 'fedora-26-x86_64', ['version=2.2'], True),
+        ('include', 'fedora-26-x86_64', ['version=2.4'], False),
+        ('include', 'fedora-25-x86_64', ['version=2.2'], False),
+        ('include', 'fedora-25-x86_64', ['version=2.4'], True),
+    ])
+    def test_is_combination_in_matrix_include(self, node, distro,
+                                              selectors, expected):
+        ms = Multispec.from_path(ms_fixtures, 'complex-include.yaml')
+        parsed_selectors = ms.parse_selectors(selectors)
+        data = ms._matrix[node]
+        assert ms.is_combination_in_matrix(data,
+                                           distro,
+                                           parsed_selectors) == expected
+
+    @pytest.mark.parametrize("distro, selectors, expected", [
+        ('fedora-26-x86_64', ['version=2.4'],
+            [{'name_label': "$FGC/$NAME", 'base_version': 1}]),
+        ('fedora-26-x86_64', ['version=2.2'], []),
+        ('centos-7-x86_64', ['version=2.2'], [{'name_label': 'centos/SW-2.2-centos7'}]),
+    ])
+    def test_get_extras(self, distro, selectors, expected):
+        ms = Multispec.from_path(ms_fixtures, 'complex.yaml')
+        parsed_selectors = ms.parse_selectors(selectors)
+        assert list(ms.get_extras(distro, parsed_selectors)) == expected
 
     def test_distrofile2name(self):
         ms = Multispec.from_path(ms_fixtures, 'simplest.yaml')
         assert ms.distrofile2name('foo/bar/fedora-26-x86_64.yaml') == 'fedora-26-x86_64'
 
-    def test_verify_selectors_ok(self):
+    @pytest.mark.parametrize("distro, selectors", [
+        ("fedora-26-x86_64", ["version=2.4", "something_else=foo"]),
+        ("fedora-25-x86_64", ["version=2.2", "something_else=bar"]),
+        ("fedora-26-x86_64", ["version=2.2", "something_else=bar"]),
+        ("fedora-25-x86_64", ["version=2.4", "something_else=foo"]),
+    ])
+    def test_verify_selectors_ok_exclude(self, distro, selectors):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')
-        assert ms.verify_selectors(['version=2.4', 'something_else=foo'],
-                                   distro='fedora-26-x86_64') == (True, '')
+        assert ms.verify_selectors(selectors, distro) == (True, '')
+
+    @pytest.mark.parametrize("distro, selectors", [
+        ("fedora-26-x86_64", ["version=2.2", "something_else=foo"]),
+        ("fedora-25-x86_64", ["version=2.4", "something_else=bar"]),
+    ])
+    def test_verify_selectors_ok_include(self, distro, selectors):
+        ms = Multispec.from_path(ms_fixtures, 'complex-include.yaml')
+        assert ms.verify_selectors(selectors, distro) == (True, '')
 
     @pytest.mark.parametrize('selectors, distro, msg', [
         (['distroinfo=fedora'], 'fedora-26-x86_64', '"distroinfo" not allowed in selectors, it is '
@@ -131,6 +166,27 @@ class TestMultispec(object):
     def test_verify_selectors_nok(self, selectors, distro, msg):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')
         assert ms.verify_selectors(selectors, distro) == (False, msg)
+
+    @pytest.mark.parametrize('selectors, distro, msg', [
+        (['version=2.4', 'something_else=foo'], 'fedora-26-x86_64', 'This combination is not included '
+         'in matrix section'),
+        (['version=2.2', 'something_else=bar'], 'fedora-26-x86_64', 'This combination is not included '
+         'in matrix section'),
+        (['version=2.2', 'something_else=bar'], 'fedora-25-x86_64', 'This combination is not included '
+         'in matrix section'),
+        (['version=2.4', 'something_else=foo'], 'fedora-25-x86_64', 'This combination is not included '
+         'in matrix section'),
+    ])
+    def test_verify_selectors_nok_not_included(self, selectors, distro, msg):
+        ms = Multispec.from_path(ms_fixtures, 'complex-include.yaml')
+        assert ms.verify_selectors(selectors, distro) == (False, msg)
+
+    def test_verify_selectors_include_and_exclude(self):
+        ms = Multispec.from_path(ms_fixtures, 'invalid-include-exclude.yaml')
+        assert ms.verify_selectors(['version=2.4'], 'fedora-25-x86_64') == (
+            False,
+            "`include` and `exclude` are mutually exclusive in matrix section"
+        )
 
     def test_select_data_ok(self):
         ms = Multispec.from_path(ms_fixtures, 'complex.yaml')

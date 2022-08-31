@@ -1,0 +1,67 @@
+=== fedora-26-x86_64 ===
+
+FROM registry.fedoraproject.org/fedora:26
+
+LABEL MAINTAINER ...
+
+ENV NAME=mycontainer VERSION=0 RELEASE=1 ARCH=x86_64
+
+LABEL summary="A container that tells you how awesome it is." \
+      com.redhat.component="$NAME" \
+      NAME="$FGC/$NAME" \
+      version="$VERSION" \
+      release="$RELEASE.$DISTTAG" \
+      architecture="$ARCH" \
+      usage="docker run -p 9000:9000 mycontainer" \
+      help="Runs mycontainer, which listens on port 9000 and tells you how awesome it is. No dependencies." \
+      description="This is a simple container that just tells you how awesome it is. That's it." \
+      vendor="Fedora Project" \
+      org.fedoraproject.component="postfix" \
+      authoritative-source-url="some.url.fedoraproject.org" \
+      io.k8s.description="This is a simple container that just tells you how awesome it is. That's it." \
+      io.k8s.display-name="Awesome container with SW version " \
+      io.openshift.expose-services="9000:http" \
+      io.openshift.tags="some,tags"
+
+EXPOSE 9000
+
+# We don't actually use the "software_version" here, but we could,
+#  e.g. to install a module with that ncat version
+RUN dnf -y install nmap-ncat && \
+    dnf -y clean all --enablerepo='*'
+
+CMD ["/usr/bin/script.sh"]
+
+
+=== centos-7-x86_64 ===
+
+FROM registry.centos.org/centos:centos7
+
+LABEL MAINTAINER ...
+
+ENV NAME=mycontainer VERSION=0 RELEASE=1 ARCH=x86_64
+
+LABEL summary="A container that tells you how awesome it is." \
+      com.redhat.component="$NAME" \
+      version="$VERSION" \
+      release="$RELEASE.$DISTTAG" \
+      architecture="$ARCH" \
+      usage="docker run -p 9000:9000 mycontainer" \
+      help="Runs mycontainer, which listens on port 9000 and tells you how awesome it is. No dependencies." \
+      description="This is a simple container that just tells you how awesome it is. That's it." \
+      vendor="CentOS" \
+      org.fedoraproject.component="postfix" \
+      authoritative-source-url="some.url.centos.org" \
+      io.k8s.description="This is a simple container that just tells you how awesome it is. That's it." \
+      io.k8s.display-name="Awesome container with SW version " \
+      io.openshift.expose-services="9000:http" \
+      io.openshift.tags="some,tags"
+
+EXPOSE 9000
+
+# We don't actually use the "software_version" here, but we could,
+#  e.g. to install a module with that ncat version
+RUN yum -y install nmap-ncat && \
+    yum -y clean all --enablerepo='*'
+
+CMD ["/usr/bin/script.sh"]
