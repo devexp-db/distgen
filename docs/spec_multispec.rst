@@ -111,13 +111,19 @@ behind this file):
     ``distroinfo`` *group* is an exception, as its members ``distros`` list
     are used in the cartesian product.
 
-* ``matrix`` (optional) - currently, this attribute can only contain two
+* ``matrix`` (optional) - currently, this attribute can only contain three
   members.
 
   * The ``exclude`` attribute contains a list of combinations excluded
     from the matrix. The ``distroinfo`` members must be referred to via
     ``distro`` list.
+
+  * The ``include`` attribute contains a list of combinations included
+    from the matrix. The ``distroinfo`` members must be referred to via
+    ``distro`` list.
   
+  ``exclude`` and ``include`` are mutually exclusive.
+
   * The ``combination_extras`` member contains a list of combinations and
     extras, mapping of key-value pairs, which are only added to this combination
     and can be used in your templates.
