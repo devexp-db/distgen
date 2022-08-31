@@ -107,6 +107,7 @@ class Multispec(object):
                 'matrix must be a mapping, is "{0}"'.format(type(matrix)))
 
         self._validate_matrix_node('exclude', matrix)
+        self._validate_matrix_node('include', matrix)
         self._validate_matrix_node('combination_extras', matrix)
 
     def _validate_matrix_node(self, node_name, matrix):
