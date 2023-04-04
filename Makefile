@@ -12,7 +12,7 @@ test-unit:
 # Note that flake8 reports both W503 and W504 ATM :-/ so ignore W503 for now,
 # which is what should be considered the right setup.
 test-lint:
-	flake8 distgen/ --ignore=W503
+	flake8 distgen/ --ignore=W503 --max-line-length 99
 
 # Check that testsuite in packaged sources work fine, too.
 test-sdist-check:
