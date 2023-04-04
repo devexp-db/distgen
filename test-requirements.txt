@@ -1,6 +1,6 @@
 -r requirements.txt
 pytest
 pytest-catchlog
-pytest-cov<2.6
+pytest-cov
 coverage
 flake8
