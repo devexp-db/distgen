@@ -279,7 +279,7 @@ class Generator(object):
             except yaml.YAMLError as exc:
                 fatal("Error in multispec file: {0}".format(exc))
             except MultispecError as exc:
-                fatal(str(exc))
+                fatal(str(exc), exc.exit_code)
 
         try:
             tpl = self.project.tplgen.get_template(template)
