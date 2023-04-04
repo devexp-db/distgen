@@ -2,6 +2,6 @@ import logging
 import sys
 
 
-def fatal(msg):
+def fatal(msg, exit_code=1):
     logging.fatal(msg)
-    sys.exit(1)
+    sys.exit(exit_code)

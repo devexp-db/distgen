@@ -13,8 +13,9 @@ DISTROINFO_GRP_DISTROS = 'distros'
 
 
 class MultispecError(Exception):
-    def __init__(self, cause):
+    def __init__(self, cause, exit_code=1):
         self.cause = cause
+        self.exit_code = exit_code
 
     def __str__(self):
         return self.cause
@@ -277,7 +278,7 @@ class Multispec(object):
         distro = self.distrofile2name(distrofile)
         allowed, reason = self.verify_selectors(selectors, distro)
         if not allowed:
-            raise MultispecError(reason)
+            raise MultispecError(reason, exit_code=2)
 
         parsed_selectors = self.parse_selectors(selectors)
         selected_data = {}
