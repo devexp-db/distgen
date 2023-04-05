@@ -28,11 +28,16 @@ def get_requirements():
     with open('requirements.txt') as f:
         return f.read().splitlines()
 
+def get_long_description():
+    with open('README.md') as f:
+        return str([l for l in f.read().splitlines() if not l.startswith('[![')])
 
 setup(
     name='distgen',
     version=dg_version,
     description='Templating system/generator for distributions',
+    long_description=get_long_description(),
+    long_description_content_type='text/markdown',
     author='Pavel Raiskup (see AUTHORS)',
     author_email='praiskup@redhat.com',
     maintainer='Bohuslav Kabrda',
