@@ -1,5 +1,17 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New in 1.15:
+
+* Add long description to show README.md in PyPI
+
+* Install runtime deps when installing test deps
+
+* Exit with 2 if called with unallowed selectors
+
+* Enable PyLint for Pull Requests
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New in 1.14:
 
 * Added include option to multispec matrix
