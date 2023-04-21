@@ -30,7 +30,7 @@ def get_requirements():
 
 def get_long_description():
     with open('README.md') as f:
-        return str([l for l in f.read().splitlines() if not l.startswith('[![')])
+        return "\n".join(l for l in f.read().splitlines() if not l.startswith('[!['))
 
 setup(
     name='distgen',
