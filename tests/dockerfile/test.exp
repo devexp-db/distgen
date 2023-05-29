@@ -77,7 +77,7 @@ MAINTAINER Pavel Raiskup <praiskup@redhat.com>
 
 ENV container="docker" \
     PGDATA="/var/lib/pgsql/data" \
-    TEST_VAR="build_for fedora-37-x86_64"
+    TEST_VAR="build_for fedora-38-x86_64"
 
 RUN dnf -y --setopt=tsflags=nodocs install postgresql-server \
     && dnf -y --setopt=tsflags=nodocs reinstall glibc-common \
