@@ -1,6 +1,5 @@
 import os
 import sys
-import imp
 import jinja2
 import functools
 
@@ -10,6 +9,14 @@ from distgen.config import load_config, merge_yaml
 from distgen.project import AbstractProject
 from distgen.commands import Commands
 from distgen.multispec import Multispec, MultispecError
+
+try:
+    from importlib.machinery import SourceFileLoader, SourcelessFileLoader
+    from importlib.util import spec_from_loader, module_from_spec
+    USE_IMP = False
+except ImportError:
+    import imp
+    USE_IMP = True
 
 
 class Generator(object):
@@ -81,15 +88,37 @@ class Generator(object):
         self.project.abstract_initialize()
 
     @staticmethod
-    def _load_python_file(filename):
+    def _load_python_file_importlib(filename):
         """ load compiled python source """
         mod_name, file_ext = os.path.splitext(os.path.split(filename)[-1])
         if file_ext.lower() == '.py':
+            Loader = SourceFileLoader
+        elif file_ext.lower() == '.pyc':
+            Loader = SourcelessFileLoader
+
+        loader = Loader(mod_name, filename)
+        spec = spec_from_loader(loader.name, loader)
+        py_mod = module_from_spec(spec)
+        loader.exec_module(py_mod)
+
+        return py_mod
+
+    @staticmethod
+    def _load_python_file_imp(filename):
+        """ load compiled python source """
+        mod_name, file_ext = os.path.splitext(os.path.split(filename)[-1])
+        if file_ext.lower() == '.py':
+            # pylint: disable=used-before-assignment
             py_mod = imp.load_source(mod_name, filename)
         elif file_ext.lower() == '.pyc':
             py_mod = imp.load_compiled(mod_name, filename)
 
         return py_mod
+
+    if USE_IMP:
+        _load_python_file = _load_python_file_imp
+    else:
+        _load_python_file = _load_python_file_importlib
 
     def _load_obj_from_file(self, filename, objname):
         py_mod = self._load_python_file(filename)
