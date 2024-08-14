@@ -1,0 +1,7 @@
+extends: "lib/fedora.yaml"
+
+package_installer:
+  name: dnf
+
+os:
+  version: 40
