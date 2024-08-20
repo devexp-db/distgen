@@ -8,8 +8,9 @@
 name: Publish Python 🐍 distributions 📦 to PyPI
 
 on:
+  workflow_dispatch:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   build-n-publish:
@@ -31,6 +32,4 @@ jobs:
         # https://github.com/pypa/gh-action-pypi-publish
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          # secrets.PYPI_API_TOKEN is set to usercont-release-bot user token
-          password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
