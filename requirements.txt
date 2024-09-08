@@ -1,5 +1,4 @@
 distro
 jinja2
-six
 pyyaml
 setuptools

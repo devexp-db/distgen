@@ -24,7 +24,6 @@ BuildArch:  noarch
 Requires: %{pypkg}-jinja2
 Requires: %{pypkg}-distro
 Requires: %{meh_pypkg}PyYAML
-Requires: %{pypkg}-six
 
 BuildRequires: make
 BuildRequires: %{pypkg}-devel
@@ -37,7 +36,6 @@ BuildRequires: %{pypkg}-pytest-catchlog
 %endif
 BuildRequires: %{meh_pypkg}PyYAML
 BuildRequires: %{pypkg}-setuptools
-BuildRequires: %{pypkg}-six
 
 Source0: https://pypi.org/packages/source/d/%name/%name-%version.tar.gz
 
