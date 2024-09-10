@@ -1,7 +1,7 @@
+import io
 import os
 
 import pytest
-import six
 
 from distgen.commands import CommandsConfig
 from distgen.generator import Generator
@@ -63,7 +63,7 @@ class TestGenerator(object):
     def test_render(self, project, template, max_passes, result):
         # TODO: more test cases for rendering
         self.g.load_project(project)
-        out = six.BytesIO()
+        out = io.BytesIO()
         self.g.render(
             [os.path.join(project, 'common.yaml')],
             os.path.join(project, 'complex.yaml'),
@@ -75,6 +75,4 @@ class TestGenerator(object):
             max_passes=max_passes,
         )
 
-        if six.PY2:
-            result = result.decode('utf-8')
         assert out.getvalue() == result

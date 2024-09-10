@@ -9,8 +9,6 @@ import shutil
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-import six
-
 import logging
 logging.basicConfig(format='dg: %(levelname)-8s: %(message)s')
 
@@ -161,10 +159,7 @@ def print_multispec_combinations(args):
 
 def render_template(args):
     temp_filename = False
-    if six.PY2:
-        output = sys.stdout
-    else:
-        output = sys.stdout.buffer
+    output = sys.stdout.buffer
     try:
         if args.output:
             _, temp_filename = tempfile.mkstemp(prefix="distgen-")

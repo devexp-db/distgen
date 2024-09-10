@@ -1,4 +1,3 @@
-import six
 import copy
 
 from distgen.err import fatal
@@ -11,7 +10,7 @@ def _merge_yaml(origin, override):
     itself, otherwise recurse down for each item.
     """
     if isinstance(origin, dict) and isinstance(override, dict):
-        for k, v in six.iteritems(override):
+        for k in override.keys():
             if k in origin:
                 origin[k] = _merge_yaml(origin[k], override[k])
             else:
