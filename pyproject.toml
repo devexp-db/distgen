@@ -1,0 +1,42 @@
+[build-system]
+# requires = ["argparse-manpage[setuptools]"]
+# build-backend = "setuptools.build_meta"
+requires = ["setuptools>=58.5.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "distgen"
+version = "1.19"
+dependencies = [
+  "distro",
+  "jinja2",
+  "pyyaml",
+  "setuptools"
+]
+requires-python = ">=3.0"
+authors = [
+  {name = "Pavel Raiskup", email = "praiskup@redhat.com"},
+]
+maintainers = [
+  {name = "Ales Nezbeda", email = "anezbeda@redhat.com"}
+]
+description = "Templating system/generator for distributions"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)"
+]
+
+# [tool.setuptools.cmdclass]
+# build_py = "build_manpages.build_py"
+# install = "build_manpages.install"
+# build_manpages = "build_manpages.build_manpages"
+
+[project.scripts]
+dg = "distgen.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ['distgen*']
