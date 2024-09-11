@@ -1,8 +1,8 @@
 [build-system]
-# requires = ["argparse-manpage[setuptools]"]
-# build-backend = "setuptools.build_meta"
-requires = ["setuptools>=58.5.0"]
+requires = ["argparse-manpage[setuptools]"]
 build-backend = "setuptools.build_meta"
+# requires = ["setuptools>=58.5.0"]
+# build-backend = "setuptools.build_meta"
 
 [project]
 name = "distgen"
@@ -29,14 +29,19 @@ classifiers = [
   "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)"
 ]
 
-# [tool.setuptools.cmdclass]
-# build_py = "build_manpages.build_py"
-# install = "build_manpages.install"
-# build_manpages = "build_manpages.build_manpages"
+[tool.setuptools.cmdclass]
+build_py = "build_manpages.build_py"
+install = "build_manpages.install"
+build_manpages = "build_manpages.build_manpages"
 
 [project.scripts]
 dg = "distgen.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ['distgen*']
+include = ['distgen*', 'man*']
+
+[tool.build_manpages]
+manpages = [
+    "man/dg.1:object=parser:pyfile=distgen/cli_parser.py",
+]
