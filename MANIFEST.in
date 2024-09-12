@@ -1,5 +1,4 @@
 include AUTHORS
-include dg
 include requirements.txt
 include LICENSE
 include Makefile
@@ -11,3 +10,5 @@ include docs/Makefile
 recursive-include build_manpages *.py
 recursive-include tests *.exp *.py *.tpl *.yaml .gitkeep distros container_opt dg-opts
 recursive-include tests/unittests/fixtures *
+recursive-include distgen/distconf *
+recursive-include distgen/templates *
