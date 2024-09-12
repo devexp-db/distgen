@@ -30,7 +30,7 @@ $(spec): $(PROJECT).spec.dg
 	    --output $@
 
 $(tarball):
-	python -m build -o . ..
+	$(PYTHON) -m build -o . ..
 
 srpm: $(spec) $(tarball)
 	rm -rf *.src.rpm
