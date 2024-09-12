@@ -9,10 +9,6 @@ License:    GPLv2+
 URL:        https://github.com/devexp-db/distgen
 BuildArch:  noarch
 
-Requires: %{pypkg}-jinja2
-Requires: %{pypkg}-distro
-Requires: %{meh_pypkg}PyYAML
-
 BuildRequires: python3-devel
 BuildRequires: pyproject-rpm-macros
 BuildRequires: python3-pytest
