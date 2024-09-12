@@ -25,6 +25,7 @@ $ dg --spec      docker-data.yaml      \\
     """
 
 parser = ArgumentParser(
+    prog='dg',
     description=description,
     formatter_class=RawDescriptionHelpFormatter,
 )

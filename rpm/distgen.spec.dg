@@ -1,17 +1,5 @@
 # vim: ft=spec
 
-%global pybin %{?fedora:%{__python3}}%{!?fedora:%{__python2}}
-%global pylib %{?fedora:%{python3_sitelib}}%{!?fedora:%{python2_sitelib}}
-%global pypkg %{?fedora:python3}%{!?fedora:python}
-%global meh_pypkg %{?fedora:%{pypkg}-}
-
-%if 0%{?rhel} >= 8
-%global pybin %__python3
-%global pylib %python3_sitelib
-%global pypkg python3
-%global meh_pypkg python3-
-%endif
-
 
 Name:       distgen
 Summary:    Templating system/generator for distributions
@@ -25,17 +13,9 @@ Requires: %{pypkg}-jinja2
 Requires: %{pypkg}-distro
 Requires: %{meh_pypkg}PyYAML
 
-BuildRequires: make
-BuildRequires: %{pypkg}-devel
-BuildRequires: %{pypkg}-distro
-BuildRequires: %{pypkg}-jinja2
-BuildRequires: %{meh_pypkg}pytest
-%if 0%{?rhel} && 0%{?rhel} < 8
-BuildRequires: %{pypkg}-mock
-BuildRequires: %{pypkg}-pytest-catchlog
-%endif
-BuildRequires: %{meh_pypkg}PyYAML
-BuildRequires: %{pypkg}-setuptools
+BuildRequires: python3-devel
+BuildRequires: pyproject-rpm-macros
+BuildRequires: python3-pytest
 
 Source0: https://pypi.org/packages/source/d/%name/%name-%version.tar.gz
 
@@ -47,29 +27,28 @@ file and preexisting distribution metadata generate output file.
 %prep
 %autosetup -p1
 
+%generate_buildrequires
+%pyproject_buildrequires -x pytest,pytest-catchlog,pytest-cov,coverage,flake8
+
 
 %build
-%{pybin} setup.py build
+%pyproject_wheel
 
 
 %install
-%{pybin} setup.py install --root=%{buildroot}
-mkdir -p %{buildroot}%{_datadir}/distgen
-mv %{buildroot}%{pylib}/distgen/{distconf,templates} %{buildroot}%{_datadir}/distgen
+%pyproject_install
+%pyproject_save_files distgen
 
 
 %check
-make PYTHON=%{pybin} check
+%pytest tests/unittests/
 
 
-%files
+%files -f %{pyproject_files}
 %license LICENSE
 %doc AUTHORS NEWS
 %doc docs/
 %{_bindir}/dg
-%{pylib}/distgen
-%{pylib}/%{name}-*.egg-info
-%{_datadir}/%{name}
 %{_mandir}/man1/*
 
 

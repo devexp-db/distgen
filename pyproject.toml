@@ -39,7 +39,7 @@ dg = "distgen.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ['distgen*', 'man*']
+include = ['distgen*']
 
 [tool.build_manpages]
 manpages = [

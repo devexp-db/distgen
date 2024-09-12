@@ -42,5 +42,6 @@ else
     RELEASE="PR${3}_${date}_git$short_commit"
 fi
 
+python3 -m pip install . --user
 cd rpm
 make RELEASE="$RELEASE"
