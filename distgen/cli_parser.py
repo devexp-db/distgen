@@ -1,31 +1,27 @@
+"""
+Separated argument parser.  This makes the manual page generator happy because
+we don't need any other dependencies installed at build-time.  See #149.
+"""
+
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-from importlib.metadata import version, PackageNotFoundError
+from distgen.version import dg_version
 
-try:
-    version = version("distgen")
-except PackageNotFoundError:
-    # package is not installed, due to this file being used by manpage generator
-    # we have to check for this, we do not need valid version during manpage
-    # generation, but it will crash
-    version = 0
-    pass
-
-description = \
-    """
+DESCRIPTION = """\
 Generate script using predefined metadata about distribution and
 templates.
 
 As an example of 'dg' usage, to generate _Dockerfile_ for Fedora
 21 64-bit system, you may use command(s):
 
-$ cd project/directory
-$ dg --spec      docker-data.yaml      \\
---template  docker.tpl
-    """
+ $ cd project/directory
+ $ dg --spec      docker-data.yaml      \\
+      --template  docker.tpl
+"""
 
 parser = ArgumentParser(
-    description=description,
+    prog='dg',
+    description=DESCRIPTION,
     formatter_class=RawDescriptionHelpFormatter,
 )
 
@@ -35,7 +31,7 @@ parser.man_short_description = "templating system/generator for distributions"
 parser.add_argument(
     '--version',
     action='version',
-    version="dg (distgen) {0}".format(version)
+    version=f"dg (distgen) {dg_version}",
 )
 
 parser.add_argument(
