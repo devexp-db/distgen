@@ -42,7 +42,7 @@ file and preexisting distribution metadata generate output file.
 
 %files -f %{pyproject_files}
 %license LICENSE
-%doc AUTHORS NEWS
+%doc NEWS
 %doc docs/
 %{_bindir}/dg
 %{_mandir}/man1/*
