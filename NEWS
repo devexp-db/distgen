@@ -1,5 +1,13 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New in 2.0:
+
+* Complete rewrite of buildsystem to use pyproject.toml
+* This removes version file from distgen package
+  - Use `version()` from `importlib.metadata` instead
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New in 1.18:
 
 * Added support for Fedora 40, 41, 42
