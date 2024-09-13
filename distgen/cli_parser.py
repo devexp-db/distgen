@@ -1,17 +1,18 @@
+"""Module providing an ArgumentParser object to be used by CLI interface."""
+
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 from importlib.metadata import version, PackageNotFoundError
 
 try:
-    version = version("distgen")
+    VERSION = version("distgen")
 except PackageNotFoundError:
     # package is not installed, due to this file being used by manpage generator
     # we have to check for this, we do not need valid version during manpage
     # generation, but it will crash
-    version = 0
-    pass
+    VERSION = 0
 
-description = \
+DESCRIPTION = \
     """
 Generate script using predefined metadata about distribution and
 templates.
@@ -26,7 +27,7 @@ $ dg --spec      docker-data.yaml      \\
 
 parser = ArgumentParser(
     prog='dg',
-    description=description,
+    description=DESCRIPTION,
     formatter_class=RawDescriptionHelpFormatter,
 )
 
@@ -36,7 +37,7 @@ parser.man_short_description = "templating system/generator for distributions"
 parser.add_argument(
     '--version',
     action='version',
-    version="dg (distgen) {0}".format(version)
+    version=f"dg (distgen) {VERSION}"
 )
 
 parser.add_argument(

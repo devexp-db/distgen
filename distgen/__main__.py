@@ -1,5 +1,7 @@
 #!/bin/python
 
+"""Main entrypoint for distgen. This module handles CLI interface"""
+
 from __future__ import print_function
 
 import os
