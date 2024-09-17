@@ -10,43 +10,93 @@ URL:        https://github.com/devexp-db/distgen
 BuildArch:  noarch
 
 BuildRequires: python3-devel
-BuildRequires: pyproject-rpm-macros
 BuildRequires: python3-pytest
 
+%if 0%{?rhel} != 8
+BuildRequires: pyproject-rpm-macros
+%endif
+
+%if 0%{?rhel} >= 8
+BuildRequires: python3-setuptools
+BuildRequires: python3-tomli
+BuildRequires: python3-jinja2
+BuildRequires: python3-PyYAML
+BuildRequires: python3-distro
+%endif
+
+%if 0%{?rhel} == 8
+BuildRequires: python3-importlib-metadata
+%endif
+
 Source0: https://pypi.org/packages/source/d/%name/%name-%version.tar.gz
+
+Patch0: BUILT-Fix-builds-on-EPEL8-due-to-outdated-components.patch
+Patch1: BUILT-Fix-builds-on-EPEL9-due-to-outdated-components.patch
 
 %description
 Based on given template specification (configuration for template), template
 file and preexisting distribution metadata generate output file.
 
-
 %prep
-%autosetup -p1
+%autosetup -N
 
+%if 0%{?rhel} == 8
+%patch -p1 -P 0
+%endif
+
+%if 0%{?rhel} == 9
+%patch -p1 -P 1
+%endif
+
+
+%if 0%{?rhel} != 8
 %generate_buildrequires
-%pyproject_buildrequires -x pytest,pytest-catchlog,pytest-cov,coverage,flake8
-
+%pyproject_buildrequires -x pytest,pytest-catchlog,pytest-cov,coverage,flake8,pyyaml
+%endif
 
 %build
+%if 0%{?rhel} == 8
+ls -la
+%__python3 setup.py build
+%else
 %pyproject_wheel
-
+%endif
 
 %install
+%if 0%{?rhel} == 8
+%__python3 setup.py install --root=%{buildroot}
+mkdir -p %{buildroot}%{_datadir}/distgen
+mv %{buildroot}%{python3_sitelib}/distgen/{distconf,templates} %{buildroot}%{_datadir}/distgen
+%else
 %pyproject_install
 %pyproject_save_files distgen
-
+%endif
 
 %check
+%if 0%{?rhel} == 8
+%__python3 -m pytest tests/unittests/
+%else
 %pytest tests/unittests/
+%endif
 
-
+%if 0%{?rhel} == 8
+%files
+%license LICENSE
+%doc NEWS
+%doc docs/
+%{_bindir}/dg
+%{python3_sitelib}/distgen
+%{python3_sitelib}/%{name}-*.egg-info
+%{_datadir}/%{name}
+%{_mandir}/man1/*
+%else
 %files -f %{pyproject_files}
 %license LICENSE
 %doc NEWS
 %doc docs/
 %{_bindir}/dg
 %{_mandir}/man1/*
-
+%endif
 
 %changelog
 * Wed Mar 21 2018 Pavel Raiskup <praiskup@redhat.com> - {{ m.VERSION }}-{{ m.RELEASE }}
