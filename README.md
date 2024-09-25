@@ -1,7 +1,8 @@
 Distribution oriented templating system
 =======================================
 
-[![Build Status](https://travis-ci.org/devexp-db/distgen.svg?branch=master)](https://travis-ci.org/devexp-db/distgen)
+[![Copr package](https://copr.fedorainfracloud.org/coprs/praiskup/distgen/package/distgen/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/praiskup/distgen/)
+[![Fedora package](https://img.shields.io/fedora/v/distgen)](https://packages.fedoraproject.org/pkgs/distgen/distgen/)
 [![Coverage Status](https://coveralls.io/repos/github/devexp-db/distgen/badge.svg)](https://coveralls.io/github/devexp-db/distgen)
 [![Documentation Status](https://readthedocs.org/projects/distgen/badge/?version=latest)](https://distgen.readthedocs.io)
 

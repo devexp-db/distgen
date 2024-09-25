@@ -11,10 +11,10 @@ PROJECT_PR=praiskup/distgen
 
 build_deps=(
     git
-    distgen
     make
     python3
-    python3-setuptools
+    python3-pip
+    python3-build
 )
 
 for PROJECT in $PROJECT_PR $PROJECT_PUSH; do

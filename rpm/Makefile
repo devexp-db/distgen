@@ -1,6 +1,5 @@
 PROJECT = distgen
-PYTHON  := python3
-VERSION := $(shell cd .. ; $(PYTHON) setup.py --version)
+VERSION := $(shell python3 -m distgen --version | grep -o '[0-9]*\.[0-9]*')
 RELEASE := 1
 
 git_rev = \
@@ -23,16 +22,14 @@ spec = $(PROJECT).spec
 all: $(spec) $(tarball)
 
 $(spec): $(PROJECT).spec.dg
-	PYTHON="$(PYTHON)" \
-	../dg --template $< \
+	python3 -m distgen --template $< \
 	    --distro fedora-rawhide-x86_64 \
 	    --macro "VERSION $(VERSION)" \
 	    --macro "RELEASE $(RELEASE)" \
 	    --output $@
 
 $(tarball):
-	rm -rf $(tarball)
-	cd .. && $(PYTHON) setup.py sdist --dist-dir rpm
+	python3 -m build -o . ..
 
 srpm: $(spec) $(tarball)
 	rm -rf *.src.rpm
