@@ -1,1 +1,1 @@
-dg_version = "1.18"
+dg_version = "1.19"
