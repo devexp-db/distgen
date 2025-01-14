@@ -55,3 +55,4 @@ MAINTAINER unknown <unknown@unknown.com>
 ENV container="docker"
 
 CMD ["container-start"]
+
