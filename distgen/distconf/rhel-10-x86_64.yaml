@@ -1,0 +1,7 @@
+extends: "rhel-7-x86_64.yaml"
+
+os:
+  version: 10
+
+docker:
+  from: rhel10
