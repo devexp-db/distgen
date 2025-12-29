@@ -1,14 +1,10 @@
-extends: "lib/fedora.yaml"
-
-package_installer:
-  name: dnf
-
-os:
-  version: 43
-  arch: x86_64
+extends: "fedora-43-i686.yaml"
 
 macros:
   libdir: $prefix/lib64
+
+os:
+  arch: x86_64
 
 docker:
   from: fedora:43
