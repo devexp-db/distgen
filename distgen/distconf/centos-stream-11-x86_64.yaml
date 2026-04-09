@@ -1,0 +1,16 @@
+extends: "lib/centos-stream.yaml"
+
+os:
+  name: CentOS Stream
+  version: 10
+  arch: x86_64
+
+macros:
+  libdir: $prefix/lib64
+  # systemd stuff
+  unitdir: /usr/lib/systemd/system
+  userunitdir: /usr/lib/systemd/user
+
+docker:
+  registry: quay.io/centos
+  from: centos:stream10-development
