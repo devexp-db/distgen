@@ -2,7 +2,7 @@ extends: "lib/centos-stream.yaml"
 
 os:
   name: CentOS Stream
-  version: 10
+  version: 11
   arch: x86_64
 
 macros:
@@ -13,4 +13,4 @@ macros:
 
 docker:
   registry: quay.io/centos
-  from: centos:stream10-development
+  from: centos:stream10
