@@ -56,3 +56,11 @@ ENV container="docker"
 
 CMD ["container-start"]
 
+=== rhel-11-x86_64 ===
+
+FROM registry.access.redhat.com/rhel11
+MAINTAINER unknown <unknown@unknown.com>
+
+ENV container="docker"
+
+CMD ["container-start"]
