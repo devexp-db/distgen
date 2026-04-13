@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "distgen"
-version = "2.2"
+version = "2.3"
 dependencies = [
   "distro",
   "jinja2",
