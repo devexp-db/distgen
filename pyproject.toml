@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "distgen"
-version = "2.3"
+version = "2.4"
 dependencies = [
   "distro",
   "jinja2",
@@ -18,7 +18,7 @@ authors = [
   {name = "Red Hat Databases team"},
 ]
 maintainers = [
-  {name = "Ales Nezbeda", email = "anezbeda@redhat.com"}
+  {name = "Petr Khartskhaev", email = "pkhartsk@redhat.com"}
 ]
 description = "Templating system/generator for distributions"
 readme = "README.md"
