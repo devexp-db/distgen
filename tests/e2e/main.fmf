@@ -1,0 +1,4 @@
+summary: End-to-end testsuite (dg scenarios)
+test: ./test.sh
+duration: 15m
+tier: 1

@@ -1,0 +1,16 @@
+summary: Run distgen unit and end-to-end tests
+discover:
+    how: fmf
+prepare:
+    - name: Install build/test dependencies
+      how: install
+      package:
+        - python3-pip
+        - python3-pytest
+    - name: Install distgen into a virtual environment
+      how: shell
+      script: |
+          python3 -m venv "$TMT_TREE/.venv"
+          "$TMT_TREE/.venv/bin/pip" install "$TMT_TREE"
+execute:
+    how: tmt

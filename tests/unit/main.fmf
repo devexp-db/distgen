@@ -1,0 +1,4 @@
+summary: Unit tests (pytest)
+test: ./test.sh
+duration: 10m
+tier: 1
